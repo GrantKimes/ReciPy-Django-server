@@ -1,0 +1,80 @@
+{% extends 'main/base.html' %}
+{% load myfilters %}
+
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h3>Login</h3>
+
+          <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="{{ field.html_name }}">{{ field.label_tag }}</label>
+              <div class="col-sm-4">{{ field | add_class:'form-control' }}</div> 
+
+              {% if field.errors %}
+              <div class="col-sm-4"><span class="text-danger small">{{ field.errors }}</span></div>
+              {% endif %}
+
+            </div>
+            {% endfor %}
+
+
+            {% for error in form.non_field_errors %}
+            <div class="col-sm-offset-2"><p class="text-danger">{{ error }}</p></div>
+            {% endfor %}
+
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
+
+        <div class="panel-footer">
+          Don't have an account? <a href="{% url 'user_registration' %}">Click here</a> to register.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+  {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+  {% endif %}
+  <h1>Login</h1>
+  
+  <form method="post" class="form-horizontal">
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div class="form-group">
+      {% if field.errors %}
+      <div class="col-sm-offset-2 col-sm-10">
+        <span class="text-danger small">{{ field.errors }}</span>
+      </div>
+      {% endif %}
+
+      <label for="{{ field.html_name }}" class="col-md-3 control-label">{{ field.label_tag }}</label>
+      <div class="col-md-6">
+        {{ field }}
+      </div>
+    </div>
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+
+  </form>
+  -->
+</div>
+{% endblock %}

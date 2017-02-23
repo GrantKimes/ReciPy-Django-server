@@ -1,0 +1,18 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+	<div class="container">
+
+		<h1>{{ ingredient.name }}</h1>
+
+		<p>Recipes:
+			<ul>
+			{% for recipe in ingredient.yummlyrecipe_set.all %}
+				<li><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a></li>
+			{% endfor %}
+			</ul>
+		</p>
+	</div>
+
+{% endblock content %}

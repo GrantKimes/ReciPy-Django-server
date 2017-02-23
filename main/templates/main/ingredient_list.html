@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+	<div class="container">
+
+		<h1>Ingredients <span class="text-muted">({{ ingredient_list.count }} total)</span></h1>
+		{% if ingredient_list %}
+			<ul>
+			{% for ingredient in ingredient_list %}
+				<li>
+					<a href="{% url 'ingredient_detail' ingredient.id %}">{{ ingredient.name }}</a>
+					({{ ingredient.yummlyrecipe_set.count }} recipes)
+				</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>No ingredients listed.</p>
+		{% endif %}
+
+	</div>
+
+{% endblock content %}

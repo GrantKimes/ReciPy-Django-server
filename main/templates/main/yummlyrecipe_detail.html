@@ -1,0 +1,22 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+	<div class="container">
+
+		<h1>{{ recipe.name }}</h1>
+
+		<p>Source: {{ recipe.source }}</p>
+		<p>Rating: {{ recipe.rating }}</p>
+		<p>Tags: {{ recipe.tags }}</p>
+
+		<p>Ingredients:
+			<ul>
+			{% for ingredient in recipe.ingredients.all %}
+				<li><a href="{% url 'ingredient_detail' ingredient.id %}">{{ ingredient.name }}</a></li>
+			{% endfor %}
+			</ul>
+		</p>
+	</div>
+
+{% endblock content %}

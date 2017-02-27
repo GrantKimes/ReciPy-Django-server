@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'RecipeWeekly.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
+    # Don't commit any sensitive information here
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -175,8 +176,8 @@ LOGGING = {
 
 
 
-LOGIN_URL = '/login/' # redirected to login from login_required
-LOGIN_REDIRECT_URL = '/' # after login when no next
+LOGIN_URL = '/login/' # Redirected to login from login_required
+LOGIN_REDIRECT_URL = '/' # After login when no next
 
 
 

@@ -1,8 +1,9 @@
 # Project ignores
 logfile
-# Need to separate sensitive config info
-RecipeWeekly/settings.py
 db.sqlite3
+
+# Need to separate sensitive config info
+# RecipeWeekly/settings.py
 
 
 # Django ignores

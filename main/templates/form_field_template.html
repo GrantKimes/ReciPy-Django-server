@@ -1,0 +1,11 @@
+{% load myfilters %}
+
+<div class="form-group">
+  <label class="control-label col-sm-2" for="{{ field.html_name }}">{{ field.label_tag }}</label>
+  <div class="col-sm-4">{{ field | add_class:'form-control' }}</div> 
+
+  {% if field.errors %}
+  <div class="col-sm-4"><span class="text-danger small">{{ field.errors }}</span></div>
+  {% endif %}
+
+</div>

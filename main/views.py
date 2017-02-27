@@ -7,12 +7,14 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages 
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 
 from .models import YummlyRecipe, Ingredient
-from .forms import UserForm, UserRegistrationForm
+from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
 
 
 
@@ -143,8 +145,8 @@ class UserRegistrationView(FormView):
 		return context
 
 
-def login_user(request):
-	return render(request, 'users/login.html')
+# def login_user(request):
+# 	return render(request, 'users/login.html')
 
 def logout_user(request):
 	logout(request)
@@ -152,6 +154,34 @@ def logout_user(request):
 
 
 
+@login_required
+def update_profile(request):
+	template_name = 'users/update_profile.html'
+	context = {}
+
+	if request.method == 'POST':
+		user_form = UserInfoForm(request.POST, instance=request.user)
+		profile_form = ProfileInfoForm(request.POST, instance=request.user.profile)
+		context['user_form'] = user_form
+		context['profile_form'] = profile_form
+		# profile_form['bio'].css_classes('form-control')
+
+		if user_form.is_valid() and profile_form.is_valid():
+			user_form.save()
+			profile_form.save()
+			messages.success(request, 'Profile updated.') # in template: if messages - for message in messages (message.tags)
+			return redirect('home')
+		else:
+			messages.error(request, 'Please correct the errors below.')
+
+	else: 
+		# Display form with existing info 
+		user_form = UserInfoForm(instance=request.user)
+		profile_form = ProfileInfoForm(instance=request.user.profile)
+		context['user_form'] = user_form
+		context['profile_form'] = profile_form
+
+	return render(request, template_name, context)
 
 
 

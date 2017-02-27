@@ -1,0 +1,7 @@
+{% load myfilters %}
+
+{% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags | bootstrap_alerts }}" role="alert">{{ message }}</div>
+  {% endfor %}
+{% endif %}

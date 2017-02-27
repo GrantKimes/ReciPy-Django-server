@@ -26,6 +26,7 @@ urlpatterns = [
 	url(r'^login/$', auth_views.login, {'template_name': 'users/login.html'}, name='login'),
 	url(r'^logout/$', views.logout_user, name='logout'),
 
+	url(r'^profile/$', views.update_profile, name='update_profile'),
 
 
 	# ex: /createRecipes/5/

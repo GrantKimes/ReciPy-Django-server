@@ -4,22 +4,25 @@
 
 	<div class="container">
 
-		<h1>Recipes <span class="text-muted">({{ total_recipe_count }} total)</span></h1>
-	  {% if object_list %}
-		<ul>
-		  {% for recipe in yummlyrecipe_list %}
-			<li><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a> <span class="text-muted">(id: {{ recipe.id }})</span>
-				<!--<span class="text-muted">
-					{% for ingredient in recipe.ingredients.all %}
-						{{ ingredient.name }} - 
-					{% endfor %}
-				</span>-->
-			</li>
-		  {% endfor %}
-		</ul>
-	  {% else %}
-		<p>No recipes listed.</p>
-	  {% endif %}
+		<h1>Recipes <span class="text-muted">({{ yummlyrecipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
+    <div class="row">
+  	  {% if yummlyrecipe_list %}
+  		<ul class="list-group">
+  		  {% for recipe in yummlyrecipe_list %}
+  			<li class="list-group-item"><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+  				<!--<span class="text-muted">
+  					{% for ingredient in recipe.ingredients.all %}
+  						{{ ingredient.name }} - 
+  					{% endfor %}
+  				</span>-->
+          <span class="badge">0 stars</span>
+  			</li>
+  		  {% endfor %}
+  		</ul>
+  	  {% else %}
+  		<p>No recipes listed.</p>
+  	  {% endif %}
+    </div>
 
 	</div>
 

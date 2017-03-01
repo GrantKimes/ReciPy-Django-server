@@ -1,9 +1,10 @@
 import pprint
 import logging
 logger = logging.getLogger('main')
+import json
 
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -169,7 +170,7 @@ def update_profile(request):
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()
-			messages.success(request, 'Profile updated.') # in template: if messages - for message in messages (message.tags)
+			messages.success(request, 'Profile updated.')
 			return redirect('home')
 		else:
 			messages.error(request, 'Please correct the errors below.')
@@ -184,6 +185,33 @@ def update_profile(request):
 	return render(request, template_name, context)
 
 
+
+# AJAX request to favorite a recipe
+# @login_required
+def favorite_recipe(request):
+	response_data = {}
+	if request.method == 'POST':
+		recipe_id = request.POST.get('recipe_id')
+		try:
+			recipe = YummlyRecipe.objects.get(id=recipe_id)
+		except YummlyRecipe.DoesNotExist:
+			recipe = None
+
+		user_profile = request.user.profile
+
+		# Like the recipe. If it is already liked, unlike it. 
+		if user_profile.liked_recipes.filter(pk=recipe.pk).exists():
+			user_profile.liked_recipes.remove(recipe)
+		else:
+			user_profile.liked_recipes.add(recipe)
+
+
+		response_data['success_message'] = 'Added recipe %s to %s\'s liked recipes' % (recipe_id, request.user.username)
+
+	else:
+		response_data['error_message'] = 'Submission type needs to be POST.'
+	
+	return JsonResponse(response_data)
 
 
 

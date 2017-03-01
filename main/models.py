@@ -47,8 +47,14 @@ class YummlyRecipe(models.Model):
 
 # Each user has a profile with additional information
 class Profile(models.Model):
-	user 	= models.OneToOneField(User, on_delete=models.CASCADE)
-	bio 	= models.TextField(max_length=500, blank=True)
+	user 			= models.OneToOneField(User, on_delete=models.CASCADE)
+	liked_recipes 	= models.ManyToManyField(YummlyRecipe)
+
+	bio 			= models.TextField(max_length=500, blank=True)
+
+	def __str__(self):
+		return self.user.username
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

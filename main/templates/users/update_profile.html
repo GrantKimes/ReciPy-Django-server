@@ -58,6 +58,12 @@
             
           </form>
           <p><i>Show saved recipes, uploaded recipes, friends...</i></p>
+          <h4>Liked recipes:</h4>
+          <ul>
+            {% for recipe in user.profile.liked_recipes.all %}
+            <li>{{ recipe.name }}</li>
+            {% endfor %}
+          </ul>
         </div>
 
       </div>

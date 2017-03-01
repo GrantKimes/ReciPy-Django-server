@@ -25,3 +25,4 @@ tests/report/
 
 # Global ignores
 .DS_Store
+.sass-cache

@@ -28,6 +28,10 @@ urlpatterns = [
 
 	url(r'^profile/$', views.update_profile, name='update_profile'),
 
+	url(r'^favorite_recipe/$', views.favorite_recipe, name='favorite_recipe'),
+
+
+
 
 	# ex: /createRecipes/5/
 	# url(r'^(?P<recipe_id>[0-9]+)/$', views.detail, name='detail'), 

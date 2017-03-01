@@ -1,29 +1,42 @@
 {% extends "main/base.html" %}
 
+
 {% block content %}
+{% with liked_recipes=user.profile.liked_recipes.all %}
+
+  <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
 	<div class="container">
 
 		<h1>Recipes <span class="text-muted">({{ yummlyrecipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
+
     <div class="row">
   	  {% if yummlyrecipe_list %}
-  		<ul class="list-group">
+  		<ul class="list-group favorites-list">
+
   		  {% for recipe in yummlyrecipe_list %}
-  			<li class="list-group-item"><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
-  				<!--<span class="text-muted">
-  					{% for ingredient in recipe.ingredients.all %}
-  						{{ ingredient.name }} - 
-  					{% endfor %}
-  				</span>-->
-          <span class="badge">0 stars</span>
+  			<li class="list-group-item">
+
+          {% if recipe in liked_recipes %}
+          <i class="fa fa-star" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
+          {% else %}
+          <i class="fa fa-star-o" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
+          {% endif %}
+
+          <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+          <span class="badge">{{ recipe.profile_set.count }} stars</span>
   			</li>
   		  {% endfor %}
+
   		</ul>
   	  {% else %}
   		<p>No recipes listed.</p>
   	  {% endif %}
     </div>
 
+
 	</div>
 
+{% endwith %}
 {% endblock content %}
+

@@ -3,14 +3,27 @@
 $(document).ready(function() {
 
 
-	var starredIcon = 'fa-star-o';
-	var unstarredIcon = 'fa-star';
+	var starredIcon = 'fa-star';
+	var unstarredIcon = 'fa-star-o';
 	$('ul.favorites-list li i.fa').on('click', function(event) {
+
 		var recipeId = this.getAttribute('data-recipe-id');
-		console.log("Clicked star for recipe #" + recipeId);
+
+		// Update favorite count 
+		var countSpan = $(this).siblings().find('span.favorite_count');
+		if ($(this).hasClass(unstarredIcon)) {
+			var count = Number(countSpan.text());
+			countSpan.text(count + 1);
+		}
+		else {
+			var count = Number(countSpan.text());
+			countSpan.text(count - 1);
+		}
+
+		// Toggle filled and unfilled star icon
 		$(this).toggleClass(starredIcon).toggleClass(unstarredIcon);
 		
-		console.log("csrf_token: " + window.CSRF_TOKEN);
+		//console.log("csrf_token: " + window.CSRF_TOKEN);
 
 		$.ajax({
 			url: '/favorite_recipe/',
@@ -22,7 +35,6 @@ $(document).ready(function() {
 			},
 
 			success: function(response) {
-				console.log("Success");
 				console.log(response);
 			},
 

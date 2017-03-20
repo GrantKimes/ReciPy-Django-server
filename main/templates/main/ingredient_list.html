@@ -6,9 +6,10 @@
 
 		<h1>Ingredients <span class="text-muted">({{ ingredient_list.count }} total)</span></h1>
 		{% if ingredient_list %}
-			<ul>
+			<ul class="list-group">
 			{% for ingredient in ingredient_list %}
-				<li>
+				<li class="list-group-item">
+          <i class="fa fa-apple" aria-hidden="true"></i>
 					<a href="{% url 'ingredient_detail' ingredient.id %}">{{ ingredient.name }}</a>
 					({{ ingredient.yummlyrecipe_set.count }} recipes)
 				</li>

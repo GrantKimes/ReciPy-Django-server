@@ -2,8 +2,9 @@
 logfile
 db.sqlite3
 
+
 # Need to separate sensitive config info
-# RecipeWeekly/settings.py
+RecipeWeekly/config.py
 
 
 # Django ignores

@@ -11,15 +11,18 @@ urlpatterns = [
 
 	# ex: recipes/
 	url(r'^recipes/$', views.YummlyRecipeList.as_view(), name='recipe_list'),
-
 	# ex: recipes/5
 	url(r'^recipes/(?P<pk>[0-9]+)$', views.YummlyRecipeDetail.as_view(), name='recipe_detail'),
 
 	# ex: ingredients/
 	url(r'^ingredients/$', views.IngredientList.as_view(), name='ingredient_list'),
-
 	# ex: ingredients/5
 	url(r'^ingredients/(?P<pk>[0-9]+)$', views.IngredientDetail.as_view(), name='ingredient_detail'),
+
+	# ex: users/
+	url(r'^users/$', views.UserList.as_view(), name='user_list'),
+	# ex: users/name
+	url(r'^users/(?P<slug>\w+)$', views.UserDetail.as_view(), name='user_detail'),
 
 
 	url(r'^register/$', views.UserRegistrationView.as_view(), name='user_registration'),

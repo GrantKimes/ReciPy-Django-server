@@ -6,14 +6,17 @@
 
 	<div class="container">
 
+    {% include 'messages_template.html' %}
+    
     <div class="row">
+    <h1>Welcome to ReciPY</h1>
       <div class="col-md-3">
         <img class="img-responsive" src="{% static 'main/images/ReciPY Logo 1.png' %}">
       </div>
     </div>
-		<h1>Welcome to ReciPY</h1>
 
-    {% include 'messages_template.html' %}
+
+    <h4>Recipe stream (friends, popular, featured, recent)</h4>
 	</div>
 
 {% endblock content %}

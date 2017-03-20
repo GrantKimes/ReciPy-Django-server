@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+  <div class="container">
+
+    <h1>{{ user.username }}</h1>
+
+    <p>Email: {{ user.email }}</p>
+    <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+    
+    <h4>Favorited recipes:</h4>
+    <ul class="list-group">
+      {% for recipe in user.profile.liked_recipes.all %}
+      <li class="list-group-item">
+        <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+{% endblock content %}

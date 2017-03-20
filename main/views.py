@@ -8,6 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 
@@ -73,6 +74,22 @@ class IngredientDetail(DetailView):
 
 # Users
 ############################################################
+
+class UserList(ListView):
+	model = User
+	template_name = 'main/user_list.html'
+
+	def get_queryset(self):
+		return User.objects.all()
+
+class UserDetail(DetailView):
+	model = User
+	template_name = 'main/user_detail.html'
+	slug_field = 'username' # slug is in url, ex: users/<username>
+
+	# def get_queryset(self):
+	# 	return User.objects.filter(username=)
+
 
 # class UserFormView(View):
 # 	form_class = UserForm 
@@ -155,6 +172,7 @@ def logout_user(request):
 
 
 
+# Page for a user to view and update their profile
 @login_required
 def update_profile(request):
 	template_name = 'users/update_profile.html'
@@ -187,7 +205,7 @@ def update_profile(request):
 
 
 # AJAX request to favorite a recipe
-# @login_required
+@login_required
 def favorite_recipe(request):
 	response_data = {}
 	if request.method == 'POST':
@@ -202,11 +220,10 @@ def favorite_recipe(request):
 		# Like the recipe. If it is already liked, unlike it. 
 		if user_profile.liked_recipes.filter(pk=recipe.pk).exists():
 			user_profile.liked_recipes.remove(recipe)
+			response_data['success_message'] = 'Removed recipe %s from %s\'s liked recipes' % (recipe_id, request.user.username)
 		else:
 			user_profile.liked_recipes.add(recipe)
-
-
-		response_data['success_message'] = 'Added recipe %s to %s\'s liked recipes' % (recipe_id, request.user.username)
+			response_data['success_message'] = 'Added recipe %s to %s\'s liked recipes' % (recipe_id, request.user.username)
 
 	else:
 		response_data['error_message'] = 'Submission type needs to be POST.'

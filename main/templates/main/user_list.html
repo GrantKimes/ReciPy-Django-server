@@ -1,0 +1,33 @@
+{% extends "main/base.html" %}
+
+
+{% block content %}
+
+  <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+
+  <div class="container">
+
+    <h1>Users</h1>
+
+    <div class="row">
+      {% if user_list %}
+      <ul class="list-group favorites-list">
+
+        {% for user in user_list %}
+        <li class="list-group-item">
+          <i class="fa fa-spoon" aria-hidden="true"></i>
+          <a href="{% url 'user_detail' user.username %}">{{ user.username }}</a>
+        </li>
+        {% endfor %}
+
+      </ul>
+      {% else %}
+      <p>No users.</p>
+      {% endif %}
+    </div>
+
+
+  </div>
+
+{% endblock content %}
+

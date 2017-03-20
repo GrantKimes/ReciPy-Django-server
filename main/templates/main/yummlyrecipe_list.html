@@ -17,14 +17,16 @@
   		  {% for recipe in yummlyrecipe_list %}
   			<li class="list-group-item">
 
-          {% if recipe in liked_recipes %}
+          {% if recipe in liked_recipes and user.is_authenticated %}
           <i class="fa fa-star" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
-          {% else %}
+          {% elif user.is_authenticated %}
           <i class="fa fa-star-o" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
+          {% else %}
+          <a class="nostyle" href="{% url 'login' %}?next={% url 'recipe_list' %}"><i class="fa fa-star-o needs-login"></i></a>
           {% endif %}
 
           <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
-          <span class="badge">{{ recipe.profile_set.count }} stars</span>
+          <span class="badge"><span class="favorite_count">{{ recipe.profile_set.count }}</span> stars</span>
   			</li>
   		  {% endfor %}
 

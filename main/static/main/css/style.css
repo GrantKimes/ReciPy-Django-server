@@ -5,4 +5,7 @@
 ul.favorites-list li i.fa {
   cursor: pointer; }
 
+a.nostyle {
+  color: inherit; }
+
 /*# sourceMappingURL=style.css.map */

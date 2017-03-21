@@ -5,7 +5,9 @@
   <div class="col-sm-4">{{ field | add_class:'form-control' }}</div> 
 
   {% if field.errors %}
-  <div class="col-sm-4"><span class="text-danger small">{{ field.errors }}</span></div>
+  <div class="col-sm-4 errors">
+    <p class="text-danger">{% for error in field.errors %}{{ error }} {% endfor %}</p>
+  </div>
   {% endif %}
 
 </div>

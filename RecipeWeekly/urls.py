@@ -21,6 +21,8 @@ urlpatterns = [
 
     url(r'^', include('main.urls')),
 
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
+
     # url(r'^', include('django.contrib.auth.urls')),
 
     # url(r'^createRecipes/', include('createRecipes.urls')),

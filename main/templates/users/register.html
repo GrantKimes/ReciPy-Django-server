@@ -16,17 +16,18 @@
 						{% csrf_token %}
 
 						{% for field in form %}
-						<div class="form-group">
+						  {% include 'form_field_template.html' %}
+            <!--<div class="form-group">
 		        	<label class="control-label col-sm-2" for="{{ field.html_name }}">{{ field.label_tag }}</label>
 		        	<div class="col-sm-4">{{ field | add_class:'form-control' }}</div>						
 
 							{% if field.errors %}
 							<div class="col-sm-4">
-								<p class="text-danger small">{% for error in field.errors %}{{ error }} {% endfor %}</p>
+								<p class="text-danger error">{% for error in field.errors %}{{ error }} {% endfor %}</p>
 							</div>
         			{% endif %}
 
-		        </div>
+		        </div>-->
 		        {% endfor %}
 
 
@@ -41,6 +42,13 @@
 							</div>
 						</div>
 					</form>
+
+          <hr>
+
+          <div class="col-sm-4">
+            <a class="btn btn-primary" href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+          </div>
+
 				</div>
 				<div class="panel-footer">
 					Already have an account? <a href="{% url 'login' %}">Click here</a> to log in.

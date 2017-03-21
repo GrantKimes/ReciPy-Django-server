@@ -2,18 +2,22 @@ import pprint
 import logging
 logger = logging.getLogger('main')
 import json
+from urllib.request import Request as url_request
+import facebook # Facebook API sdk
 
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView, View
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AdminPasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
+from django.conf import settings
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
+from social_django.models import UserSocialAuth
 
 from .models import YummlyRecipe, Ingredient
 from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
@@ -22,6 +26,7 @@ from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
 
 def home(request):
 	context = {}
+	logger.debug(request.user.username)
 	return render(request, 'main/home.html', context)
 
 
@@ -175,12 +180,13 @@ def logout_user(request):
 # Page for a user to view and update their profile
 @login_required
 def update_profile(request):
+	user = request.user
 	template_name = 'users/update_profile.html'
 	context = {}
 
 	if request.method == 'POST':
-		user_form = UserInfoForm(request.POST, instance=request.user)
-		profile_form = ProfileInfoForm(request.POST, instance=request.user.profile)
+		user_form = UserInfoForm(request.POST, instance=user)
+		profile_form = ProfileInfoForm(request.POST, instance=user.profile)
 		context['user_form'] = user_form
 		context['profile_form'] = profile_form
 		# profile_form['bio'].css_classes('form-control')
@@ -195,10 +201,33 @@ def update_profile(request):
 
 	else: 
 		# Display form with existing info 
-		user_form = UserInfoForm(instance=request.user)
-		profile_form = ProfileInfoForm(instance=request.user.profile)
+		user_form = UserInfoForm(instance=user)
+		profile_form = ProfileInfoForm(instance=user.profile)
 		context['user_form'] = user_form
 		context['profile_form'] = profile_form
+
+		try: 
+			facebook_login = user.social_auth.get(provider='facebook')
+			# logger.debug(vars(facebook_login))
+			# logger.debug(facebook_login.extra_data)
+
+			oauth_token = facebook_login.extra_data['access_token']
+			# logger.debug(oauth_token)
+			graph = facebook.GraphAPI(access_token=oauth_token)
+			# logger.debug(graph)
+			profile = graph.get_object("me")
+			# logger.debug(profile)
+
+			picture = graph.get_connections("me", "picture")
+			context['profile_picture_url'] = picture['url']
+
+
+		except UserSocialAuth.DoesNotExist:
+			facebook_login = None
+
+		can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
+		context['facebook_login'] = facebook_login
+		context['can_disconnect'] = can_disconnect
 
 	return render(request, template_name, context)
 
@@ -233,8 +262,26 @@ def favorite_recipe(request):
 
 
 
+@login_required
+def change_password(request):
+	if request.user.has_usable_password():
+		PasswordForm = PasswordChangeForm
+	else:
+		PasswordForm = AdminPasswordChangeForm
 
+	if request.method == 'POST':
+		form = PasswordForm(request.user, request.POST)
+		if form.is_valid():
+			form.save()
+			update_session_auth_hash(request, form.user)
+			messages.success(request, 'Your password was successfully updated.')
+			return redirect('home')
+		else:
+			messages.error(request, 'Please correct the errors below.')
+	else:
+		form = PasswordForm(request.user)
 
+	return render(request, 'users/change_password.html', {'form': form } )
 
 
 

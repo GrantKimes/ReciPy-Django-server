@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-# from config import * # Environment settings and passwords that are not in version control
+# Environment settings and passwords that are not in version control
+from .config import * 
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -36,9 +37,9 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'main.apps.MainConfig',
-    # 'createRecipes.apps.CreaterecipesConfig',
-    # 'yummlyRecipes.apps.YummlyrecipesConfig',
+    'main.apps.MainConfig', # My app 
+    'social_django', # Auth library for Facebook login
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware', 
 ]
 
 ROOT_URLCONF = 'RecipeWeekly.urls'
@@ -70,12 +73,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect', 
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'RecipeWeekly.wsgi.application'
+
+AUTHENTICATION_BACKENDS = ( 
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Database
@@ -113,13 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'America/New_York'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -177,9 +185,15 @@ LOGGING = {
 }
 
 
+# Login
 
 LOGIN_URL = '/login/' # Redirected to login from login_required
+LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/' # After login when no next
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/profile/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+# SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 
 

@@ -30,6 +30,7 @@ urlpatterns = [
 	url(r'^logout/$', views.logout_user, name='logout'),
 
 	url(r'^profile/$', views.update_profile, name='update_profile'),
+	url(r'^profile/password/$', views.change_password, name='change_password'),
 
 	url(r'^favorite_recipe/$', views.favorite_recipe, name='favorite_recipe'),
 

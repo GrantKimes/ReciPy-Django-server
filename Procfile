@@ -1,0 +1,1 @@
+web: gunicorn RecipeWeekly.wsgi --log-file -

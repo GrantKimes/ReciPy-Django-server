@@ -1,8 +1,9 @@
 appdirs==1.4.0
 defusedxml==0.5.0
 Django==1.10.5
-# DjangoColorsFormatter==1.0 # Must be installed from git source 
+# DjangoColorsFormatter==1.0
 facebook-sdk==2.0.0
+gunicorn==19.7.1
 oauthlib==2.0.2
 olefile==0.44
 packaging==16.8
@@ -15,3 +16,4 @@ requests-oauthlib==0.8.0
 six==1.10.0
 social-auth-app-django==1.1.0
 social-auth-core==1.2.0
+whitenoise==3.3.0

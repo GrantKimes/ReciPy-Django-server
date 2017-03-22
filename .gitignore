@@ -3,10 +3,6 @@ logfile
 db.sqlite3
 
 
-# Need to separate sensitive config info
-RecipeWeekly/config.py
-
-
 # Django ignores
 *.egg-info
 *.pot
@@ -22,8 +18,9 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+staticfiles/
 
 
 # Global ignores
 .DS_Store
-.sass-cache
+.sass-cache/

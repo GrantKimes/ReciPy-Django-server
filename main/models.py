@@ -52,6 +52,9 @@ class Profile(models.Model):
 
 	bio 			= models.TextField(max_length=500, blank=True)
 
+	# when = models.DateTimeField('date created', auto_now_add=True) # Timestamp format for model creation
+
+
 	def __str__(self):
 		return self.user.username
 

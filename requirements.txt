@@ -1,9 +1,17 @@
 appdirs==1.4.0
+defusedxml==0.5.0
 Django==1.10.5
-django-adaptors==0.2.5
-DjangoColorsFormatter==1.0
+# DjangoColorsFormatter==1.0 # Must be installed from git source 
+facebook-sdk==2.0.0
+oauthlib==2.0.2
 olefile==0.44
 packaging==16.8
 Pillow==4.0.0
+PyJWT==1.4.2
 pyparsing==2.1.10
+python3-openid==3.1.0
+requests==2.13.0
+requests-oauthlib==0.8.0
 six==1.10.0
+social-auth-app-django==1.1.0
+social-auth-core==1.2.0

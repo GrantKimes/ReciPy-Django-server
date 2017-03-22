@@ -12,29 +12,31 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-# Environment settings and passwords that are not in version control
-from .config import * 
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+###################################################
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+###################################################
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*_d2(56fg7e!)^0kvoake)7-vj0no=f1wqegzv#4suv2ev+8b^'
+# SECRET_KEY = '*_d2(56fg7e!)^0kvoake)7-vj0no=f1wqegzv#4suv2ev+8b^'
+SECRET_KEY = os.environ['RECIPY_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'recipy.local'
+    'recipy.local',
 ]
 
 
+###################################################
 # Application definition
+###################################################
 
 INSTALLED_APPS = [
     'main.apps.MainConfig', # My app 
@@ -90,8 +92,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+###################################################
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+###################################################
 
 DATABASES = {
     # Don't commit any sensitive information here
@@ -102,8 +106,10 @@ DATABASES = {
 }
 
 
+###################################################
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
+###################################################
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -121,8 +127,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+###################################################
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
+###################################################
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'America/New_York'
@@ -131,14 +139,17 @@ USE_L10N = True
 USE_TZ = True
 
 
+###################################################
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+###################################################
 
 STATIC_URL = '/static/'
 
-
+###################################################
 # Logging
 # debug, info, warning, error, critical
+###################################################
 
 # DJANGO_LOG_LEVEL = 'INFO'
 
@@ -164,12 +175,12 @@ LOGGING = {
             'level': 'DEBUG',
             'formatter': 'simple',
         },
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR + '/logfile',
-            'formatter': 'verbose',
-        },
+        # 'file': {
+        #     'level': 'WARNING',
+        #     'class': 'logging.FileHandler',
+        #     'filename': BASE_DIR + '/logfile',
+        #     'formatter': 'verbose',
+        # },
     },
 
     'formatters': {
@@ -185,17 +196,27 @@ LOGGING = {
 }
 
 
-# Login
+###################################################
+# Login config
+###################################################
 
 LOGIN_URL = '/login/' # Redirected to login from login_required
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/' # After login when no next
 
+
+###################################################
+# Facebook login 
+###################################################
+
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/profile/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 # SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
-
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_KEY'] # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_SECRET'] # App Secret
+# FACEBOOK_USER_TOKEN = 'EAAY79jQZCgaIBAAGhjiVSZASe2YI841eoEWMleIcZBb32ZBf00LwgeY7ZCQpLZChsXKFLZAZBf5YH38DMEJcTUNdivyJm6OZA4Y7kUp0GfX9s13zMij8bvzredKfgSrpjjUw4SWSa7FzFtvxTEmSWKo9P4IQgn00gVuGorg5HZBgA6IaxUi5gZA2rHx'
+# FACEBOOK_APP_TOKEN = '1754778484834722|P_GiMG801m2HrBfriJ2OIXWBsiU'
 
 
 

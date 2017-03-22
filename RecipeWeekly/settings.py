@@ -31,6 +31,7 @@ SECRET_KEY = os.environ['RECIPY_SECRET_KEY']
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '*',
     'recipy.local',
 ]
 

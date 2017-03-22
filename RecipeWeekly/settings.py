@@ -188,11 +188,11 @@ LOGGING = {
 
     'formatters': {
         'verbose': {
-            '()': 'djangocolors_formatter.DjangoColorsFormatter', # colored output
+            # '()': 'djangocolors_formatter.DjangoColorsFormatter', # colored output
             'format': '%(levelname)s %(name)s %(asctime)s %(module)s %(process)d %(thread)d %(pathname)s@%(lineno)s: %(message)s'
         },
         'simple': {
-            '()': 'djangocolors_formatter.DjangoColorsFormatter', # colored output
+            # '()': 'djangocolors_formatter.DjangoColorsFormatter', # colored output
             'format': '%(levelname)s: %(message)s'
         },
     }

@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AdminPasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.backends import ModelBackend
 from django.contrib import messages 
 from django.conf import settings
 
@@ -91,9 +92,33 @@ class UserDetail(DetailView):
 	model = User
 	template_name = 'main/user_detail.html'
 	slug_field = 'username' # slug is in url, ex: users/<username>
+	context_object_name = 'viewed_user'
 
 	# def get_queryset(self):
 	# 	return User.objects.filter(username=)
+
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get context
+		context = super(UserDetail, self).get_context_data(**kwargs)
+
+		user = self.request.user 
+		try: 
+			facebook_login = user.social_auth.get(provider='facebook')
+			context['facebook_login'] = facebook_login
+
+			oauth_token = facebook_login.extra_data['access_token']
+			graph = facebook.GraphAPI(access_token=oauth_token)
+
+			profile = graph.get_object("me")
+			picture = graph.get_connections("me", "picture")
+
+			context['profile_picture_url'] = picture['url']
+
+
+		except UserSocialAuth.DoesNotExist:
+			facebook_login = None
+		
+		return context
 
 
 # class UserFormView(View):
@@ -129,7 +154,18 @@ class UserRegistrationView(FormView):
 
 	def form_valid(self, form):
 		form.save()
-		return redirect('/login')
+		username = form.cleaned_data.get('username')
+		password = form.cleaned_data.get('password1')
+
+		user = authenticate(username=username, password=password)
+		if user is not None: 
+			login(self.request, user)
+			messages.info(self.request, "Logged into new account for {}.".format(username))
+		else:
+			messages.error(self.request, "Created account, but failed to login {}.".format(username))
+
+		return super(UserRegistrationView, self).form_valid(form)
+
 		# user = form.save(commit=False)
 		# username = form.cleaned_data.get('username')
 		# password = form.cleaned_data.get('password')

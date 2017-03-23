@@ -89,9 +89,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'RecipeWeekly.wsgi.application'
 
 AUTHENTICATION_BACKENDS = ( 
-    'social_core.backends.facebook.FacebookOAuth2',
-
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
 )
 
 

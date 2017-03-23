@@ -101,7 +101,7 @@ class UserDetail(DetailView):
 		# Call the base implementation first to get context
 		context = super(UserDetail, self).get_context_data(**kwargs)
 
-		user = self.request.user 
+		user = context['viewed_user']
 		try: 
 			facebook_login = user.social_auth.get(provider='facebook')
 			context['facebook_login'] = facebook_login

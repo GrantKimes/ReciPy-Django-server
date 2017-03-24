@@ -31,6 +31,7 @@ def home(request):
 	return render(request, 'main/home.html', context)
 
 
+############################################################
 # Yummly Recipes
 ############################################################
 
@@ -60,6 +61,7 @@ class YummlyRecipeDetail(DetailView):
 	context_object_name = 'recipe'
 
 
+############################################################
 # Ingredients
 ############################################################
 
@@ -78,6 +80,7 @@ class IngredientDetail(DetailView):
 
 
 
+############################################################
 # Users
 ############################################################
 
@@ -121,31 +124,6 @@ class UserDetail(DetailView):
 		return context
 
 
-# class UserFormView(View):
-# 	form_class = UserForm 
-# 	template_name = 'main/registration_form.html'
-
-# 	# Display blank form for new user registering
-# 	def get(self, request):
-# 		form = self.form_class(None)
-# 		context = { 'form': form }
-# 		return render(request, self.template_name, context)
-
-# 	# Process submitted form, add user if valid
-# 	def post(self, request):
-# 		form = self.form_class(request.POST)
-
-# 		if form.is_valid():
-# 			user = form.save(commit=False) # Creates object from form data, but doesn't save to db
-
-# 			# Clean and normalize data
-# 			username = form.cleaned_data['username']
-# 			password = form.cleaned_data['password']
-
-# 			user.set_password(password)
-# 			user.save()
-
-
 
 class UserRegistrationView(FormView):
 	form_class = UserRegistrationForm
@@ -166,41 +144,9 @@ class UserRegistrationView(FormView):
 
 		return super(UserRegistrationView, self).form_valid(form)
 
-		# user = form.save(commit=False)
-		# username = form.cleaned_data.get('username')
-		# password = form.cleaned_data.get('password')
-		# user.set_password(password)
-		# user.save()
-		# user = authenticate(username=username, password=password)
-
-		# if user is not None:
-		# 	if user.is_active:
-		# 		login(request, user)
-		# 		return redirect(self.success_url)
-
-	# def post(self, request):
-	# 	form = self.form_class(request.POST or None)
-	# 	if form.is_valid():
-	# 		user = form.save(commit=False)
-	# 		username = form.cleaned_data.get('username')
-	# 		password = form.cleaned_data.get('password')
-	# 		user.set_password(password)
-	# 		user.save()
-	# 		user = authenticate(username=username, password=password)
-
-	# 		if user is not None:
-	# 			if user.is_active:
-	# 				login(request, user)
-
-
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
 		context = super(UserRegistrationView, self).get_context_data(**kwargs)
-
-		# logger.debug(vars(context['form']))
-		# for field in context['form']:
-		# 	logger.debug(vars(field))
-		
 		return context
 
 
@@ -221,11 +167,11 @@ def update_profile(request):
 	context = {}
 
 	if request.method == 'POST':
+		# Process submitted form
 		user_form = UserInfoForm(request.POST, instance=user)
 		profile_form = ProfileInfoForm(request.POST, instance=user.profile)
 		context['user_form'] = user_form
 		context['profile_form'] = profile_form
-		# profile_form['bio'].css_classes('form-control')
 
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
@@ -244,15 +190,10 @@ def update_profile(request):
 
 		try: 
 			facebook_login = user.social_auth.get(provider='facebook')
-			# logger.debug(vars(facebook_login))
-			# logger.debug(facebook_login.extra_data)
 
 			oauth_token = facebook_login.extra_data['access_token']
-			# logger.debug(oauth_token)
 			graph = facebook.GraphAPI(access_token=oauth_token)
-			# logger.debug(graph)
 			profile = graph.get_object("me")
-			# logger.debug(profile)
 
 			picture = graph.get_connections("me", "picture")
 			context['profile_picture_url'] = picture['url']

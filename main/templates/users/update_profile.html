@@ -9,50 +9,25 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h1 class="panel-title">Update profile</h1>
+          <h1 class="panel-title">Profile</h1>
         </div>
         <div class="panel-body">
 
           <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-
-            {% include 'messages_template.html' %}
             
             {% for field in user_form %}
-            {% include 'form_field_template.html' %}
-            <!--<div class="form-group">
-              <label class="control-label col-sm-2" for="{{ field.html_name }}">{{ field.label_tag }}</label>
-              <div class="col-sm-4">{{ field | add_class:'form-control' }}</div> 
-
-              {% if field.errors %}
-              <div class="col-sm-4"><span class="text-danger small">{{ field.errors }}</span></div>
-              {% endif %}
-
-            </div>-->
+              {% include 'form_field_template.html' %}
             {% endfor %}
 
             {% for field in profile_form %}
-            {% include 'form_field_template.html' %}
-            <!--<div class="form-group">
-              <label class="control-label col-sm-2" for="{{ field.html_name }}">{{ field.label_tag }}</label>
-              <div class="col-sm-4">{{ field | add_class:'form-control' }}</div> 
-
-              {% if field.errors %}
-              <div class="col-sm-4"><span class="text-danger small">{{ field.errors }}</span></div>
-              {% endif %}
-
-            </div>-->
+              {% include 'form_field_template.html' %}
             {% endfor %}
-
-
-            <!--{% for error in form.non_field_errors %}
-            <div class="col-sm-offset-2"><p class="text-danger">{{ error }}</p></div>
-            {% endfor %}-->
 
 
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success">Update</button>
+                <button type="submit" class="btn btn-success">Update Info</button>
               </div>
             </div>
 
@@ -72,7 +47,7 @@
 
           <hr>
 
-          <h3>Facebook</h3>
+          <h3>Facebook Integration</h3>
           {% if facebook_login %} 
             <img src="{{ profile_picture_url }}">
             <p>Connected as <a href="https://facebook.com/{{ facebook_login.extra_data.id }}/" target="_blank">{{ facebook_login }}</a></p>

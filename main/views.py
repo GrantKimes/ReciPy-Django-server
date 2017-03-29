@@ -187,7 +187,7 @@ def update_profile(request):
 			user_form.save()
 			profile_form.save()
 			messages.success(request, 'Profile updated.')
-			return redirect('home')
+			return redirect('update_profile')
 		else:
 			messages.error(request, 'Please correct the errors below.')
 

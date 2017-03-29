@@ -28,6 +28,7 @@ urlpatterns = [
 	url(r'^register/$', views.UserRegistrationView.as_view(), name='user_registration'),
 	url(r'^login/$', auth_views.login, {'template_name': 'users/login.html'}, name='login'),
 	url(r'^logout/$', views.logout_user, name='logout'),
+	url(r'^delete_user/$', views.delete_user, name='delete_user'),
 
 	url(r'^profile/$', views.update_profile, name='update_profile'),
 	url(r'^profile/password/$', views.change_password, name='change_password'),

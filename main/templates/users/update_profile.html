@@ -56,13 +56,19 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <a class="btn btn-default" href="{% url 'change_password' %}">Change Password</a>
-              </div>
-            </div>
-            
           </form>
+
+          <hr> 
+
+          <div class="row">
+            <div class="col-sm-2">
+              <a class="btn btn-default" href="{% url 'change_password' %}">Change Password</a>
+            </div>
+            <div class="col-sm-2">
+              <a class="btn btn-danger" href="{% url 'delete_user' %}">Delete Account</a>
+            </div>            
+          </div>
+
 
           <hr>
 

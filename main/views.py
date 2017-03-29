@@ -157,6 +157,16 @@ def logout_user(request):
 	logout(request)
 	return redirect('/')
 
+@login_required
+def delete_user(request):
+	user = request.user
+	try:
+		user.delete()
+		messages.info(request, "Successfully deleted user {}.".format(user.username))
+	except Exception as e:
+		messages.error(request, "Failed to delete user {}.".format(user.username))
+
+	return redirect('home')
 
 
 # Page for a user to view and update their profile

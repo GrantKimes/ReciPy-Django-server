@@ -20,7 +20,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 
 from social_django.models import UserSocialAuth
 
-from .models import YummlyRecipe, Ingredient
+from .models import YummlyRecipe, Ingredient, UserRecipe
 from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
 
 
@@ -32,7 +32,7 @@ def home(request):
 
 
 ############################################################
-# Yummly Recipes
+# Recipes
 ############################################################
 
 class YummlyRecipeList(ListView):
@@ -60,6 +60,17 @@ class YummlyRecipeDetail(DetailView):
 
 	context_object_name = 'recipe'
 
+
+# class UserRecipeCreate(CreateView):
+# 	model = UserRecipe 
+# 	template_name = 'main/user_recipe_create.html'
+# 	fields = ('name', 'ingredients', 'instructions',)
+
+@login_required
+def create_recipe(request):
+	context = {}
+
+	return render(request, 'main/user_recipe_create.html', context)
 
 ############################################################
 # Ingredients

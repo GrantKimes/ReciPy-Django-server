@@ -14,6 +14,7 @@
 
 	<!-- Bootstrap CSS -->
   {# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> #}
+  <!-- Bootstrap CSS - Bootswatch Sandstone theme -->
   <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
 
 
@@ -54,6 +55,7 @@
 	        <li class="{% if current_page == 'recipe_list' %} active {% endif %}"><a href="{% url 'recipe_list' %}">Recipes</a></li>
           <li class="{% if current_page == 'ingredient_list' %} active {% endif %}"><a href="{% url 'ingredient_list' %}">Ingredients</a></li>
           <li class="{% if current_page == 'user_list' %} active {% endif %}"><a href="{% url 'user_list' %}">Users</a></li>
+          <li class="{% if current_page == 'create_recipe' %} active {% endif %}"><a href="{% url 'create_recipe' %}">Add Recipe</a></li>
 	      </ul>
 
         <ul class="nav navbar-nav navbar-right">

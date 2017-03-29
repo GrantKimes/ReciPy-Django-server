@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+{% load myfilters %}
+
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title">Create New Recipe</h1>
+        </div>
+        <div class="panel-body">
+
+          <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {# Recipe Name #}
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="name">Recipe Name</label>
+              <div class="col-sm-4">
+                <input name="name" type="text" class="form-control">
+              </div> 
+            </div>
+
+            {# Ingredients #}
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="currentIngredient">Ingredients</label>
+              <div class="col-sm-4">
+                <input id="currentIngredient" name="currentIngredient" type="text" class="form-control">
+              </div> 
+              <div class="col-sm-2">
+                <button id="addIngredientsButton" type="button" class="btn btn-info">Add</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-4">
+                <p>Added: <span id="ingredientList"></span></p>
+              </div>
+            </div>
+
+
+            {# Submit button #}
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Create</button>
+              </div>
+            </div>
+
+          </form>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

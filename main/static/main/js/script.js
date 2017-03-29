@@ -1,8 +1,12 @@
 
 
 $(document).ready(function() {
+	starRecipes();
+	addIngredients();
+});
 
 
+function starRecipes() {
 	var starredIcon = 'fa-star';
 	var unstarredIcon = 'fa-star-o';
 	$('ul.favorites-list li i.fa').on('click', function(event) {
@@ -22,8 +26,6 @@ $(document).ready(function() {
 
 		// Toggle filled and unfilled star icon
 		$(this).toggleClass(starredIcon).toggleClass(unstarredIcon);
-		
-		//console.log("csrf_token: " + window.CSRF_TOKEN);
 
 		$.ajax({
 			url: '/favorite_recipe/',
@@ -41,10 +43,54 @@ $(document).ready(function() {
 			error: function(xhr, textStatus, error) {
 				console.log(xhr.status + ': ' + textStatus + ' - ' + xhr.responseText);
 			},
-
-			// complete: function(xhr, textStatus) {
-
-			// },
 		});
 	});
-});
+}
+
+function addIngredients() {
+	var ingredients = [];
+	$('#addIngredientsButton').on('click', function() {
+		console.log("clicked add ingredients");
+		var currIngredient = $('#currentIngredient').val().trim();
+		console.log(currIngredient);
+		if (currIngredient == '') 
+			return;
+
+		// Add ingredient to list, display list
+		ingredients.push(currIngredient);
+		var ingredientList = '';
+		for (var i = 0; i < ingredients.length; i++) {
+			ingredientList += ingredients[i] + ', ';
+		}
+		ingredientList = ingredientList.substring(0, ingredientList.length-2);
+		$('#ingredientList').text(ingredientList);
+
+		// Clear text box 
+		$('#currentIngredient').val('').focus();
+
+	});
+
+	$('#currentIngredient').keypress(function(event) {
+		console.log("in keypress " + event.keyCode);
+		if (event.keyCode == 13) {
+			event.preventDefault();
+			$('#addIngredientsButton').click();
+		}
+	});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

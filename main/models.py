@@ -12,14 +12,6 @@ class Ingredient(models.Model):
 		return self.name
 
 
-
-# Uneeded
-# class YummlyRecipeManager(models.Manager):
-# 	def create_recipe(self, url, name, source, rating, time_in_seconds, tags, ingredient_list):
-# 		recipe = self.create(url=url, name=name, source=source, rating=rating, time_in_seconds=time_in_seconds, tags=tags, ingredient_list=ingredient_list)
-# 		recipe.save()
-# 		return recipe
-
 class YummlyRecipe(models.Model):
 	url	 			= models.CharField(max_length=200) 
 	name	 		= models.CharField(max_length=200) 
@@ -31,17 +23,21 @@ class YummlyRecipe(models.Model):
 
 	ingredients 	= models.ManyToManyField(Ingredient)
 
-
-
 	# instructions	= models.TextField(blank=True)
 	# picture			= models.ImageField(max_length=200, blank=True, null=True)
 	# tags			= models.CharField(max_length=200, blank=True)
 	# user_created	= models.BooleanField()
 
-	# objects = YummlyRecipeManager()
-
 	def __str__(self):
 		return self.name
+
+
+
+class UserRecipe(models.Model):
+	name	 		= models.CharField(max_length=200) 
+	ingredients 	= models.ManyToManyField(Ingredient)
+	instructions 	= models.TextField(blank=True)
+	# pictures
 
 
 

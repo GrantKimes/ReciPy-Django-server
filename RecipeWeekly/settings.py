@@ -210,7 +210,7 @@ LOGGING = {
 
 LOGIN_URL = '/login/' # Redirected to login from login_required
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = '/' # After login when no next
+LOGIN_REDIRECT_URL = '/' # After login when no next is specified
 
 
 ###################################################
@@ -218,7 +218,7 @@ LOGIN_REDIRECT_URL = '/' # After login when no next
 ###################################################
 
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/profile/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile/'
 # SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_KEY'] # App ID

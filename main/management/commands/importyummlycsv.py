@@ -5,7 +5,7 @@ from main.models import YummlyRecipe, Ingredient
 
 import csv
 
-filename = 'yummly_recipe_data.csv' # make this as an argument
+filename = 'data/yummly_recipe_data.csv' # make this as an argument
 
 
 class Command(BaseCommand):

@@ -36,7 +36,7 @@ urlpatterns = [
 	url(r'^favorite_recipe/$', views.favorite_recipe, name='favorite_recipe'),
 
 	# url(r'^create_recipe/$', views.UserRecipeCreate.as_view(), name='create_recipe'),
-	url(r'^create_recipe/$', views.create, name='create_recipe'),
+	url(r'^create/$', views.create_recipe, name='create_recipe'),
 
 
 

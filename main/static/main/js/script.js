@@ -49,8 +49,9 @@ function starRecipes() {
 
 function addIngredients() {
 	var ingredients = [];
+
+	// Add typed ingredient to list of ingredients
 	$('#addIngredientsButton').on('click', function() {
-		console.log("clicked add ingredients");
 		var currIngredient = $('#currentIngredient').val().trim();
 		console.log(currIngredient);
 		if (currIngredient == '') 
@@ -58,20 +59,39 @@ function addIngredients() {
 
 		// Add ingredient to list, display list
 		ingredients.push(currIngredient);
-		var ingredientList = '';
+		var ingredientListText = '<ul class="fa-ul">';
 		for (var i = 0; i < ingredients.length; i++) {
-			ingredientList += ingredients[i] + ', ';
+			ingredientListText += '<li id="' + ingredients[i] + '" class="ingredient">'
+				+ '<i class="fa fa-li fa-minus-circle" onclick="removeIngredient("' + ingredients[i] + '");" ></i>' 
+				+ ingredients[i] 
+				+ '</li>';
 		}
-		ingredientList = ingredientList.substring(0, ingredientList.length-2);
-		$('#ingredientList').text(ingredientList);
+		ingredientListText += '</ul>';
+		//ingredientListText = ingredientListText.substring(0, ingredientListText.length-2);
+		$('#ingredientList').html(ingredientListText);
 
 		// Clear text box 
 		$('#currentIngredient').val('').focus();
 
 	});
 
+	function removeIngredient(ingredientName) {
+		console.log(ingredientName);
+		var ingredient_li = $('#' + ingredientName); 
+		var index = ingredients.indexOf(ingredientName);
+		ingredients.splice(index, 1);
+		ingredient_li.fadeOut('slow');
+		console.log("finshed removing");
+	}
+
+	// Remove ingredient when the minus sign is clicked
+	/*$('li.ingredient i.fa').on('click', function() {
+		var ingredient_li = $(this).parent('li');
+		var index = ingredients.indexOf(ingredient_li.text())
+	});*/
+
+	// Allow enter to click add button
 	$('#currentIngredient').keypress(function(event) {
-		console.log("in keypress " + event.keyCode);
 		if (event.keyCode == 13) {
 			event.preventDefault();
 			$('#addIngredientsButton').click();

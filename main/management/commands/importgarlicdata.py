@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
 
-from main.models import YummlyRecipe, Ingredient
+from main.models import Recipe, Ingredient
 
 import csv
 
@@ -26,7 +26,7 @@ class Command(BaseCommand):
     			if count == 1: # First row is column names
     				continue
 
-    			r = YummlyRecipe()
+    			r = Recipe()
     			
 
 
@@ -35,7 +35,7 @@ class Command(BaseCommand):
     # Delete existing values in DB, should change to prompt to confirm deletion
     def delete_existing_recipes(self):
         self.stdout.write(self.style.NOTICE("Deleting {} recipes".format(YummlyRecipe.objects.count())))
-        for recipe in YummlyRecipe.objects.all():
+        for recipe in Recipe.objects.all():
             recipe.delete()
 
         self.stdout.write(self.style.NOTICE("Deleting {} ingredients".format(Ingredient.objects.count())))

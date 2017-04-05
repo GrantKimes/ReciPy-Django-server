@@ -8,7 +8,7 @@
 
 		<p>Recipes:
 			<ul>
-			{% for recipe in ingredient.yummlyrecipe_set.all %}
+			{% for recipe in ingredient.recipe_set.all %}
 				<li><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a></li>
 			{% endfor %}
 			</ul>

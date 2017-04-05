@@ -12,7 +12,7 @@ class Ingredient(models.Model):
 		return self.name
 
 
-class YummlyRecipe(models.Model):
+class Recipe(models.Model):
 	url	 			= models.CharField(max_length=200) 
 	name	 		= models.CharField(max_length=200) 
 	source 			= models.CharField(max_length=200) 
@@ -22,6 +22,10 @@ class YummlyRecipe(models.Model):
 	ingredient_list	= models.TextField(blank=True)
 
 	ingredients 	= models.ManyToManyField(Ingredient)
+
+	isYummlyRecipe	= models.BooleanField(default=False)
+	isUserRecipe	= models.BooleanField(default=False)
+
 
 	# instructions	= models.TextField(blank=True)
 	# picture			= models.ImageField(max_length=200, blank=True, null=True)
@@ -33,10 +37,10 @@ class YummlyRecipe(models.Model):
 
 
 
-class UserRecipe(models.Model):
-	name	 		= models.CharField(max_length=200) 
-	ingredients 	= models.ManyToManyField(Ingredient)
-	instructions 	= models.TextField(blank=True)
+# class UserRecipe(models.Model):
+# 	name	 		= models.CharField(max_length=200) 
+# 	ingredients 	= models.ManyToManyField(Ingredient)
+# 	instructions 	= models.TextField(blank=True)
 	# pictures
 
 
@@ -44,7 +48,7 @@ class UserRecipe(models.Model):
 # Each user has a profile with additional information
 class Profile(models.Model):
 	user 			= models.OneToOneField(User, on_delete=models.CASCADE)
-	liked_recipes 	= models.ManyToManyField(YummlyRecipe)
+	liked_recipes 	= models.ManyToManyField(Recipe)
 
 	bio 			= models.TextField(max_length=500, blank=True)
 

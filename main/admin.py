@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import YummlyRecipe, Ingredient
+from .models import Recipe, Ingredient
 
 # Register your models here.
 
-admin.site.register(YummlyRecipe)
+admin.site.register(Recipe)
 admin.site.register(Ingredient)

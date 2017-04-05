@@ -11,7 +11,7 @@
 				<li class="list-group-item">
           <i class="fa fa-apple" aria-hidden="true"></i>
 					<a href="{% url 'ingredient_detail' ingredient.id %}">{{ ingredient.name }}</a>
-					({{ ingredient.yummlyrecipe_set.count }} recipes)
+					({{ ingredient.recipe_set.count }} recipes)
 				</li>
 			{% endfor %}
 			</ul>

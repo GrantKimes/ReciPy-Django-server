@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
 
-from main.models import YummlyRecipe, Ingredient
+from main.models import Recipe, Ingredient
 
 import csv
 
@@ -17,8 +17,8 @@ class Command(BaseCommand):
 
     # Delete existing values in DB, should change to prompt to confirm deletion
     def delete_existing(self):
-        self.stdout.write(self.style.NOTICE("Deleting {} recipes".format(YummlyRecipe.objects.count())))
-        for recipe in YummlyRecipe.objects.all():
+        self.stdout.write(self.style.NOTICE("Deleting {} recipes".format(Recipe.objects.count())))
+        for recipe in Recipe.objects.all():
             recipe.delete()
 
         self.stdout.write(self.style.NOTICE("Deleting {} ingredients".format(Ingredient.objects.count())))
@@ -62,9 +62,7 @@ class Command(BaseCommand):
                 if row[4] == '': # If empty value for calories, default
                     row[4] = 0
                 
-                #r = YummlyRecipe.objects.create_recipe(url=row[0], name=row[1], source=row[2], rating=row[3], time_in_seconds=row[4], tags=row[5], ingredient_list=row[6])
-
-                r = YummlyRecipe()
+                r = Recipe()
                 r.url           = row[0]
                 r.name          = row[1]
                 r.source        = row[2]
@@ -72,6 +70,7 @@ class Command(BaseCommand):
                 r.time_in_seconds = row[4]
                 r.tags          = row[5]
                 r.ingredient_list = row[6]
+                r.isYummlyRecipe = True
                 r.save()
 
                 # for each ingredient in list, add to many to many field
@@ -84,5 +83,5 @@ class Command(BaseCommand):
 
 
         self.stdout.write(self.style.SUCCESS('Finished importing {} into db ({} recipes, {} ingredients).'\
-            .format(filename, YummlyRecipe.objects.count(), Ingredient.objects.count()) ))
+            .format(filename, Recipe.objects.count(), Ingredient.objects.count()) ))
 

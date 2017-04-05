@@ -3,16 +3,15 @@ from django.contrib.auth import views as auth_views
 
 from . import views
 
-# from .views import YummlyRecipeList, YummlyRecipeDetail, IngredientDetail, IngredientList
 
 urlpatterns = [
 	# ex: 
 	url(r'^$', views.home, name='home'),
 
 	# ex: recipes/
-	url(r'^recipes/$', views.YummlyRecipeList.as_view(), name='recipe_list'),
+	url(r'^recipes/$', views.RecipeList.as_view(), name='recipe_list'),
 	# ex: recipes/5
-	url(r'^recipes/(?P<pk>[0-9]+)$', views.YummlyRecipeDetail.as_view(), name='recipe_detail'),
+	url(r'^recipes/(?P<pk>[0-9]+)$', views.RecipeDetail.as_view(), name='recipe_detail'),
 
 	# ex: ingredients/
 	url(r'^ingredients/$', views.IngredientList.as_view(), name='ingredient_list'),

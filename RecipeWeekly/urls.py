@@ -25,7 +25,4 @@ urlpatterns = [
 
     # url(r'^', include('django.contrib.auth.urls')),
 
-    # url(r'^createRecipes/', include('createRecipes.urls')),
-
-    # url(r'^yummlyRecipes/', include('yummlyRecipes.urls')),
 ]

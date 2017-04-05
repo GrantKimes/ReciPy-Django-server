@@ -20,7 +20,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 
 from social_django.models import UserSocialAuth
 
-from .models import YummlyRecipe, Ingredient, UserRecipe
+from .models import Recipe, Ingredient
 from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
 
 
@@ -35,28 +35,28 @@ def home(request):
 # Recipes
 ############################################################
 
-class YummlyRecipeList(ListView):
-	model = YummlyRecipe
-	template_name = 'main/yummlyrecipe_list.html'
+class RecipeList(ListView):
+	model = Recipe
+	template_name = 'main/recipe_list.html'
 
-	#queryset = YummlyRecipe.objects.order_by('name')
+	#queryset = Recipe.objects.order_by('name')
 
-	# YummlyRecipe models to pass to template
+	# Recipe models to pass to template
 	def get_queryset(self):
-		return YummlyRecipe.objects.order_by('name')[:20]
+		return Recipe.objects.order_by('name')[:20]
 
 
 	# Other values to pass to template
 	def get_context_data(self, **kwargs):
-		context = super(YummlyRecipeList, self).get_context_data(**kwargs)
+		context = super(RecipeList, self).get_context_data(**kwargs)
 
-		context['total_recipe_count'] = YummlyRecipe.objects.count()
+		context['total_recipe_count'] = Recipe.objects.count()
 		return context
 
 
-class YummlyRecipeDetail(DetailView):
-	model = YummlyRecipe
-	template_name = 'main/yummlyrecipe_detail.html'
+class RecipeDetail(DetailView):
+	model = Recipe
+	template_name = 'main/recipe_detail.html'
 
 	context_object_name = 'recipe'
 
@@ -238,8 +238,8 @@ def favorite_recipe(request):
 	if request.method == 'POST':
 		recipe_id = request.POST.get('recipe_id')
 		try:
-			recipe = YummlyRecipe.objects.get(id=recipe_id)
-		except YummlyRecipe.DoesNotExist:
+			recipe = Recipe.objects.get(id=recipe_id)
+		except Recipe.DoesNotExist:
 			recipe = None
 
 		user_profile = request.user.profile

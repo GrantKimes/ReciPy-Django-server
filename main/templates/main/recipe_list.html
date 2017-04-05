@@ -8,13 +8,13 @@
 
 	<div class="container">
 
-		<h1>Recipes <span class="text-muted">({{ yummlyrecipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
+		<h1>Recipes <span class="text-muted">({{ recipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
 
     <div class="row">
-  	  {% if yummlyrecipe_list %}
+  	  {% if recipe_list %}
   		<ul class="list-group favorites-list">
 
-  		  {% for recipe in yummlyrecipe_list %}
+  		  {% for recipe in recipe_list %}
   			<li class="list-group-item">
 
           {% if recipe in liked_recipes and user.is_authenticated %}

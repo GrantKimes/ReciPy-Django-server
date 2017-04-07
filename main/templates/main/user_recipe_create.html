@@ -13,10 +13,10 @@
         </div>
         <div class="panel-body">
 
-          <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+          <form id="create-recipe-form" class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             
-            {# Recipe Name #}
+            <!-- Recipe Name -->
             <div class="form-group">
               <label class="control-label col-sm-2" for="name">Recipe Name</label>
               <div class="col-sm-4">
@@ -24,7 +24,7 @@
               </div> 
             </div>
 
-            {# Ingredients #}
+            <!-- Ingredients -->
             <div class="form-group">
               <label class="control-label col-sm-2" for="currentIngredient">Ingredients</label>
               <div class="col-sm-4">
@@ -37,12 +37,21 @@
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-4">
                 <p>Added (click to remove): </p>
-                <p id="ingredientList"></p>
+                <div id="ingredientList"></div>
               </div>
             </div>
 
+            <!-- Instructions -->
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="name">Instructions</label>
+              <div class="col-sm-4">
+                <textarea name="instructions" type="textarea" class="form-control" rows="4" placeholder="Explain how to make your recipe." form="create-recipe-form"></textarea>
+              </div> 
+            </div>
 
-            {# Submit button #}
+
+
+            <!-- Submit button -->
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary">Create</button>

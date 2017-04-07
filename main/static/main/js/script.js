@@ -2,10 +2,15 @@
 
 $(document).ready(function() {
 	starRecipes();
-	addIngredients();
+	createRecipePage();
 });
 
+function createRecipePage() {
+	addIngredients();
+}
 
+
+// For recipe list page
 function starRecipes() {
 	var starredIcon = 'fa-star';
 	var unstarredIcon = 'fa-star-o';
@@ -47,48 +52,56 @@ function starRecipes() {
 	});
 }
 
+// For create recipe page
 function addIngredients() {
+	var ingredientSet = new Set();
 	var ingredients = [];
 
 	// Add typed ingredient to list of ingredients
 	$('#addIngredientsButton').on('click', function() {
+		// If empty ingredient, don't do anything
 		var currIngredient = $('#currentIngredient').val().trim();
-		console.log(currIngredient);
 		if (currIngredient == '') 
 			return;
 
-		// Add ingredient to list, display list
-		ingredients.push(currIngredient);
-		var ingredientListText = '<ul class="fa-ul">';
-		for (var i = 0; i < ingredients.length; i++) {
-			ingredientListText += '<li id="' + ingredients[i] + '" class="ingredient">'
-				+ '<i class="fa fa-li fa-minus-circle" onclick="removeIngredient("' + ingredients[i] + '");" ></i>' 
-				+ ingredients[i] 
+		// Add ingredient to ingredient set if ingredient is not already there
+		if (! ingredientSet.has(currIngredient))
+			ingredientSet.add(currIngredient);
+
+		// Update html displaying ingredients
+		var listHtml = '<ul class="fa-ul">';
+		for (let ingredient of ingredientSet) {
+			listHtml += '<li class="ingredient">'
+				+ '<i class="fa fa-li fa-minus-circle"></i>'
+				+ '<span>' + ingredient + '</span>'
 				+ '</li>';
 		}
-		ingredientListText += '</ul>';
-		//ingredientListText = ingredientListText.substring(0, ingredientListText.length-2);
-		$('#ingredientList').html(ingredientListText);
+		listHtml += '</ul>';
+
+		$('#ingredientList').html(listHtml);
+
 
 		// Clear text box 
 		$('#currentIngredient').val('').focus();
 
+
+		// Remove ingredient on click
+		$('#ingredientList').on('click', 'li.ingredient', function() {
+			var ingredient = $(this).find('span').text();
+			ingredientSet.delete(ingredient);
+			$(this).slideUp('fast');
+		});
+
+		// Color li on hover
+		$('#ingredientList').on('mouseenter', 'li.ingredient', function() {
+			$(this).find('i.fa-li').css('color', 'red');
+		});
+		$('#ingredientList').on('mouseleave', 'li.ingredient', function() {
+			$(this).find('i.fa-li').css('color', 'black');
+		});
 	});
 
-	function removeIngredient(ingredientName) {
-		console.log(ingredientName);
-		var ingredient_li = $('#' + ingredientName); 
-		var index = ingredients.indexOf(ingredientName);
-		ingredients.splice(index, 1);
-		ingredient_li.fadeOut('slow');
-		console.log("finshed removing");
-	}
 
-	// Remove ingredient when the minus sign is clicked
-	/*$('li.ingredient i.fa').on('click', function() {
-		var ingredient_li = $(this).parent('li');
-		var index = ingredients.indexOf(ingredient_li.text())
-	});*/
 
 	// Allow enter to click add button
 	$('#currentIngredient').keypress(function(event) {

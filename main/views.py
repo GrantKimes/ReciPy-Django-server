@@ -15,20 +15,46 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.backends import ModelBackend
 from django.contrib import messages 
 from django.conf import settings
-
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from social_django.models import UserSocialAuth
+from rest_framework.views import APIView
+from rest_framework.response import Response 
+from rest_framework import status 
+from rest_framework import generics
 
 from .models import Recipe, Ingredient
 from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
-
+from .serializers import RecipeSerializer
 
 
 def home(request):
 	context = {}
 	logger.debug(request.user.username)
 	return render(request, 'main/home.html', context)
+
+
+############################################################
+# API
+############################################################
+
+
+def api_recipes_list(request):
+	if request.method == 'GET':
+		recipes = Recipe.objects.all()
+		serializer = RecipeSerializer(recipes, many=True)
+		return JsonResponse(serializer.data, safe=False)
+
+class APIRecipeList(generics.ListCreateAPIView):
+	"""
+	List all recipes, or create a new recipe.
+	"""
+	queryset = Recipe.objects.all()
+	serializer_class = RecipeSerializer
+
+class APIRecipeDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Recipe.objects.all()
+	serializer_class = RecipeSerializer 
 
 
 ############################################################

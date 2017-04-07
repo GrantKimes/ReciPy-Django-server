@@ -26,11 +26,11 @@ class Recipe(models.Model):
 	isYummlyRecipe	= models.BooleanField(default=False)
 	isUserRecipe	= models.BooleanField(default=False)
 
+	# dateCreated		= models.DateTimeField(auto_now_add=True)
 
 	# instructions	= models.TextField(blank=True)
 	# picture			= models.ImageField(max_length=200, blank=True, null=True)
 	# tags			= models.CharField(max_length=200, blank=True)
-	# user_created	= models.BooleanField()
 
 	def __str__(self):
 		return self.name

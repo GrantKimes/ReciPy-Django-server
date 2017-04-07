@@ -44,6 +44,7 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'main.apps.MainConfig', # My app 
     'social_django', # Auth library for Facebook login
+    'rest_framework', # Library for web API access
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -225,6 +226,37 @@ SOCIAL_AUTH_FACEBOOK_KEY = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_KEY'] # App I
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_SECRET'] # App Secret
 # FACEBOOK_USER_TOKEN = 'EAAY79jQZCgaIBAAGhjiVSZASe2YI841eoEWMleIcZBb32ZBf00LwgeY7ZCQpLZChsXKFLZAZBf5YH38DMEJcTUNdivyJm6OZA4Y7kUp0GfX9s13zMij8bvzredKfgSrpjjUw4SWSa7FzFtvxTEmSWKo9P4IQgn00gVuGorg5HZBgA6IaxUi5gZA2rHx'
 # FACEBOOK_APP_TOKEN = '1754778484834722|P_GiMG801m2HrBfriJ2OIXWBsiU'
+
+
+
+###################################################
+# Django Rest Framework 
+###################################################
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 50,
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

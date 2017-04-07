@@ -81,7 +81,7 @@ function addIngredients() {
 		$('#ingredientList').html(listHtml);
 
 
-		// Clear text box 
+		// Clear text box and focus on it
 		$('#currentIngredient').val('').focus();
 
 
@@ -90,6 +90,8 @@ function addIngredients() {
 			var ingredient = $(this).find('span').text();
 			ingredientSet.delete(ingredient);
 			$(this).slideUp('fast');
+
+			$('#currentIngredient').focus(); // Refocus on input box
 		});
 
 		// Color li on hover

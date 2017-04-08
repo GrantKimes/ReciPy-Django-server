@@ -13,14 +13,17 @@ class Command(BaseCommand):
 
 	# Main method when command is called
 	def handle(self, *args, **options):
-		print(str(Recipe.objects.count()) + ' recipes exist in database.')
+		print("{} recipes exist in database.".format(Recipe.objects.count()))
 
-		choice = input("Delete existing recipes and import from " + self.filename + "? [y/n] ")
+		choice = input("Delete existing recipes and import from {}? [y/n] ".format(self.filename))
 		if choice == 'y':
 			self.delete_existing_recipes()
 			self.read_csv()
 
-		choice = input("Import recommendations from " + 'data/id_recc_pairing.csv' + "? [y/n] ")
+		# If already chose to delete and import recipes, automatically perform recommendations. 
+		# If not, might want to just perform recommendations. 
+		if choice != 'y': 
+			choice = input("Import recommendations from data/id_recc_pairing.csv? [y/n] ")
 		if choice == 'y':
 			self.get_recommendations()
 
@@ -54,7 +57,7 @@ class Command(BaseCommand):
 				r.time_in_seconds   = 0 #row[10]
 				r.rating            = 0 #row[11]
 				r.source            = row[12]
-				r.isYummlyRecipe = True
+				r.is_yummly_recipe = True
 				r.save()
 
 				# for each ingredient in list, add to many to many field
@@ -62,7 +65,6 @@ class Command(BaseCommand):
 
 
 				count += 1
-				# if count >= 100: break
 				if count % 100 == 0:
 					print('.', end='', flush=True)
 
@@ -73,16 +75,23 @@ class Command(BaseCommand):
 
 	# Delete existing values in DB, should change to prompt to confirm deletion
 	def delete_existing_recipes(self):
-		self.stdout.write(self.style.NOTICE("Deleting {} recipes".format(Recipe.objects.count())))
+		print("Deleting {} recipes".format(Recipe.objects.count()), end='', flush=True)
+		count = 0
 		for recipe in Recipe.objects.all():
 			recipe.delete()
+			count += 1
+			if count % 100 == 0: print('.', end='', flush=True)
+		print("")
 
-		self.stdout.write(self.style.NOTICE("Deleting {} ingredients".format(Ingredient.objects.count())))
+		print("Deleting {} ingredients".format(Ingredient.objects.count()), end='', flush=True)
+		count = 0
 		for ingredient in Ingredient.objects.all():
 			ingredient.delete()
+			count += 1
+			if count % 100 == 0: print('.', end='', flush=True)
+		print("")
 
-
-	# For each ingredient in recipe, associate with an Ingredient model in DB
+	# For each ingredient in ingredient list string, associate with an Ingredient model in DB
 	def add_ingredients(self, recipe):
 		for ingredient_name in recipe.ingredient_list.split(" "):
 			# If ingredient model already exists in database, add to recipe. Otherwise, create ingredient

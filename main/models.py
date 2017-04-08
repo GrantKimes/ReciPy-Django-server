@@ -5,6 +5,9 @@ from django.dispatch import receiver
 from django.utils import timezone 
 
 
+import logging
+logger = logging.getLogger('main')
+
 
 class Ingredient(models.Model):
 	raw_name 	= models.CharField(max_length=200) # Lowercase and hyphens in between words
@@ -22,10 +25,11 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
 	name	 		= models.CharField(max_length=200) 
 
+	# Machine learning algorithm to determine similar recipes
 	related_recipes	= models.ManyToManyField('self')
 
-	isYummlyRecipe	= models.BooleanField(default=False)
-	isUserRecipe	= models.BooleanField(default=False)
+	is_yummly_recipe = models.BooleanField(default=False)
+	is_user_uecipe	= models.BooleanField(default=False)
 
 	ingredient_list	= models.TextField(blank=True) # String representation
 	ingredients 	= models.ManyToManyField(Ingredient) # Foreign key model representation
@@ -51,22 +55,28 @@ class Recipe(models.Model):
 
 
 	# Timestamps
-	dateCreated		= models.DateTimeField(editable=False)
-	dateModified	= models.DateTimeField(editable=False)
+	date_created	= models.DateTimeField(editable=False)
+	date_modified	= models.DateTimeField(editable=False)
 
 	def save(self, *args, **kwargs):
 		# On save, update timestamps
-		if not self.id:
-			self.dateCreated = timezone.now()
-		self.dateModified = timezone.now()
+		if not self.id: # Being created
+			self.date_created = timezone.now()
+		self.date_modified = timezone.now()
 		return super(Recipe, self).save(*args, **kwargs)
+
+
+	def num_saves(self):
+		count = self.profiles_saved.all().count()
+		return count
 
 
 
 # Each user has a profile with additional information
 class Profile(models.Model):
 	user 			= models.OneToOneField(User, on_delete=models.CASCADE)
-	liked_recipes 	= models.ManyToManyField(Recipe)
+	saved_recipes 	= models.ManyToManyField(Recipe, related_name='profiles_saved')
+	voted_recipes	= models.ManyToManyField(Recipe, through='RecipeVote', related_name='profiles_voted')
 
 	bio 			= models.TextField(max_length=500, blank=True)
 
@@ -77,6 +87,17 @@ class Profile(models.Model):
 		return self.user.username
 
 
+	def liked_recipes(self):
+		liked_recipes = self.voted_recipes.filter(recipevote__liked=True)
+		return liked_recipes
+
+	def disliked_recipes(self):
+		disliked_recipes = self.voted_recipes.filter(recipevote__liked=False)
+		return disliked_recipes
+
+
+
+# Listeners to keep user profile in sync with its corresponding user
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
@@ -85,3 +106,52 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
 	instance.profile.save() 
+
+
+
+# Keeps track of like and dislike of a user for a recipe
+class RecipeVote(models.Model):
+	user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	recipe 		= models.ForeignKey(Recipe, on_delete=models.CASCADE)
+
+	liked 		= models.NullBooleanField(default=None)
+	# disliked	= models.NullBooleanField()
+
+	date_modified = models.DateTimeField(auto_now=True)
+
+
+	def __str__(self):
+		if self.liked == True:
+			s = " likes "
+		elif self.liked == False:
+			s = " dislikes "
+		else:
+			s = " neutral to "
+
+		return str(self.user_profile) + s + str(self.recipe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

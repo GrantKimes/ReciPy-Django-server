@@ -76,6 +76,8 @@ class RecipeList(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(RecipeList, self).get_context_data(**kwargs)
 
+		context['liked_recipes'] = self.request.user.profile.liked_recipes()
+		context['disliked_recipes'] = self.request.user.profile.disliked_recipes()
 		context['total_recipe_count'] = Recipe.objects.count()
 		return context
 
@@ -257,9 +259,9 @@ def update_profile(request):
 
 
 
-# AJAX request to favorite a recipe
+# AJAX request to save a recipe
 @login_required
-def favorite_recipe(request):
+def save_recipe(request):
 	response_data = {}
 	if request.method == 'POST':
 		recipe_id = request.POST.get('recipe_id')
@@ -271,12 +273,12 @@ def favorite_recipe(request):
 		user_profile = request.user.profile
 
 		# Like the recipe. If it is already liked, unlike it. 
-		if user_profile.liked_recipes.filter(pk=recipe.pk).exists():
-			user_profile.liked_recipes.remove(recipe)
-			response_data['success_message'] = 'Removed recipe %s from %s\'s liked recipes' % (recipe_id, request.user.username)
+		if user_profile.saved_recipes.filter(pk=recipe.pk).exists():
+			user_profile.saved_recipes.remove(recipe)
+			response_data['success_message'] = 'Removed recipe %s from %s\'s saved recipes' % (recipe_id, request.user.username)
 		else:
-			user_profile.liked_recipes.add(recipe)
-			response_data['success_message'] = 'Added recipe %s to %s\'s liked recipes' % (recipe_id, request.user.username)
+			user_profile.saved_recipes.add(recipe)
+			response_data['success_message'] = 'Added recipe %s to %s\'s saved recipes' % (recipe_id, request.user.username)
 
 	else:
 		response_data['error_message'] = 'Submission type needs to be POST.'

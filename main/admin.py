@@ -1,7 +1,12 @@
 from django.contrib import admin
-from .models import Recipe, Ingredient
+from . import models
 
 # Register your models here.
 
-admin.site.register(Recipe)
-admin.site.register(Ingredient)
+class RecipeAdmin(admin.ModelAdmin):
+	search_fields = ['name']
+
+admin.site.register(models.Recipe, RecipeAdmin)
+admin.site.register(models.Ingredient)
+admin.site.register(models.RecipeVote)
+admin.site.register(models.Profile)

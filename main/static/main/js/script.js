@@ -33,7 +33,7 @@ function starRecipes() {
 		$(this).toggleClass(starredIcon).toggleClass(unstarredIcon);
 
 		$.ajax({
-			url: '/favorite_recipe/',
+			url: '/save_recipe/',
 			datatype: 'json',
 			type: 'POST',
 			data: {

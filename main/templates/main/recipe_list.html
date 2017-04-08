@@ -2,7 +2,7 @@
 
 
 {% block content %}
-{% with liked_recipes=user.profile.liked_recipes.all %}
+{% with saved_recipes=user.profile.saved_recipes.all %}
 
   <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
@@ -10,32 +10,43 @@
 
 		<h1>Recipes <span class="text-muted">({{ recipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
 
+    <p>Liked recipes: {{ liked_recipes }}</p>
+
     <div class="row">
   	  {% if recipe_list %}
-  		<ul class="list-group favorites-list">
+    		<ul class="list-group favorites-list">
 
-  		  {% for recipe in recipe_list %}
-  			<li class="list-group-item">
+    		  {% for recipe in recipe_list %}
+      			<li class="list-group-item">
 
-          {% if recipe in liked_recipes and user.is_authenticated %}
-          <i class="fa fa-star" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
-          {% elif user.is_authenticated %}
-          <i class="fa fa-star-o" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
-          {% else %}
-          <a class="nostyle" href="{% url 'login' %}?next={% url 'recipe_list' %}"><i class="fa fa-star-o needs-login"></i></a>
-          {% endif %}
+              <!-- Clickable star for adding recipe to saved recipes -->
+              {% if recipe in saved_recipes and user.is_authenticated %}
+                <i class="fa fa-star" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
+              {% elif user.is_authenticated %}
+                <i class="fa fa-star-o" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
+              {% else %}
+                <a class="nostyle" href="{% url 'login' %}?next={% url 'recipe_list' %}"><i class="fa fa-star-o needs-login"></i></a>
+              {% endif %}
 
 
-          <img src="{{ recipe.yummly_image_url }}">
+              <img src="{{ recipe.yummly_image_url }}">
 
-          <a class="lead" href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
-          <span class="badge"><span class="favorite_count">{{ recipe.profile_set.count }}</span> stars</span>
-  			</li>
-  		  {% endfor %}
+              <a class="lead" href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+              
+              {% if recipe in liked_recipes %}
+                <span>Liked</span>
+              {% elif recipe in disliked_recipes %}
+                <span>Disliked</span>
+              {% else %}
+                <span>-</span>
+              {% endif %}
+              <span class="badge"><span class="favorite_count">{{ recipe.num_saves }}</span> stars</span>
+      			</li>
+    		  {% endfor %}
 
-  		</ul>
+    		</ul>
   	  {% else %}
-  		<p>No recipes listed.</p>
+    		<p>No recipes listed.</p>
   	  {% endif %}
     </div>
 

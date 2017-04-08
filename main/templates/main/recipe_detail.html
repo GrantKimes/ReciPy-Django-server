@@ -5,19 +5,33 @@
 	<div class="container">
 
 		<h1>{{ recipe.name }}</h1>
+    <img src="{{ recipe.yummly_image_url }}">
 
-    <p><a href="http://www.yummly.co/recipe/{{ recipe.url }}" target="_blank">Instructions</a></p>
-		<p>Source: {{ recipe.source }}</p>
-		<p>Rating: {{ recipe.rating }}</p>
-		<p>Tags: {{ recipe.tags }}</p>
+    <p><a href="http://www.yummly.co/recipe/{{ recipe.yummly_url }}" target="_blank">Link to preparation instructions</a></p>
 
-		<p>Ingredients:
-			<ul>
-			{% for ingredient in recipe.ingredients.all %}
-				<li><a href="{% url 'ingredient_detail' ingredient.id %}">{{ ingredient.name }}</a></li>
-			{% endfor %}
-			</ul>
-		</p>
+
+    <hr>
+    <p>Ingredients:
+      {% for ingredient in recipe.ingredients.all %}
+        <span><a href="{% url 'ingredient_detail' ingredient.id %}">{{ ingredient.name }}</a>, </span>
+      {% endfor %}
+    </p>
+
+
+    <hr>
+    <p class="lead">Recommended recipes: </p>
+    {% for rec_recipe in recipe.related_recipes.all %}
+      <p>
+      <a href="{% url 'recipe_detail' rec_recipe.id %}">
+      <img src="{{ rec_recipe.yummly_image_url }}">
+      <span class="lead">{{ rec_recipe.name }} - </span></a>
+
+      {% for ingredient in rec_recipe.ingredients.all %}
+        <span>{{ ingredient.name }}, </span>
+      {% endfor %}
+      </p>
+    {% endfor %}
+
 	</div>
 
 {% endblock content %}

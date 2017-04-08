@@ -25,7 +25,10 @@
           <a class="nostyle" href="{% url 'login' %}?next={% url 'recipe_list' %}"><i class="fa fa-star-o needs-login"></i></a>
           {% endif %}
 
-          <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+
+          <img src="{{ recipe.yummly_image_url }}">
+
+          <a class="lead" href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
           <span class="badge"><span class="favorite_count">{{ recipe.profile_set.count }}</span> stars</span>
   			</li>
   		  {% endfor %}

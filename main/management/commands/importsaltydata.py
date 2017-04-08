@@ -13,10 +13,16 @@ class Command(BaseCommand):
 
 	# Main method when command is called
 	def handle(self, *args, **options):
+		print(str(Recipe.objects.count()) + ' recipes exist in database.')
 
-		# self.delete_existing_recipes()
-		# self.read_csv()
-		self.get_recommendations()
+		choice = input("Delete existing recipes and import from " + self.filename + "? [y/n] ")
+		if choice == 'y':
+			self.delete_existing_recipes()
+			self.read_csv()
+
+		choice = input("Import recommendations from " + 'data/id_recc_pairing.csv' + "? [y/n] ")
+		if choice == 'y':
+			self.get_recommendations()
 
 
 	# Read from csv file and create models in database 
@@ -109,6 +115,7 @@ class Command(BaseCommand):
 					# print(currRecipe)
 				except Recipe.DoesNotExist:
 					print("    - Couldn't find " + row[i])
+					return 
 
 
 				count += 1

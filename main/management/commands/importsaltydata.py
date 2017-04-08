@@ -27,6 +27,7 @@ class Command(BaseCommand):
 
 	# Read from csv file and create models in database 
 	def read_csv(self):
+		print('Creating recipes in database...', end='', flush=True)
 		with open(self.filename, 'r') as csvfile:
 			reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
@@ -41,13 +42,13 @@ class Command(BaseCommand):
 
 				r = Recipe()
 				r.yummly_url        = row[0]
-				# r.bitter            = row[1]
-				# r.meaty             = row[2]
-				# r.salty             = row[3]
-				# r.sour              = row[4]
-				# r.sweet             = row[5]
-				# r.piquant           = row[6]
-				# r.ingredient_list   = row[7]
+				r.bitter            = row[1]
+				r.meaty             = row[2]
+				r.salty             = row[3]
+				r.sour              = row[4]
+				r.sweet             = row[5]
+				r.piquant           = row[6]
+				r.ingredient_list   = row[7]
 				r.name              = row[8].replace('"', '')
 				r.yummly_image_url  = row[9]
 				r.time_in_seconds   = 0 #row[10]
@@ -62,9 +63,10 @@ class Command(BaseCommand):
 
 				count += 1
 				# if count >= 100: break
+				if count % 100 == 0:
+					print('.', end='', flush=True)
 
-
-
+		print("")
 		self.stdout.write(self.style.SUCCESS('Finished importing {} into db ({} recipes, {} ingredients).'\
 			.format(self.filename, Recipe.objects.count(), Ingredient.objects.count()) ))
 
@@ -96,6 +98,7 @@ class Command(BaseCommand):
 
 
 	def get_recommendations(self):
+		print('Linking recommendations...', end='', flush=True)
 		with open('data/id_recc_pairing.csv', 'r') as csvfile:
 			reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
@@ -119,8 +122,10 @@ class Command(BaseCommand):
 
 
 				count += 1
+				if count % 100 == 0:
+					print('.', end='', flush=True)
 
-			# print("Could not find " + str(count) + " recipes")
+			print("")
 			self.stdout.write(self.style.SUCCESS('Finished linking recommended recipes.'))
 
 

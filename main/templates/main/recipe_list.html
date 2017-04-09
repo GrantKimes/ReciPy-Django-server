@@ -10,7 +10,15 @@
 
 		<h1>Recipes <span class="text-muted">({{ recipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
 
-    <p>Liked recipes: {{ liked_recipes }}</p>
+    <div class="btn-group btn-group-xs" role="group">
+      <button type="button" class="btn btn-default"><i class="fa fa-thumbs-up"></i></button>
+      <button type="button" class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
+      <button type="button" class="btn btn-success"><i class="fa fa-thumbs-up"></i></button>
+      <button type="button" class="btn btn-info"><i class="fa fa-thumbs-up"></i></button>
+      <button type="button" class="btn btn-warning"><i class="fa fa-thumbs-up"></i></button>
+      <button type="button" class="btn btn-danger"><i class="fa fa-thumbs-up"></i></button>
+      <button type="button" class="btn btn-link"><i class="fa fa-thumbs-up"></i></button>
+    </div>
 
     <div class="row">
   	  {% if recipe_list %}
@@ -27,6 +35,19 @@
               {% else %}
                 <a class="nostyle" href="{% url 'login' %}?next={% url 'recipe_list' %}"><i class="fa fa-star-o needs-login"></i></a>
               {% endif %}
+
+              <div class="btn-group btn-group-xs" role="group">
+                {% if recipe in liked_recipes %}
+                  <button type="button" class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
+                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-down"></i></button>
+                {% elif recipe in disliked_recipes %}
+                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-up"></i></button>
+                  <button type="button" class="btn btn-warning"><i class="fa fa-thumbs-down"></i></button>
+                {% else %}
+                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-up"></i></button>
+                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-down"></i></button>
+                {% endif %}
+              </div>
 
 
               <img src="{{ recipe.yummly_image_url }}">

@@ -121,12 +121,9 @@ class RecipeVote(models.Model):
 
 
 	def __str__(self):
-		if self.liked == True:
-			s = " likes "
-		elif self.liked == False:
-			s = " dislikes "
-		else:
-			s = " neutral to "
+		if self.liked == True: 		s = " likes "
+		elif self.liked == False: 	s = " dislikes "
+		else: 						s = " neutral to "
 
 		return str(self.user_profile) + s + str(self.recipe)
 

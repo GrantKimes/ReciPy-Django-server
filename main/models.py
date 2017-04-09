@@ -35,11 +35,11 @@ class Recipe(models.Model):
 	ingredients 	= models.ManyToManyField(Ingredient) # Foreign key model representation
 
 	# Data included in Yummly API
-	yummly_url	 	= models.CharField(max_length=200) 
-	source 			= models.CharField(max_length=200) 
-	rating			= models.IntegerField()
-	time_in_seconds	= models.IntegerField() 
-	yummly_image_url = models.CharField(max_length=200)
+	yummly_url	 	= models.CharField(max_length=200, blank=True) 
+	source 			= models.CharField(max_length=200, blank=True) 
+	rating			= models.IntegerField(default=0)
+	time_in_seconds	= models.IntegerField(default=0) 
+	yummly_image_url = models.CharField(max_length=200, blank=True)
 
 	# Taste profile from Yummly
 	bitter			= models.FloatField(blank=True, default=0)
@@ -59,18 +59,32 @@ class Recipe(models.Model):
 	date_modified	= models.DateTimeField(editable=False)
 
 	def save(self, *args, **kwargs):
-		# On save, update timestamps
+		self.__update_timestamps()
+
+		return super(Recipe, self).save(*args, **kwargs)
+
+	def __update_timestamps(self):
 		if not self.id: # Being created
 			self.date_created = timezone.now()
 		self.date_modified = timezone.now()
-		return super(Recipe, self).save(*args, **kwargs)
 
+	def _post_save_link_ingredients(self):
+		for ingredient_name in self.ingredient_list.split(' '):
+			try:
+				ingredient = Ingredient.objects.get(raw_name=ingredient_name)
+			except Ingredient.DoesNotExist:
+				ingredient = Ingredient.objects.create(raw_name=ingredient_name)
+
+			if ingredient not in self.ingredients.all():
+				self.ingredients.add(ingredient)
 
 	def num_saves(self):
 		count = self.profiles_saved.all().count()
 		return count
 
-
+@receiver(post_save, sender=Recipe)
+def recipe_saved(sender, instance, created, **kwargs):
+	instance._post_save_link_ingredients()
 
 # Each user has a profile with additional information
 class Profile(models.Model):

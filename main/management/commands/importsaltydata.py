@@ -51,7 +51,7 @@ class Command(BaseCommand):
 				r.sour              = row[4]
 				r.sweet             = row[5]
 				r.piquant           = row[6]
-				r.ingredient_list   = row[7]
+				r.ingredient_list   = row[7].lower()
 				r.name              = row[8].replace('"', '')
 				r.yummly_image_url  = row[9]
 				r.time_in_seconds   = 0 #row[10]

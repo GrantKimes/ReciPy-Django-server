@@ -28,7 +28,7 @@ urlpatterns = [
 	url(r'^profile/$', views.update_profile, name='update_profile'),
 	url(r'^profile/password/$', views.change_password, name='change_password'),
 
-	url(r'^save_recipe/$', views.save_recipe, name='save_recipe'),
+	url(r'^save_recipe/$', views.add_to_user_saved_recipe, name='save_recipe'),
 
 	# url(r'^create_recipe/$', views.UserRecipeCreate.as_view(), name='create_recipe'),
 	url(r'^create/$', views.create_recipe, name='create_recipe'),

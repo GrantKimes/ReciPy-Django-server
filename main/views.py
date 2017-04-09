@@ -259,9 +259,9 @@ def update_profile(request):
 
 
 
-# AJAX request to save a recipe
+# AJAX request to add to a user's saved recipes
 @login_required
-def save_recipe(request):
+def add_to_user_saved_recipes(request):
 	response_data = {}
 	if request.method == 'POST':
 		recipe_id = request.POST.get('recipe_id')
@@ -275,13 +275,13 @@ def save_recipe(request):
 		# Like the recipe. If it is already liked, unlike it. 
 		if user_profile.saved_recipes.filter(pk=recipe.pk).exists():
 			user_profile.saved_recipes.remove(recipe)
-			response_data['success_message'] = 'Removed recipe %s from %s\'s saved recipes' % (recipe_id, request.user.username)
+			response_data['message'] = 'Removed recipe %s from %s\'s saved recipes' % (recipe_id, request.user.username)
 		else:
 			user_profile.saved_recipes.add(recipe)
-			response_data['success_message'] = 'Added recipe %s to %s\'s saved recipes' % (recipe_id, request.user.username)
+			response_data['message'] = 'Added recipe %s to %s\'s saved recipes' % (recipe_id, request.user.username)
 
 	else:
-		response_data['error_message'] = 'Submission type needs to be POST.'
+		response_data['message'] = 'Submission type needs to be POST.'
 	
 	return JsonResponse(response_data)
 

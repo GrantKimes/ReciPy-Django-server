@@ -1,10 +1,10 @@
-import pprint
-import logging
-logger = logging.getLogger('main')
 import json
 from urllib.request import Request as url_request
 import facebook # Facebook API sdk
+import logging
+logger = logging.getLogger('main')
 
+# Django 
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView, View
@@ -17,6 +17,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
+# Django extensions
 from social_django.models import UserSocialAuth
 from rest_framework.views import APIView
 from rest_framework.response import Response 
@@ -26,110 +27,10 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse as api_reverse
 
-from .models import Recipe, Ingredient
-from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
-from .serializers import RecipeSerializer, RecipeDetailSerializer, UserSerializer, UserDetailSerializer, RecipeCreateSerializer
-
-
-def home(request):
-	context = {}
-	return render(request, 'main/home.html', context)
-
-
-############################################################
-# API Views
-############################################################
-
-@api_view(['GET'])
-def api_root(request, format=None):
-	return Response({
-		'users': api_reverse('api_users_list', request=request, format=format),
-	})
-
-class APIRecipeList(generics.ListAPIView):
-	queryset = Recipe.objects.all()
-	serializer_class = RecipeSerializer
-
-class APIRecipeCreate(generics.CreateAPIView):
-	queryset = Recipe.objects.all()
-	serializer_class = RecipeCreateSerializer
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-	def perform_create(self, serializer):
-		serializer.save(creator=self.request.user, is_user_recipe=True)
-
-class APIRecipeDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Recipe.objects.all()
-	serializer_class = RecipeDetailSerializer 
-
-class APIUserList(generics.ListAPIView):
-	queryset = User.objects.all()
-	serializer_class = UserSerializer
-
-class APIUserDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = User.objects.all()
-	serializer_class = UserDetailSerializer 
-
-############################################################
-# Recipes
-############################################################
-
-class RecipeList(ListView):
-	model = Recipe
-	template_name = 'main/recipe_list.html'
-
-	#queryset = Recipe.objects.order_by('name')
-
-	# Recipe models to pass to template
-	def get_queryset(self):
-		return Recipe.objects.order_by('name')[:20]
-
-
-	# Other values to pass to template
-	def get_context_data(self, **kwargs):
-		context = super(RecipeList, self).get_context_data(**kwargs)
-
-		context['liked_recipes'] = self.request.user.profile.liked_recipes()
-		context['disliked_recipes'] = self.request.user.profile.disliked_recipes()
-		context['total_recipe_count'] = Recipe.objects.count()
-		return context
-
-
-class RecipeDetail(DetailView):
-	model = Recipe
-	template_name = 'main/recipe_detail.html'
-
-	context_object_name = 'recipe'
-
-
-# class UserRecipeCreate(CreateView):
-# 	model = UserRecipe 
-# 	template_name = 'main/user_recipe_create.html'
-# 	fields = ('name', 'ingredients', 'instructions',)
-
-@login_required
-def create_recipe(request):
-	context = {}
-
-	return render(request, 'main/user_recipe_create.html', context)
-
-############################################################
-# Ingredients
-############################################################
-
-class IngredientList(ListView):
-	model = Ingredient
-	template_name = 'main/ingredient_list.html'
-
-	def get_queryset(self):
-		return Ingredient.objects.order_by('name')
-
-class IngredientDetail(DetailView):
-	model = Ingredient
-	template_name = 'main/ingredient_detail.html'
-
-	# context_object_name = 'ingredient'
-
+# Local
+from main.models import Recipe, Ingredient
+from main.forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
+from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSerializer, UserDetailSerializer, RecipeCreateSerializer
 
 
 ############################################################
@@ -321,13 +222,3 @@ def change_password(request):
 		form = PasswordForm(request.user)
 
 	return render(request, 'users/change_password.html', {'form': form } )
-
-
-
-
-
-
-
-
-
-

@@ -1,47 +1,39 @@
 from django.conf.urls import url, include 
 from django.contrib.auth import views as auth_views
 
-from . import views
+from .views import recipes, users, api 
 
 
 urlpatterns = [
-	url(r'^$', views.home, name='home'),
-
-	url(r'^recipes/$', views.RecipeList.as_view(), name='recipe_list'),
-	# ex: recipes/5
-	url(r'^recipes/(?P<pk>[0-9]+)$', views.RecipeDetail.as_view(), name='recipe_detail'),
-
-	url(r'^ingredients/$', views.IngredientList.as_view(), name='ingredient_list'),
-	# ex: ingredients/5
-	url(r'^ingredients/(?P<pk>[0-9]+)$', views.IngredientDetail.as_view(), name='ingredient_detail'),
-
-	url(r'^users/$', views.UserList.as_view(), name='user_list'),
-	url(r'^users/(?P<slug>\w+)$', views.UserDetail.as_view(), name='user_detail'),
+	url(r'^$', recipes.home, name='home'),
+	url(r'^recipes/$', recipes.RecipeList.as_view(), name='recipe_list'),
+	url(r'^recipes/(?P<pk>[0-9]+)$', recipes.RecipeDetail.as_view(), name='recipe_detail'),
+	url(r'^ingredients/$', recipes.IngredientList.as_view(), name='ingredient_list'),
+	url(r'^ingredients/(?P<pk>[0-9]+)$', recipes.IngredientDetail.as_view(), name='ingredient_detail'),
+	url(r'^create/$', recipes.create_recipe, name='create_recipe'),
 
 
-	# User management
-	url(r'^register/$', views.UserRegistrationView.as_view(), name='user_registration'),
+	# Users
+	url(r'^users/$', users.UserList.as_view(), name='user_list'),
+	url(r'^users/(?P<slug>\w+)$', users.UserDetail.as_view(), name='user_detail'),
+	url(r'^register/$', users.UserRegistrationView.as_view(), name='user_registration'),
 	url(r'^login/$', auth_views.login, {'template_name': 'users/login.html'}, name='login'),
-	url(r'^logout/$', views.logout_user, name='logout'),
-	url(r'^delete_user/$', views.delete_user, name='delete_user'),
+	url(r'^logout/$', users.logout_user, name='logout'),
+	url(r'^delete_user/$', users.delete_user, name='delete_user'),
 
-	url(r'^profile/$', views.update_profile, name='update_profile'),
-	url(r'^profile/password/$', views.change_password, name='change_password'),
+	url(r'^profile/$', users.update_profile, name='update_profile'),
+	url(r'^profile/password/$', users.change_password, name='change_password'),
 
-	url(r'^save_recipe/$', views.add_to_user_saved_recipes, name='save_recipe'),
-
-	# url(r'^create_recipe/$', views.UserRecipeCreate.as_view(), name='create_recipe'),
-	url(r'^create/$', views.create_recipe, name='create_recipe'),
-
+	url(r'^save_recipe/$', users.add_to_user_saved_recipes, name='save_recipe'),
 
 
 	# API urls
-	url(r'^api/$', views.api_root),
-	url(r'^api/recipes/$', views.APIRecipeList.as_view()),
-	url(r'^api/recipes/create/$', views.APIRecipeCreate.as_view()),
-	url(r'^api/recipes/(?P<pk>[0-9]+)$', views.APIRecipeDetail.as_view()),
-	url(r'^api/users/$', views.APIUserList.as_view(), name='api_users_list'),
-	url(r'^api/users/(?P<pk>[0-9]+)$', views.APIUserDetail.as_view()),
+	url(r'^api/$', api.api_root),
+	url(r'^api/recipes/$', api.APIRecipeList.as_view()),
+	url(r'^api/recipes/create/$', api.APIRecipeCreate.as_view()),
+	url(r'^api/recipes/(?P<pk>[0-9]+)$', api.APIRecipeDetail.as_view()),
+	url(r'^api/users/$', api.APIUserList.as_view(), name='api_users_list'),
+	url(r'^api/users/(?P<pk>[0-9]+)$', api.APIUserDetail.as_view()),
 
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 

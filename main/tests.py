@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory
 
 from .models import Recipe, Ingredient, Profile, RecipeVote 
-from . import views 
+from .views import recipes, users, api 
 
 class RecipeTests(TestCase):
 	def setUp(self):
@@ -20,7 +20,7 @@ class RecipeTests(TestCase):
 	def test_add_to_user_saved_recipes_fail_when_get(self):
 		request = self.factory.get('/save_recipe')
 		request.user = self.user 
-		response = views.add_to_user_saved_recipes(request)
+		response = users.add_to_user_saved_recipes(request)
 
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, 'needs to be POST')
@@ -31,12 +31,12 @@ class RecipeTests(TestCase):
 		request.user = self.user 
 		request.POST = {'recipe_id': self.recipe1.id}
 
-		response = views.add_to_user_saved_recipes(request) # First to add
+		response = users.add_to_user_saved_recipes(request) # First to add
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, 'Added')
 		self.assertIn(self.recipe1, self.user.profile.saved_recipes.all())
 
-		response = views.add_to_user_saved_recipes(request) # Second to remove
+		response = users.add_to_user_saved_recipes(request) # Second to remove
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, 'Removed')
 		self.assertNotIn(self.recipe1, self.user.profile.saved_recipes.all())
@@ -57,16 +57,16 @@ class APITests(TestCase):
 
 	def test_api_list_recipes(self):
 		request = self.factory.get('/api/recipes/')
-		response = views.APIRecipeList.as_view()(request)
+		response = api.APIRecipeList.as_view()(request)
 		self.assertContains(response, self.recipe1.name)
 
 
 	def test_api_create_recipe(self):
 		request = self.factory.post('/api/recipes/create', self.new_recipe_data, format='json')
 		request.user = self.user 
-		response = views.APIRecipeCreate.as_view()(request)
+		response = api.APIRecipeCreate.as_view()(request)
 
-		r = Recipe.objects.get(name=data['name'])
+		r = Recipe.objects.get(name=self.new_recipe_data['name'])
 		i = Ingredient.objects.get(raw_name='black-beans')
 		self.assertEqual(response.status_code, 201) # created
 		self.assertEqual(r.id, self.initial_num_recipes+1) # One additional recipe
@@ -77,7 +77,7 @@ class APITests(TestCase):
 
 	def test_api_create_recipe_fail_when_not_authenticated(self):
 		request = self.factory.post('/api/recipes/create', self.new_recipe_data, format='json')
-		response = views.APIRecipeCreate.as_view()(request)
+		response = api.APIRecipeCreate.as_view()(request)
 
 		self.assertEqual(response.status_code, 403) # forbidden
 		self.assertEqual(Recipe.objects.all().count(), self.initial_num_recipes) # Didn't create

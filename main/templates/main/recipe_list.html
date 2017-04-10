@@ -63,13 +63,6 @@
 
               <a class="lead" href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
               
-              {% if recipe in liked_recipes %}
-                <span>Liked</span>
-              {% elif recipe in disliked_recipes %}
-                <span>Disliked</span>
-              {% else %}
-                <span>-</span>
-              {% endif %}
               <span class="badge"><span class="favorite_count">{{ recipe.num_saves }}</span> stars</span>
       			</li>
     		  {% endfor %}

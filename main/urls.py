@@ -28,7 +28,7 @@ urlpatterns = [
 	url(r'^profile/$', views.update_profile, name='update_profile'),
 	url(r'^profile/password/$', views.change_password, name='change_password'),
 
-	url(r'^save_recipe/$', views.add_to_user_saved_recipe, name='save_recipe'),
+	url(r'^save_recipe/$', views.add_to_user_saved_recipes, name='save_recipe'),
 
 	# url(r'^create_recipe/$', views.UserRecipeCreate.as_view(), name='create_recipe'),
 	url(r'^create/$', views.create_recipe, name='create_recipe'),
@@ -36,8 +36,11 @@ urlpatterns = [
 
 
 	# API urls
-	url(r'^api_recipes/$', views.APIRecipeList.as_view()),
-	url(r'^api_recipes/(?P<pk>[0-9]+)$', views.APIRecipeDetail.as_view()),
+	url(r'^api/recipes/$', views.APIRecipeList.as_view()),
+	url(r'^api/recipes/create/$', views.APIRecipeCreate.as_view()),
+	url(r'^api/recipes/(?P<pk>[0-9]+)$', views.APIRecipeDetail.as_view()),
+	url(r'^api/users/$', views.APIUserList.as_view()),
+	url(r'^api/users/(?P<pk>[0-9]+)$', views.APIUserDetail.as_view()),
 
 
 ]

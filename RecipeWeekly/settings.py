@@ -233,7 +233,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_SECRET'] #
 # Django Rest Framework 
 ###################################################
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 50,
+    'PAGE_SIZE': 10,
 }
 
 

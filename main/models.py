@@ -25,13 +25,15 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
 	name	 		= models.CharField(max_length=200) 
 
+	creator 		= models.ForeignKey(User, null=True, blank=True)
+
 	# Machine learning algorithm to determine similar recipes
 	related_recipes	= models.ManyToManyField('self')
 
 	is_yummly_recipe = models.BooleanField(default=False)
-	is_user_uecipe	= models.BooleanField(default=False)
+	is_user_recipe	= models.BooleanField(default=False)
 
-	ingredient_list	= models.TextField(blank=True) # String representation
+	ingredient_list	= models.TextField() # String representation
 	ingredients 	= models.ManyToManyField(Ingredient) # Foreign key model representation
 
 	# Data included in Yummly API
@@ -49,18 +51,15 @@ class Recipe(models.Model):
 	sweet			= models.FloatField(blank=True, default=0)
 	piquant			= models.FloatField(blank=True, default=0)
 
-
-	def __str__(self):
-		return self.name
-
-
 	# Timestamps
 	date_created	= models.DateTimeField(editable=False)
 	date_modified	= models.DateTimeField(editable=False)
 
+	def __str__(self):
+		return self.name
+
 	def save(self, *args, **kwargs):
 		self.__update_timestamps()
-
 		return super(Recipe, self).save(*args, **kwargs)
 
 	def __update_timestamps(self):

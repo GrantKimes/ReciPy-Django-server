@@ -25,7 +25,7 @@ from rest_framework import generics
 
 from .models import Recipe, Ingredient
 from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
-from .serializers import RecipeSerializer
+from .serializers import RecipeSerializer, RecipeDetailSerializer, UserSerializer, UserDetailSerializer, RecipeCreateSerializer
 
 
 def home(request):
@@ -35,27 +35,31 @@ def home(request):
 
 
 ############################################################
-# API
+# API Views
 ############################################################
 
-
-def api_recipes_list(request):
-	if request.method == 'GET':
-		recipes = Recipe.objects.all()
-		serializer = RecipeSerializer(recipes, many=True)
-		return JsonResponse(serializer.data, safe=False)
-
-class APIRecipeList(generics.ListCreateAPIView):
-	"""
-	List all recipes, or create a new recipe.
-	"""
+class APIRecipeList(generics.ListAPIView):
 	queryset = Recipe.objects.all()
 	serializer_class = RecipeSerializer
 
+class APIRecipeCreate(generics.CreateAPIView):
+	queryset = Recipe.objects.all()
+	serializer_class = RecipeCreateSerializer
+
+	def perform_create(self, serializer):
+		serializer.save(creator=self.request.user)
+
 class APIRecipeDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Recipe.objects.all()
-	serializer_class = RecipeSerializer 
+	serializer_class = RecipeDetailSerializer 
 
+class APIUserList(generics.ListAPIView):
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
+
+class APIUserDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = User.objects.all()
+	serializer_class = UserDetailSerializer 
 
 ############################################################
 # Recipes

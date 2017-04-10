@@ -40,8 +40,8 @@ class Command(BaseCommand):
 
 			# id,bitter,meaty,salty,sour,sweet,piquant,ingredients,recipeName,smallImageUrls,totalTimeInSeconds,rating,sourceDisplayName
 			for row in reader:
-				row[9] = row[9].split(' ')[0] # Only use first image url in array, there's only ever one
-
+				if row[10] == '': print("Empty value for time_in_seconds, recipe {}", row[0])
+				if row[11] == '': print("Empty value for rating, recipe {}", row[0])
 
 				r = Recipe()
 				r.yummly_url        = row[0]
@@ -52,16 +52,17 @@ class Command(BaseCommand):
 				r.sweet             = row[5]
 				r.piquant           = row[6]
 				r.ingredient_list   = row[7].lower()
-				r.name              = row[8].replace('"', '')
-				r.yummly_image_url  = row[9]
-				r.time_in_seconds   = 0 #row[10]
-				r.rating            = 0 #row[11]
+				r.name              = row[8]
+				r.yummly_image_url  = row[9].split(' ')[0] # Only use first image url in array, there's only ever one
+				r.time_in_seconds   = row[10]
+				r.rating            = row[11]
 				r.source            = row[12]
-				r.is_yummly_recipe = True
+				r.is_yummly_recipe 	= True
 				r.save()
 
-				# for each ingredient in list, add to many to many field
-				self.add_ingredients(r)
+				# For each ingredient in list, add to many to many field
+				# self.add_ingredients(r)
+				# Now managed in Recipe post_save method
 
 
 				count += 1
@@ -92,18 +93,18 @@ class Command(BaseCommand):
 		print("")
 
 	# For each ingredient in ingredient list string, associate with an Ingredient model in DB
-	def add_ingredients(self, recipe):
-		for ingredient_name in recipe.ingredient_list.split(" "):
-			# If ingredient model already exists in database, add to recipe. Otherwise, create ingredient
-			try:
-				ingredient = Ingredient.objects.get(raw_name=ingredient_name)
+	# def add_ingredients(self, recipe):
+	# 	for ingredient_name in recipe.ingredient_list.split(" "):
+	# 		# If ingredient model already exists in database, add to recipe. Otherwise, create ingredient
+	# 		try:
+	# 			ingredient = Ingredient.objects.get(raw_name=ingredient_name)
 
-			except ObjectDoesNotExist:
-				ingredient = Ingredient()
-				ingredient.raw_name = ingredient_name
-				ingredient.save()
+	# 		except ObjectDoesNotExist:
+	# 			ingredient = Ingredient()
+	# 			ingredient.raw_name = ingredient_name
+	# 			ingredient.save()
 
-			recipe.ingredients.add(ingredient)
+	# 		recipe.ingredients.add(ingredient)
 
 
 	def get_recommendations(self):

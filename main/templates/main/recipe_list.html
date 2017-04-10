@@ -2,7 +2,6 @@
 
 
 {% block content %}
-{% with saved_recipes=user.profile.saved_recipes.all %}
 
   <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
@@ -28,6 +27,7 @@
       			<li class="list-group-item">
 
               <!-- Clickable star for adding recipe to saved recipes -->
+              <!--
               {% if recipe in saved_recipes and user.is_authenticated %}
                 <i class="fa fa-star" data-recipe-id="{{ recipe.id }}" aria-hidden="true"></i>
               {% elif user.is_authenticated %}
@@ -35,17 +35,26 @@
               {% else %}
                 <a class="nostyle" href="{% url 'login' %}?next={% url 'recipe_list' %}"><i class="fa fa-star-o needs-login"></i></a>
               {% endif %}
+              -->
 
-              <div class="btn-group btn-group-xs" role="group">
+              <div id="buttonGroup" class="btn-group btn-group-xs" role="group">
+                <!-- Star icon for saving recipe -->
+                {% if recipe in saved_recipes %}
+                  <button type="button" class="btn btn-info save" data-recipe-id="{{ recipe.id }}"><i class="fa fa-star"></i></button>
+                {% else  %}
+                  <button type="button" class="btn btn-default save" data-recipe-id="{{ recipe.id }}"><i class="fa fa-star"></i></button>
+                {% endif %}
+
+                <!-- Thumbs up and down for liking and disliking recipe -->
                 {% if recipe in liked_recipes %}
-                  <button type="button" class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
-                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-down"></i></button>
+                  <button type="button" class="btn btn-primary like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></button>
+                  <button type="button" class="btn btn-default dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></button>
                 {% elif recipe in disliked_recipes %}
-                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-up"></i></button>
-                  <button type="button" class="btn btn-warning"><i class="fa fa-thumbs-down"></i></button>
+                  <button type="button" class="btn btn-default like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></button>
+                  <button type="button" class="btn btn-danger dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></button>
                 {% else %}
-                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-up"></i></button>
-                  <button type="button" class="btn btn-default"><i class="fa fa-thumbs-down"></i></button>
+                  <button type="button" class="btn btn-default like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></button>
+                  <button type="button" class="btn btn-default dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></button>
                 {% endif %}
               </div>
 
@@ -74,6 +83,5 @@
 
 	</div>
 
-{% endwith %}
 {% endblock content %}
 

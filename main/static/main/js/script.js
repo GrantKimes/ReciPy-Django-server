@@ -1,13 +1,68 @@
 
 
 $(document).ready(function() {
-	starRecipes();
+	recipeListPage();
 	createRecipePage();
 });
+
+function recipeListPage() {
+	var defaultClass = 'btn-default';
+	var saveClass = 'btn-info';
+	var likeClass = 'btn-primary';
+	var dislikeClass = 'btn-danger';
+
+	$('div#buttonGroup button').on('click', function() {
+		var url = '';
+
+		if ($(this).hasClass('save')) {
+			url = '/api/recipes/save/';
+			$(this).toggleClass(saveClass).toggleClass(defaultClass);
+			console.log("Need to setup save api");
+			return;
+		}
+		else if ($(this).hasClass('like')) {
+			url = '/api/recipes/like/';
+			$(this).toggleClass(likeClass).toggleClass(defaultClass);
+			$(this).next('button').removeClass(dislikeClass).addClass(defaultClass);
+		}
+		else if ($(this).hasClass('dislike')) {
+			url = '/api/recipes/dislike/';
+			$(this).toggleClass(dislikeClass).toggleClass(defaultClass);
+			$(this).prev('button').removeClass(likeClass).addClass(defaultClass);
+		}
+		else {
+			console.log("Unknown button clicked");
+			return;
+		}
+
+		var recipeId = this.getAttribute('data-recipe-id');
+
+		$.ajax({
+			url: url,
+			datatype: 'json',
+			type: 'POST',
+			data: {
+				recipe_id: recipeId,
+				csrfmiddlewaretoken: window.CSRF_TOKEN,
+			},
+
+			success: function(response) {
+				console.log(response);
+			},
+
+			error: function(xhr, textStatus, error) {
+				console.log(xhr.status + ': ' + textStatus + ' - ' + xhr.responseText);
+			},
+		});
+
+	});
+}
 
 function createRecipePage() {
 	addIngredients();
 }
+
+
 
 
 // For recipe list page

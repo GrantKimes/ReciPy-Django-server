@@ -54,8 +54,9 @@ class RecipeList(ListView):
 	# Other values to pass to template
 	def get_context_data(self, **kwargs):
 		context = super(RecipeList, self).get_context_data(**kwargs)
-		context['liked_recipes'] = self.request.user.profile.liked_recipes()
-		context['disliked_recipes'] = self.request.user.profile.disliked_recipes()
+		context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
+		context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
+		context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
 		context['total_recipe_count'] = Recipe.objects.count()
 		return context
 

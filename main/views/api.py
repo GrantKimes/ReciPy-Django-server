@@ -70,6 +70,19 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = UserDetailSerializer 
 
 
+class SaveRecipe(APIView):
+	permission_classes = (permissions.IsAuthenticated,)
+
+	def post(self, request, format=None):
+		recipe_id = request.data['recipe_id']
+		recipe = Recipe.objects.get(pk=recipe_id)
+		profile = request.user.profile
+		if recipe in profile.saved_recipes.all(): 
+			profile.saved_recipes.remove(recipe) # If already liked, remove from liked
+		else:
+			profile.saved_recipes.add(recipe) # Otherwise add to liked
+		return Response({ 'status': "Processed save request on user '{}'' for recipe '{}'".format(request.user, recipe) })
+
 
 class LikeRecipe(APIView):
 	permission_classes = (permissions.IsAuthenticated,)

@@ -84,6 +84,29 @@ class APITests(TestCase):
 		self.assertEqual(Recipe.objects.all().count(), self.initial_num_recipes) # Didn't create
 
 
+	########################################################
+	# Like and dislike
+	########################################################
+	def test_api_save_recipe(self):
+		request = self.factory.post('/api/recipes/save', self.like_recipe_data, format='json')
+		request.user = self.user 
+		self.assertEqual(self.user.profile.saved_recipes.count(), 0)
+		response = api.SaveRecipe.as_view()(request)
+		self.assertEqual(response.status_code, 200) # ok
+		self.assertContains(response, 'Processed save request')
+		self.assertEqual(self.user.profile.saved_recipes.count(), 1)
+
+
+	def test_api_unsave_recipe_when_already_saved(self):
+		request = self.factory.post('/api/recipes/save', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.SaveRecipe.as_view()(request)
+		self.assertEqual(self.user.profile.saved_recipes.count(), 1)
+		request = self.factory.post('/api/recipes/save', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.SaveRecipe.as_view()(request)
+		self.assertEqual(self.user.profile.saved_recipes.count(), 0)
+
 
 	########################################################
 	# Like and dislike

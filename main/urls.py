@@ -31,6 +31,7 @@ urlpatterns = [
 	url(r'^api/$', api.Root),
 	url(r'^api/recipes/$', api.RecipeList.as_view()),
 	url(r'^api/recipes/create/$', api.RecipeCreate.as_view()),
+	url(r'^api/recipes/save/$', api.SaveRecipe.as_view()),
 	url(r'^api/recipes/like/$', api.LikeRecipe.as_view()),
 	url(r'^api/recipes/dislike/$', api.DislikeRecipe.as_view()),
 	url(r'^api/recipes/(?P<pk>[0-9]+)$', api.RecipeDetail.as_view()),

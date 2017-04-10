@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include 
 from django.contrib.auth import views as auth_views
 
 from . import views
@@ -36,12 +36,14 @@ urlpatterns = [
 
 
 	# API urls
+	url(r'^api/$', views.api_root),
 	url(r'^api/recipes/$', views.APIRecipeList.as_view()),
 	url(r'^api/recipes/create/$', views.APIRecipeCreate.as_view()),
 	url(r'^api/recipes/(?P<pk>[0-9]+)$', views.APIRecipeDetail.as_view()),
-	url(r'^api/users/$', views.APIUserList.as_view()),
+	url(r'^api/users/$', views.APIUserList.as_view(), name='api_users_list'),
 	url(r'^api/users/(?P<pk>[0-9]+)$', views.APIUserDetail.as_view()),
 
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
 ]
 

@@ -46,8 +46,13 @@ class RecipeTests(TestCase):
 class APITests(TestCase):
 	def setUp(self):
 		self.recipe1 = Recipe.objects.create(name='Chicken Rice', ingredient_list='chicken chicken rice bacon')
+		self.initial_num_recipes = 1
 		self.factory = APIRequestFactory()
 		self.user = User.objects.create_user(username='testguy', password='fdsajkl;')
+		self.new_recipe_data = {
+			'name': 'API Recipe',
+			'ingredient_list': 'corn soup black-beans'
+		}
 
 
 	def test_api_list_recipes(self):
@@ -57,20 +62,26 @@ class APITests(TestCase):
 
 
 	def test_api_create_recipe(self):
-		data = {
-			'name': 'API Recipe',
-			'ingredient_list': 'corn soup black-beans'
-		}
-		request = self.factory.post('/api/recipes/create', data, format='json')
+		request = self.factory.post('/api/recipes/create', self.new_recipe_data, format='json')
 		request.user = self.user 
 		response = views.APIRecipeCreate.as_view()(request)
 
 		r = Recipe.objects.get(name=data['name'])
 		i = Ingredient.objects.get(raw_name='black-beans')
 		self.assertEqual(response.status_code, 201) # created
-		self.assertEqual(data['ingredient_list'], r.ingredient_list)
-		self.assertEqual(r.id, 2)
-		self.assertEqual(i.name, 'Black Beans')
+		self.assertEqual(r.id, self.initial_num_recipes+1) # One additional recipe
+		self.assertEqual(i.name, 'Black Beans') # Proper ingredient list parsing
+		self.assertEqual(r.creator, self.user) 
+		self.assertTrue(r.is_user_recipe)
+
+
+	def test_api_create_recipe_fail_when_not_authenticated(self):
+		request = self.factory.post('/api/recipes/create', self.new_recipe_data, format='json')
+		response = views.APIRecipeCreate.as_view()(request)
+
+		self.assertEqual(response.status_code, 403) # forbidden
+		self.assertEqual(Recipe.objects.all().count(), self.initial_num_recipes) # Didn't create
+
 
 
 

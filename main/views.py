@@ -22,6 +22,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework import status 
 from rest_framework import generics
+from rest_framework import permissions 
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse as api_reverse
 
 from .models import Recipe, Ingredient
 from .forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
@@ -30,13 +33,18 @@ from .serializers import RecipeSerializer, RecipeDetailSerializer, UserSerialize
 
 def home(request):
 	context = {}
-	logger.debug(request.user.username)
 	return render(request, 'main/home.html', context)
 
 
 ############################################################
 # API Views
 ############################################################
+
+@api_view(['GET'])
+def api_root(request, format=None):
+	return Response({
+		'users': api_reverse('api_users_list', request=request, format=format),
+	})
 
 class APIRecipeList(generics.ListAPIView):
 	queryset = Recipe.objects.all()
@@ -45,9 +53,10 @@ class APIRecipeList(generics.ListAPIView):
 class APIRecipeCreate(generics.CreateAPIView):
 	queryset = Recipe.objects.all()
 	serializer_class = RecipeCreateSerializer
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 	def perform_create(self, serializer):
-		serializer.save(creator=self.request.user)
+		serializer.save(creator=self.request.user, is_user_recipe=True)
 
 class APIRecipeDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Recipe.objects.all()

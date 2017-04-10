@@ -85,6 +85,7 @@ class Recipe(models.Model):
 def recipe_saved(sender, instance, created, **kwargs):
 	instance._post_save_link_ingredients()
 
+
 # Each user has a profile with additional information
 class Profile(models.Model):
 	user 			= models.OneToOneField(User, on_delete=models.CASCADE)

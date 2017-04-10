@@ -89,25 +89,28 @@ def recipe_saved(sender, instance, created, **kwargs):
 # Each user has a profile with additional information
 class Profile(models.Model):
 	user 			= models.OneToOneField(User, on_delete=models.CASCADE)
-	saved_recipes 	= models.ManyToManyField(Recipe, related_name='profiles_saved')
-	voted_recipes	= models.ManyToManyField(Recipe, through='RecipeVote', related_name='profiles_voted')
-
 	bio 			= models.TextField(max_length=500, blank=True)
+	saved_recipes 	= models.ManyToManyField(Recipe, related_name='profiles_saved')
+	
+	# voted_recipes	= models.ManyToManyField(Recipe, through='RecipeVote', related_name='profiles_voted')
+	liked_recipes	= models.ManyToManyField(Recipe, related_name='profiles_liked')
+	disliked_recipes = models.ManyToManyField(Recipe, related_name='profiles_disliked')
 
-	# when = models.DateTimeField('date created', auto_now_add=True) # Timestamp format for model creation
+	date_created 	= models.DateTimeField(auto_now_add=True) 
+	date_modified 	= models.DateTimeField(auto_now=True) 
 
 
 	def __str__(self):
-		return self.user.username
+		return self.user.username + ' profile'
 
 
-	def liked_recipes(self):
-		liked_recipes = self.voted_recipes.filter(recipevote__liked=True)
-		return liked_recipes
+	# def liked_recipes(self):
+	# 	liked_recipes = self.voted_recipes.filter(recipevote__liked=True)
+	# 	return liked_recipes
 
-	def disliked_recipes(self):
-		disliked_recipes = self.voted_recipes.filter(recipevote__liked=False)
-		return disliked_recipes
+	# def disliked_recipes(self):
+	# 	disliked_recipes = self.voted_recipes.filter(recipevote__liked=False)
+	# 	return disliked_recipes
 
 
 
@@ -119,7 +122,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-	instance.profile.save() 
+	profile = instance.profile 
+	# profile.liked_recipes = profile.voted_recipes.filter(recipevote__liked=True)
+	# profile.disliked_recipes = profile.voted_recipes.filter(recipevote__liked=False)
+	profile.save() 
 
 
 

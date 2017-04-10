@@ -49,27 +49,29 @@ class APITests(TestCase):
 		self.initial_num_recipes = 1
 		self.factory = APIRequestFactory()
 		self.user = User.objects.create_user(username='testguy', password='fdsajkl;')
-		self.new_recipe_data = {
-			'name': 'API Recipe',
-			'ingredient_list': 'corn soup black-beans'
-		}
+		self.new_recipe_data = { 'name': 'API Recipe', 'ingredient_list': 'corn soup black-beans' }
+		self.like_recipe_data = { 'recipe_id': self.recipe1.id }
+
 
 
 	def test_api_list_recipes(self):
 		request = self.factory.get('/api/recipes/')
-		response = api.APIRecipeList.as_view()(request)
+		response = api.RecipeList.as_view()(request)
 		self.assertContains(response, self.recipe1.name)
 
 
+	########################################################
+	# Create recipes
+	########################################################
 	def test_api_create_recipe(self):
 		request = self.factory.post('/api/recipes/create', self.new_recipe_data, format='json')
 		request.user = self.user 
-		response = api.APIRecipeCreate.as_view()(request)
+		response = api.RecipeCreate.as_view()(request)
 
 		r = Recipe.objects.get(name=self.new_recipe_data['name'])
 		i = Ingredient.objects.get(raw_name='black-beans')
 		self.assertEqual(response.status_code, 201) # created
-		self.assertEqual(r.id, self.initial_num_recipes+1) # One additional recipe
+		self.assertEqual(r.id, self.initial_num_recipes+1) # One more recipe than before
 		self.assertEqual(i.name, 'Black Beans') # Proper ingredient list parsing
 		self.assertEqual(r.creator, self.user) 
 		self.assertTrue(r.is_user_recipe)
@@ -77,19 +79,72 @@ class APITests(TestCase):
 
 	def test_api_create_recipe_fail_when_not_authenticated(self):
 		request = self.factory.post('/api/recipes/create', self.new_recipe_data, format='json')
-		response = api.APIRecipeCreate.as_view()(request)
-
+		response = api.RecipeCreate.as_view()(request)
 		self.assertEqual(response.status_code, 403) # forbidden
 		self.assertEqual(Recipe.objects.all().count(), self.initial_num_recipes) # Didn't create
 
 
 
+	########################################################
+	# Like and dislike
+	########################################################
+	def test_api_like_recipe(self):
+		request = self.factory.post('/api/recipes/like', self.like_recipe_data, format='json')
+		request.user = self.user 
+		self.assertEqual(self.user.profile.liked_recipes.count(), 0)
+		response = api.LikeRecipe.as_view()(request)
+		self.assertEqual(response.status_code, 200) # ok
+		self.assertContains(response, 'Processed like request')
+		self.assertEqual(self.user.profile.liked_recipes.count(), 1)
 
 
+	def test_api_dislike_recipe(self):
+		request = self.factory.post('/api/recipes/dislike', self.like_recipe_data, format='json')
+		request.user = self.user 
+		self.assertEqual(self.user.profile.disliked_recipes.count(), 0)
+		response = api.DislikeRecipe.as_view()(request)
+		self.assertEqual(response.status_code, 200) # ok
+		self.assertContains(response, 'Processed dislike request')
+		self.assertEqual(self.user.profile.disliked_recipes.count(), 1)
 
 
+	def test_api_unlike_recipe_already_liked(self):
+		request = self.factory.post('/api/recipes/like', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.LikeRecipe.as_view()(request)
+		self.assertEqual(self.user.profile.liked_recipes.count(), 1)
+		request = self.factory.post('/api/recipes/like', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.LikeRecipe.as_view()(request)
+		self.assertEqual(self.user.profile.liked_recipes.count(), 0)
 
 
+	def test_api_like_recipe_remove_from_disliked(self):
+		request = self.factory.post('/api/recipes/dislike', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.DislikeRecipe.as_view()(request)
+		self.assertEqual(self.user.profile.liked_recipes.count(), 0)
+		self.assertEqual(self.user.profile.disliked_recipes.count(), 1)
+		request = self.factory.post('/api/recipes/like', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.LikeRecipe.as_view()(request)
+		self.assertEqual(self.user.profile.liked_recipes.count(), 1)
+		self.assertEqual(self.user.profile.disliked_recipes.count(), 0)
+
+
+	def test_api_like_recipe_fail_when_not_authenticated(self):
+		request = self.factory.post('/api/recipes/like', self.like_recipe_data, format='json')
+		response = api.LikeRecipe.as_view()(request)
+		self.assertEqual(response.status_code, 403) # forbidden
+		self.assertEqual(self.user.profile.liked_recipes.count(), 0) # Didn't count as like
+
+
+	def test_api_like_recipe_fail_on_get_request(self):
+		request = self.factory.get('/api/recipes/like', self.like_recipe_data, format='json')
+		request.user = self.user 
+		response = api.LikeRecipe.as_view()(request)
+		self.assertEqual(response.status_code, 405) # method not allowed
+		self.assertEqual(self.user.profile.liked_recipes.count(), 0) # Didn't count as like
 
 
 

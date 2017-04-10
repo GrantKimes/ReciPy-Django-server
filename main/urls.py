@@ -28,12 +28,14 @@ urlpatterns = [
 
 
 	# API urls
-	url(r'^api/$', api.api_root),
-	url(r'^api/recipes/$', api.APIRecipeList.as_view()),
-	url(r'^api/recipes/create/$', api.APIRecipeCreate.as_view()),
-	url(r'^api/recipes/(?P<pk>[0-9]+)$', api.APIRecipeDetail.as_view()),
-	url(r'^api/users/$', api.APIUserList.as_view(), name='api_users_list'),
-	url(r'^api/users/(?P<pk>[0-9]+)$', api.APIUserDetail.as_view()),
+	url(r'^api/$', api.Root),
+	url(r'^api/recipes/$', api.RecipeList.as_view()),
+	url(r'^api/recipes/create/$', api.RecipeCreate.as_view()),
+	url(r'^api/recipes/like/$', api.LikeRecipe.as_view()),
+	url(r'^api/recipes/dislike/$', api.DislikeRecipe.as_view()),
+	url(r'^api/recipes/(?P<pk>[0-9]+)$', api.RecipeDetail.as_view()),
+	url(r'^api/users/$', api.UserList.as_view(), name='api_users_list'),
+	url(r'^api/users/(?P<pk>[0-9]+)$', api.UserDetail.as_view()),
 
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 

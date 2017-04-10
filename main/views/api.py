@@ -38,17 +38,18 @@ from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSeria
 # API Views
 ############################################################
 
-@api_view(['GET'])
-def api_root(request, format=None):
-	return Response({
-		'users': api_reverse('api_users_list', request=request, format=format),
-	})
+class Root(APIView):
+	def get(self, request, format=None):
+		return Response({
+			'users': api_reverse('api_users_list', request=request, format=format),
+			# Include all API endpoint urls
+		})
 
-class APIRecipeList(generics.ListAPIView):
+class RecipeList(generics.ListAPIView):
 	queryset = Recipe.objects.all()
 	serializer_class = RecipeSerializer
 
-class APIRecipeCreate(generics.CreateAPIView):
+class RecipeCreate(generics.CreateAPIView):
 	queryset = Recipe.objects.all()
 	serializer_class = RecipeCreateSerializer
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -56,15 +57,65 @@ class APIRecipeCreate(generics.CreateAPIView):
 	def perform_create(self, serializer):
 		serializer.save(creator=self.request.user, is_user_recipe=True)
 
-class APIRecipeDetail(generics.RetrieveUpdateDestroyAPIView):
+class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Recipe.objects.all()
 	serializer_class = RecipeDetailSerializer 
 
-class APIUserList(generics.ListAPIView):
+class UserList(generics.ListAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
 
-class APIUserDetail(generics.RetrieveUpdateDestroyAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserDetailSerializer 
+
+
+
+class LikeRecipe(APIView):
+	permission_classes = (permissions.IsAuthenticated,)
+
+	def post(self, request, format=None):
+		recipe_id = request.data['recipe_id']
+		recipe = Recipe.objects.get(pk=recipe_id)
+		profile = request.user.profile
+		if recipe in profile.liked_recipes.all(): 
+			profile.liked_recipes.remove(recipe) # If already liked, remove from liked
+		else:
+			profile.liked_recipes.add(recipe) # Otherwise add to liked
+		if recipe in profile.disliked_recipes.all(): # If in disliked, remove
+			profile.disliked_recipes.remove(recipe)
+		return Response({ 'status': "Processed like request on user '{}'' for recipe '{}'".format(request.user, recipe) })
+
+
+class DislikeRecipe(APIView):
+	permission_classes = (permissions.IsAuthenticated,)
+
+	def post(self, request, format=None):
+		recipe_id = request.data['recipe_id']
+		recipe = Recipe.objects.get(pk=recipe_id)
+		profile = request.user.profile
+		if recipe in profile.disliked_recipes.all(): 
+			profile.disliked_recipes.remove(recipe) # If already liked, remove from liked
+		else:
+			profile.disliked_recipes.add(recipe) # Otherwise add to liked
+		if recipe in profile.liked_recipes.all(): # If in disliked, remove
+			profile.liked_recipes.remove(recipe)
+		return Response({ 'status': "Processed dislike request on user '{}'' for recipe '{}'".format(request.user, recipe) })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

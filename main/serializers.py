@@ -14,6 +14,12 @@ class IngredientSerializer(serializers.ModelSerializer):
 		fields = ('name',)
 
 
+class RecipeSimpleSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Recipe 
+		fields = ('id', 'name', 'ingredient_list',)
+
+
 class RecipeSerializer(serializers.ModelSerializer):
 	ingredients = IngredientSerializer(read_only=True, many=True)
 	# related_recipes = RecipeSerializer(many=True)
@@ -26,12 +32,13 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-	saved_recipes = RecipeSerializer(read_only=True, many=True)
-	voted_recipes = RecipeSerializer(read_only=True, many=True)
+	saved_recipes = RecipeSimpleSerializer(read_only=True, many=True)
+	liked_recipes = RecipeSimpleSerializer(read_only=True, many=True)
+	disliked_recipes = RecipeSimpleSerializer(read_only=True, many=True)
 
 	class Meta:
 		model = Profile 
-		fields = ('saved_recipes', 'voted_recipes',)
+		fields = ('saved_recipes', 'liked_recipes', 'disliked_recipes',)
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -17,8 +17,6 @@ function recipeListPage() {
 		if ($(this).hasClass('save')) {
 			url = '/api/recipes/save/';
 			$(this).toggleClass(saveClass).toggleClass(defaultClass);
-			console.log("Need to setup save api");
-			return;
 		}
 		else if ($(this).hasClass('like')) {
 			url = '/api/recipes/like/';
@@ -31,7 +29,6 @@ function recipeListPage() {
 			$(this).prev('button').removeClass(likeClass).addClass(defaultClass);
 		}
 		else {
-			console.log("Unknown button clicked");
 			return;
 		}
 

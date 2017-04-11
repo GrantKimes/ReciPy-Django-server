@@ -11,7 +11,7 @@ function recipeListPage() {
 	var likeClass = 'btn-primary';
 	var dislikeClass = 'btn-danger';
 
-	$('div#buttonGroup button').on('click', function() {
+	$('div.buttonGroup button').on('click', function() {
 		var url = '';
 
 		if ($(this).hasClass('save')) {

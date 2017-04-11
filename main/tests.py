@@ -85,7 +85,7 @@ class APITests(TestCase):
 
 
 	########################################################
-	# Like and dislike
+	# Save recipe
 	########################################################
 	def test_api_save_recipe(self):
 		request = self.factory.post('/api/recipes/save', self.like_recipe_data, format='json')
@@ -109,7 +109,7 @@ class APITests(TestCase):
 
 
 	########################################################
-	# Like and dislike
+	# Like and dislike recipe
 	########################################################
 	def test_api_like_recipe(self):
 		request = self.factory.post('/api/recipes/like', self.like_recipe_data, format='json')

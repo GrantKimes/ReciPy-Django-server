@@ -101,7 +101,7 @@ class Profile(models.Model):
 
 
 	def __str__(self):
-		return self.user.username + ' profile'
+		return self.user.username + "'s profile"
 
 
 	# def liked_recipes(self):

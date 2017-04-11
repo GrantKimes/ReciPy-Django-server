@@ -42,6 +42,7 @@ class Command(BaseCommand):
 			for row in reader:
 				if row[10] == '': print("Empty value for time_in_seconds, recipe {}", row[0])
 				if row[11] == '': print("Empty value for rating, recipe {}", row[0])
+				# if image url is http://, change to https://
 
 				r = Recipe()
 				r.yummly_url        = row[0]

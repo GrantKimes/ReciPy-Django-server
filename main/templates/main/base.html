@@ -53,14 +53,15 @@
 	    </div>
 
       {% with request.resolver_match.url_name as current_page %}
-	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="base-navbar-collapse">
 	      <ul class="nav navbar-nav">
 	        <li class="{% if current_page == 'recipe_list' %} active {% endif %}"><a href="{% url 'recipe_list' %}">Recipes</a></li>
           <li class="{% if current_page == 'ingredient_list' %} active {% endif %}"><a href="{% url 'ingredient_list' %}">Ingredients</a></li>
           <li class="{% if current_page == 'user_list' %} active {% endif %}"><a href="{% url 'user_list' %}">Users</a></li>
           <li class="{% if current_page == 'create_recipe' %} active {% endif %}"><a href="{% url 'create_recipe' %}">Add Recipe</a></li>
+          <li class="{% if current_page == 'about' %} active {% endif %}"><a href="{% url 'about' %}">About</a></li>
 	      </ul>
+        {% endwith %}
 
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_active %}
@@ -78,7 +79,6 @@
             <li class="{% if current_page == 'login' %} active {% endif %}"><a href="{% url 'login' %}">Login</a></li>
           {% endif %}
         </ul>
-        {% endwith %}
 	    
  			</div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->

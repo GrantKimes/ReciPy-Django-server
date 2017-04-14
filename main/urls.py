@@ -6,6 +6,7 @@ from .views import recipes, users, api
 
 urlpatterns = [
 	url(r'^$', recipes.home, name='home'),
+	url(r'^about/$', recipes.about, name='about'),
 	url(r'^recipes/$', recipes.RecipeList.as_view(), name='recipe_list'),
 	url(r'^recipes/(?P<pk>[0-9]+)$', recipes.RecipeDetail.as_view(), name='recipe_detail'),
 	url(r'^ingredients/$', recipes.IngredientList.as_view(), name='ingredient_list'),

@@ -34,8 +34,10 @@ from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSeria
 
 
 def home(request):
-	context = {}
-	return render(request, 'main/home.html', context)
+	return render(request, 'main/home.html', {})
+
+def about(request):
+	return render(request, 'main/about.html', {})
 
 
 ############################################################

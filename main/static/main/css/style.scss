@@ -1,3 +1,63 @@
+// Global colors
+$green-primary: #00FF99; 
+$green-dark: darken($green-primary, 20%);
+$green-light: #BFFFE5;
+
+$green-background: #D8FFEF;
+
+
+div.recipe-card.panel {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 3px #DDDDDD;
+  height: 410px;
+  position: relative;
+
+
+  &:hover {
+    box-shadow: 0px 0px 6px 4px #BBBBBB;
+    background-color: $green-background;
+  }
+
+  button {
+    z-index: 10;
+    position: relative;
+  }
+
+  div.panel-heading {
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+
+    .panel-title {
+      overflow: hidden;
+      line-height: 1.1em;
+      height: 2.2em;
+    }
+  }
+
+  div.panel-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0px 0px 5px 5px;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  // .ingredients {
+  //   height: 100px;
+  //   overflow: scroll;
+  //   border: 1px solid black;
+  //   z-index: 9;
+  // }
+
+}
+
 .about-cards .panel {
   min-height: 200px;
 }
@@ -11,7 +71,7 @@ li.ingredient {
 
 
 .navbar .navbar-header .navbar-brand {
-	color: #00FF99;
+	color: $green-primary;
   font-weight: bold;
 }
 
@@ -28,4 +88,14 @@ form div div.errors {
   p.text-danger {
     line-height: 24px;
   }
+}
+
+
+div a span.div-link {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }

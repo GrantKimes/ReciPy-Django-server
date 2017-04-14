@@ -11,11 +11,16 @@ function recipeListPage() {
 	var likeClass = 'btn-primary';
 	var dislikeClass = 'btn-danger';
 
-	$('div.buttonGroup button').on('click', function() {
+	$('div.likeDislikeSaveButtons button').on('click', function() {
+		if (! userIsLoggedIn) {
+			window.location = "/login";
+			return;
+		}
 		var url = '';
 
 		if ($(this).hasClass('save')) {
 			url = '/api/recipes/save/';
+			updateSaveCount(this);
 			$(this).toggleClass(saveClass).toggleClass(defaultClass);
 		}
 		else if ($(this).hasClass('like')) {
@@ -52,6 +57,26 @@ function recipeListPage() {
 			},
 		});
 
+	});
+
+	function updateSaveCount(button) {
+		var numSaves = Number(button.getAttribute('data-num-saves'));
+		console.log("numSaves: " + numSaves);
+		if ($(button).hasClass(saveClass)) { // Was saved, now clicked to toggle not saved
+			numSaves--;
+		}
+		else if ($(button).hasClass(defaultClass)) { // Now saved, 1 more save count
+			numSaves++;
+		}
+		$(button).find('span').text(numSaves);
+		button.setAttribute('data-num-saves', numSaves);
+	}
+
+	$('[data-toggle="popover"]').popover({
+		container: 'body',
+		placement: 'bottom',
+		html: true,
+		trigger: 'click'
 	});
 }
 

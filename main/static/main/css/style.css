@@ -1,3 +1,29 @@
+div.recipe-card.panel {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 3px #DDDDDD;
+  height: 410px;
+  position: relative; }
+  div.recipe-card.panel:hover {
+    box-shadow: 0px 0px 6px 4px #BBBBBB;
+    background-color: #D8FFEF; }
+  div.recipe-card.panel button {
+    z-index: 10;
+    position: relative; }
+  div.recipe-card.panel div.panel-heading .panel-title {
+    overflow: hidden;
+    line-height: 1.1em;
+    height: 2.2em; }
+  div.recipe-card.panel div.panel-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0px 0px 5px 5px; }
+  div.recipe-card.panel img {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 5px; }
+
 .about-cards .panel {
   min-height: 200px; }
 
@@ -16,5 +42,13 @@ a.nostyle {
 
 form div div.errors p.text-danger {
   line-height: 24px; }
+
+div a span.div-link {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1; }
 
 /*# sourceMappingURL=style.css.map */

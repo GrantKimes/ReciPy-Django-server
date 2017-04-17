@@ -99,3 +99,47 @@ div a span.div-link {
   left: 0;
   z-index: 1;
 }
+
+
+
+
+
+
+
+
+
+
+// Logo styling
+#recipy-logo {
+  text-shadow: rgb(0, 179, 107) 0px 0px 0px, rgb(0, 183, 110) 1px 1px 0px, rgb(0, 187, 112) 2px 2px 0px, rgb(0, 191, 114) 3px 3px 0px, rgb(0, 195, 117) 4px 4px 0px, rgb(0, 199, 119) 5px 5px 0px, rgb(0, 203, 122) 6px 6px 0px, rgb(0, 207, 124) 7px 7px 0px, rgb(0, 211, 126) 8px 8px 0px, rgb(0, 215, 129) 9px 9px 0px, rgb(0, 219, 131) 10px 10px 0px, rgb(0, 223, 134) 11px 11px 0px, rgb(0, 227, 136) 12px 12px 0px, rgb(0, 231, 139) 13px 13px 0px, rgb(0, 235, 141) 14px 14px 0px, rgb(0, 239, 143) 15px 15px 0px, rgb(0, 243, 146) 16px 16px 0px, rgb(0, 247, 148) 17px 17px 0px, rgb(0, 251, 151) 18px 18px 0px; 
+  font-size: 119px; 
+  color: rgb(79, 79, 79); 
+  height: 201px; 
+  width: 201px; 
+  line-height: 201px; 
+  border-radius: 50%; 
+  text-align: center; 
+  background-color: rgb(0, 255, 153);
+  border: 1px solid rgb(79, 79, 79);
+}
+
+#recipy-logo-navbar {
+  text-shadow: darken($green-primary, 10%) 1px 1px 2px, darken($green-primary, 20%) 2px 2px 2px; 
+  font-size: 27px; 
+  color: rgb(79, 79, 79); 
+  height: 42px; 
+  width: 42px; 
+  line-height: 40px; 
+  border-radius: 50%; 
+  text-align: center; 
+  background-color: $green-primary; 
+  border: 1px solid rgb(79, 79, 79);
+}
+
+.navbar-nav li a {
+  line-height: 40px;
+}
+
+
+
+

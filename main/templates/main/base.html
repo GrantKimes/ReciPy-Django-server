@@ -49,7 +49,10 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="{% url 'home' %}">ReciPY</a>
+	      <a class="navbar-brand" href="{% url 'home' %}" style="vertical-align: center;">
+          {# <i id="recipy-logo" class="fa fa-cutlery"></i> #}
+          <i id="recipy-logo-navbar" class="fa fa-cutlery"></i> 
+        </a>
 	    </div>
 
       {% with request.resolver_match.url_name as current_page %}

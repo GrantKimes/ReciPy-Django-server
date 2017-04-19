@@ -1,10 +1,15 @@
 from django.test import TestCase, RequestFactory
+from django.test import tag
 from django.contrib.auth.models import User 
 from rest_framework.test import APIRequestFactory
 
 from .models import Recipe, Ingredient, Profile, RecipeVote 
 from .views import recipes, users, api 
 
+
+########################################################
+# Main 
+########################################################
 class RecipeTests(TestCase):
 	def setUp(self):
 		self.recipe1 = Recipe.objects.create(name='Chicken Rice', ingredient_list='chicken chicken rice bacon')
@@ -42,7 +47,58 @@ class RecipeTests(TestCase):
 		self.assertNotIn(self.recipe1, self.user.profile.saved_recipes.all())
 
 
+########################################################
+# Recommendations
+########################################################
+@tag('current')
+class RecommendationTests(TestCase):
+	def setUp(self):
+		self.factory = RequestFactory()
+		self.recipe1 = Recipe.objects.create(name='Chicken Rice', ingredient_list='chicken chicken rice bacon')
+		self.recipe2 = Recipe.objects.create(name='Soup', ingredient_list='soup chicken peas')
+		self.recipe3 = Recipe.objects.create(name='Pasta', ingredient_list='pasta sauce tomatoes')
+		self.recipe1.related_recipes.add(self.recipe2)
+		self.recipe1.related_recipes.add(self.recipe3)
+		self.user = User.objects.create_user(username='testguy', password='fdsajkl;')
+		self.user.profile.liked_recipes.add(self.recipe1)
 
+	def test_home_recommended_recipes(self):
+		request = self.factory.get('/')
+		request.user = self.user 
+		response = recipes.home(request)
+		self.assertContains(response, self.recipe2.name)
+		self.assertContains(response, self.recipe3.name)
+
+	def test_home_recommended_recipes_not_in_disliked(self):
+		self.user.profile.disliked_recipes.add(self.recipe2)
+		request = self.factory.get('/')
+		request.user = self.user 
+		response = recipes.home(request)
+		self.assertNotContains(response, self.recipe2.name)
+		self.assertContains(response, self.recipe3.name)
+
+	def test_home_recommended_recipes_not_in_liked(self):
+		self.user.profile.liked_recipes.add(self.recipe2)
+		request = self.factory.get('/')
+		request.user = self.user 
+		response = recipes.home(request)
+		self.assertNotContains(response, self.recipe2.name)
+		self.assertContains(response, self.recipe3.name)
+
+	# def test_home_recommended_recipes_not_in_saved(self):
+	# 	self.user.profile.saved_recipes.add(self.recipe2)
+	# 	request = self.factory.get('/')
+	# 	request.user = self.user 
+	# 	response = recipes.home(request)
+	# 	self.assertNotContains(response, self.recipe2.name)
+	# 	self.assertContains(response, self.recipe3.name)
+
+
+
+
+########################################################
+# API
+########################################################
 class APITests(TestCase):
 	def setUp(self):
 		self.recipe1 = Recipe.objects.create(name='Chicken Rice', ingredient_list='chicken chicken rice bacon')

@@ -16,6 +16,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib import messages 
 from django.conf import settings
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.utils.decorators import method_decorator
 
 # Django extensions
 from social_django.models import UserSocialAuth
@@ -34,7 +35,17 @@ from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSeria
 
 
 def home(request):
-	return render(request, 'main/home.html', {})
+	context = {}
+
+	if request.user.is_authenticated:
+		profile = request.user.profile 
+		liked_recipes = profile.liked_recipes.all()
+		disliked_recipes = profile.disliked_recipes.all()
+
+		recommended_recipes = Recipe.objects.filter(related_recipes__in=liked_recipes).exclude(id__in=liked_recipes).exclude(id__in=disliked_recipes)[:4]
+		context['recommended_recipes'] = recommended_recipes
+	return render(request, 'main/home.html', context)
+
 
 def about(request):
 	return render(request, 'main/about.html', {})
@@ -44,12 +55,14 @@ def about(request):
 # Recipes
 ############################################################
 
+@method_decorator(login_required, name='dispatch')
 class RecipeList(ListView):
 	model = Recipe
 	template_name = 'main/recipe_list.html'
 
 	# Recipe models to pass to template
 	def get_queryset(self):
+		return Recipe.objects.filter(name__startswith="Chewy Gooey")
 		return Recipe.objects.order_by('name')[:20]
 
 
@@ -64,6 +77,7 @@ class RecipeList(ListView):
 		return context
 
 
+@method_decorator(login_required, name='dispatch')
 class RecipeDetail(DetailView):
 	model = Recipe
 	template_name = 'main/recipe_detail.html'
@@ -75,10 +89,12 @@ def create_recipe(request):
 	context = {}
 	return render(request, 'main/user_recipe_create.html', context)
 
+
 ############################################################
 # Ingredients
 ############################################################
 
+@method_decorator(login_required, name='dispatch')
 class IngredientList(ListView):
 	model = Ingredient
 	template_name = 'main/ingredient_list.html'
@@ -86,6 +102,7 @@ class IngredientList(ListView):
 	def get_queryset(self):
 		return Ingredient.objects.order_by('name')
 
+@method_decorator(login_required, name='dispatch')
 class IngredientDetail(DetailView):
 	model = Ingredient
 	template_name = 'main/ingredient_detail.html'

@@ -27,7 +27,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Recipe 
 		fields = ('id', 'name', 'is_yummly_recipe', 'is_user_recipe', 'ingredient_list',
-			'ingredients', 'yummly_url', 'source', 'rating', 'time_in_seconds', 
+			'ingredients', 'yummly_url', 'yummly_source', 'yummly_rating', 'yummly_time_in_seconds', 
 			'yummly_image_url', 'date_created', 'date_modified',)
 
 
@@ -59,7 +59,7 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Recipe 
 		fields = ('id', 'name',  'creator', 'is_yummly_recipe', 'is_user_recipe', 'ingredient_list',
-			'yummly_url', 'source', 'rating', 'time_in_seconds', 
+			'yummly_url', 'yummly_source', 'yummly_rating', 'yummly_time_in_seconds', 
 			'yummly_image_url', 'bitter', 'meaty', 'salty', 'sour', 'sweet', 'piquant',
 			'date_created', 'date_modified', 'ingredients', 'related_recipes',)
 

@@ -38,9 +38,9 @@ class Recipe(models.Model):
 
 	# Data included in Yummly API
 	yummly_url	 	= models.CharField(max_length=200, blank=True) 
-	source 			= models.CharField(max_length=200, blank=True) 
-	rating			= models.IntegerField(default=0)
-	time_in_seconds	= models.IntegerField(default=0) 
+	yummly_source 	= models.CharField(max_length=200, blank=True) 
+	yummly_rating	= models.IntegerField(default=0)
+	yummly_time_in_seconds	= models.IntegerField(default=0) 
 	yummly_image_url = models.CharField(max_length=200, blank=True)
 
 	# Taste profile from Yummly
@@ -90,11 +90,11 @@ def recipe_saved(sender, instance, created, **kwargs):
 class Profile(models.Model):
 	user 			= models.OneToOneField(User, on_delete=models.CASCADE)
 	bio 			= models.TextField(max_length=500, blank=True)
-	saved_recipes 	= models.ManyToManyField(Recipe, related_name='profiles_saved')
+	saved_recipes 	= models.ManyToManyField(Recipe, related_name='profiles_saved', blank=True)
 	
 	# voted_recipes	= models.ManyToManyField(Recipe, through='RecipeVote', related_name='profiles_voted')
-	liked_recipes	= models.ManyToManyField(Recipe, related_name='profiles_liked')
-	disliked_recipes = models.ManyToManyField(Recipe, related_name='profiles_disliked')
+	liked_recipes	= models.ManyToManyField(Recipe, related_name='profiles_liked', blank=True)
+	disliked_recipes = models.ManyToManyField(Recipe, related_name='profiles_disliked', blank=True)
 
 	date_created 	= models.DateTimeField(auto_now_add=True) 
 	date_modified 	= models.DateTimeField(auto_now=True) 

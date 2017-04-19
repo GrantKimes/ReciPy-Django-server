@@ -11,21 +11,20 @@
   <div class="panel-body">
     <img src="{{ recipe.yummly_image_url }}" class="img-responsive img-thumbnail center-block">
 
-    <div class="col-md-12">
-      <div class="alert alert-info">
-        <span class="text-muted">Creator: </span>
-        <span>{% if recipe.creator %}{{ recipe.creator }}{% else %}Yummly{% endif %}</span>
-      </div>
+    <p>
+      <span class="text-muted">Creator: </span>
+      <span>{% if recipe.creator %}{{ recipe.creator }}{% else %}Yummly{% endif %}</span>
+    </p>
 
-      <button type="button" class="ingredients btn btn-default" data-toggle="popover" data-content="{{ recipe.ingredients.all | list_ingredients }}">
-        <span>Ingredients <i class="fa fa-angle-down"></i></span>
-      </button>
-    </div>
+    <button type="button" class="ingredients btn btn-default" data-toggle="popover" data-content="{{ recipe.ingredients.all | list_ingredients }}">
+      <span>Ingredients <i class="fa fa-angle-down"></i></span>
+    </button>
   </div>
 
   <div class="panel-footer">
     <div class="likeDislikeSaveButtons">
       <div class="btn-group btn-group-sm" role="group">
+
         {# Star icon for saving recipe #}
         {% if recipe in saved_recipes %}
           <button type="button" class="btn btn-info save" data-recipe-id="{{ recipe.id }}" data-num-saves="{{ recipe.num_saves}}">
@@ -39,6 +38,7 @@
       </div>
 
       <div class="btn-group btn-group-sm pull-right" role="group">
+      
         {# Thumbs up and down for liking and disliking recipe #}
         {% if recipe in liked_recipes %}
           <button type="button" class="btn btn-primary like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></button>

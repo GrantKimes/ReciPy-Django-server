@@ -12,10 +12,10 @@ function recipeListPage() {
 	var dislikeClass = 'btn-danger';
 
 	$('div.likeDislikeSaveButtons button').on('click', function() {
-		if (! userIsLoggedIn) {
-			window.location = "/login";
-			return;
-		}
+		// if (! userIsLoggedIn) {
+		// 	window.location = "/login";
+		// 	return;
+		// }
 		var url = '';
 
 		if ($(this).hasClass('save')) {

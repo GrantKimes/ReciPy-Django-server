@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
-<script> var userIsLoggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %}; </script>
+{# <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script> #}
+{# <script> var userIsLoggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %}; </script> #}
 
 <div class="container">
 

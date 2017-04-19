@@ -31,11 +31,19 @@
   <!-- Font Awesome icons -->
   <script src="https://use.fontawesome.com/a7115d7118.js"></script>
 
+  <!-- Highlight.js -->
+  <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>-->
+
   <!-- My CSS -->
   <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
 
   <!-- My JavaScript -->
   <script src="{% static 'main/js/script.js' %}"></script>
+
+  <!-- Include CSRF token for all pages -->
+  <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
 </head>
 <body>

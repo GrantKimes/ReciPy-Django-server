@@ -16,6 +16,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib import messages 
 from django.conf import settings
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.utils.decorators import method_decorator
 
 # Django extensions
 from social_django.models import UserSocialAuth
@@ -37,6 +38,7 @@ from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSeria
 # Users
 ############################################################
 
+@method_decorator(login_required, name='dispatch')
 class UserList(ListView):
 	model = User
 	template_name = 'main/user_list.html'
@@ -44,6 +46,7 @@ class UserList(ListView):
 	def get_queryset(self):
 		return User.objects.all()
 
+@method_decorator(login_required, name='dispatch')
 class UserDetail(DetailView):
 	model = User
 	template_name = 'main/user_detail.html'

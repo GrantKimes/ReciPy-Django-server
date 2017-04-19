@@ -81,7 +81,7 @@ class SaveRecipe(APIView):
 			profile.saved_recipes.remove(recipe) # If already liked, remove from liked
 		else:
 			profile.saved_recipes.add(recipe) # Otherwise add to liked
-		return Response({ 'status': "Processed save request on user '{}'' for recipe '{}'".format(request.user, recipe) })
+		return Response({ 'status': "Processed save request on user '{}' for recipe '{}'".format(request.user, recipe) })
 
 
 class LikeRecipe(APIView):
@@ -97,7 +97,7 @@ class LikeRecipe(APIView):
 			profile.liked_recipes.add(recipe) # Otherwise add to liked
 		if recipe in profile.disliked_recipes.all(): # If in disliked, remove
 			profile.disliked_recipes.remove(recipe)
-		return Response({ 'status': "Processed like request on user '{}'' for recipe '{}'".format(request.user, recipe) })
+		return Response({ 'status': "Processed like request on user '{}' for recipe '{}'".format(request.user, recipe) })
 
 
 class DislikeRecipe(APIView):
@@ -113,7 +113,7 @@ class DislikeRecipe(APIView):
 			profile.disliked_recipes.add(recipe) # Otherwise add to liked
 		if recipe in profile.liked_recipes.all(): # If in disliked, remove
 			profile.liked_recipes.remove(recipe)
-		return Response({ 'status': "Processed dislike request on user '{}'' for recipe '{}'".format(request.user, recipe) })
+		return Response({ 'status': "Processed dislike request on user '{}' for recipe '{}'".format(request.user, recipe) })
 
 
 

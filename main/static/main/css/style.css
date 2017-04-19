@@ -1,5 +1,6 @@
 div.recipe-card.panel {
   border-radius: 5px;
+  border-color: #00B26B;
   box-shadow: 0px 0px 3px 3px #DDDDDD;
   height: 410px;
   position: relative; }
@@ -9,10 +10,14 @@ div.recipe-card.panel {
   div.recipe-card.panel button {
     z-index: 10;
     position: relative; }
-  div.recipe-card.panel div.panel-heading .panel-title {
-    overflow: hidden;
-    line-height: 1.1em;
-    height: 2.2em; }
+  div.recipe-card.panel div.panel-heading {
+    background-color: #00FF99;
+    color: black;
+    border-radius: 5px 5px 0px 0px; }
+    div.recipe-card.panel div.panel-heading .panel-title {
+      overflow: hidden;
+      line-height: 1.1em;
+      height: 2.2em; }
   div.recipe-card.panel div.panel-footer {
     position: absolute;
     bottom: 0;
@@ -51,31 +56,16 @@ div a span.div-link {
   left: 0;
   z-index: 1; }
 
-#recipy-logo {
-  text-shadow: #00b36b 0px 0px 0px, #00b76e 1px 1px 0px, #00bb70 2px 2px 0px, #00bf72 3px 3px 0px, #00c375 4px 4px 0px, #00c777 5px 5px 0px, #00cb7a 6px 6px 0px, #00cf7c 7px 7px 0px, #00d37e 8px 8px 0px, #00d781 9px 9px 0px, #00db83 10px 10px 0px, #00df86 11px 11px 0px, #00e388 12px 12px 0px, #00e78b 13px 13px 0px, #00eb8d 14px 14px 0px, #00ef8f 15px 15px 0px, #00f392 16px 16px 0px, #00f794 17px 17px 0px, #00fb97 18px 18px 0px;
-  font-size: 119px;
-  color: #4f4f4f;
-  height: 201px;
-  width: 201px;
-  line-height: 201px;
-  border-radius: 50%;
-  text-align: center;
-  background-color: #00ff99;
-  border: 1px solid #4f4f4f; }
+a.navbar-brand {
+  padding: 5px 10px; }
+  a.navbar-brand img {
+    height: 100%; }
+  a.navbar-brand span {
+    line-height: 40px; }
 
-#recipy-logo-navbar {
-  text-shadow: #00cc7a 1px 1px 2px, #00995c 2px 2px 2px;
-  font-size: 27px;
-  color: #4f4f4f;
-  height: 42px;
-  width: 42px;
-  line-height: 40px;
-  border-radius: 50%;
-  text-align: center;
-  background-color: #00FF99;
-  border: 1px solid #4f4f4f; }
-
-.navbar-nav li a {
-  line-height: 40px; }
+.container div.jumbotron {
+  background-color: #D8FFEF;
+  border-radius: 5px;
+  border: 1px solid #00B26B; }
 
 /*# sourceMappingURL=style.css.map */

@@ -4,11 +4,18 @@
 
 {% block content %}
 
-	<div class="container">    
-    <div class="row">
-    <h1>Welcome to ReciPY</h1>
-      <div class="col-md-3">
-        <img class="img-responsive" src="{% static 'main/images/ReciPY Logo 1.png' %}">
+	<div class="container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-3 col-md-offset-0 col-xs-6 col-xs-offset-3">
+          <img class="img-responsive" src="{% static 'main/images/ReciPy Logo 2.png' %}">
+        </div>
+        <div class="col-md-9">
+          <h1>Welcome to ReciPy</h1>
+          <p>Upload Recipes - Get Recommendations</p>
+          <a class="btn btn-primary" href="{% url 'user_registration' %}">Register</a>
+          <a class="btn btn-success" href="{% url 'login' %}">Login</a>
+        </div>
       </div>
     </div>
 

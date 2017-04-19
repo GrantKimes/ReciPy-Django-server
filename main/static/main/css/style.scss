@@ -1,13 +1,13 @@
 // Global colors
 $green-primary: #00FF99; 
-$green-dark: darken($green-primary, 20%);
-$green-light: #BFFFE5;
-
+$green-dark: #00B26B;
+$green-light: #7FFFCC;
 $green-background: #D8FFEF;
 
 
 div.recipe-card.panel {
   border-radius: 5px;
+  border-color: $green-dark;
   box-shadow: 0px 0px 3px 3px #DDDDDD;
   height: 410px;
   position: relative;
@@ -27,6 +27,9 @@ div.recipe-card.panel {
     // overflow: hidden;
     // text-overflow: ellipsis;
     // white-space: nowrap;
+    background-color: $green-primary;
+    color: black;
+    border-radius: 5px 5px 0px 0px;
 
     .panel-title {
       overflow: hidden;
@@ -67,9 +70,6 @@ li.ingredient {
 }
 
 
-
-
-
 .navbar .navbar-header .navbar-brand {
 	color: $green-primary;
   font-weight: bold;
@@ -84,7 +84,6 @@ a.nostyle {
 }
 
 form div div.errors {
-
   p.text-danger {
     line-height: 24px;
   }
@@ -101,44 +100,73 @@ div a span.div-link {
 }
 
 
-
-
-
-
-
-
-
-
 // Logo styling
-#recipy-logo {
-  text-shadow: rgb(0, 179, 107) 0px 0px 0px, rgb(0, 183, 110) 1px 1px 0px, rgb(0, 187, 112) 2px 2px 0px, rgb(0, 191, 114) 3px 3px 0px, rgb(0, 195, 117) 4px 4px 0px, rgb(0, 199, 119) 5px 5px 0px, rgb(0, 203, 122) 6px 6px 0px, rgb(0, 207, 124) 7px 7px 0px, rgb(0, 211, 126) 8px 8px 0px, rgb(0, 215, 129) 9px 9px 0px, rgb(0, 219, 131) 10px 10px 0px, rgb(0, 223, 134) 11px 11px 0px, rgb(0, 227, 136) 12px 12px 0px, rgb(0, 231, 139) 13px 13px 0px, rgb(0, 235, 141) 14px 14px 0px, rgb(0, 239, 143) 15px 15px 0px, rgb(0, 243, 146) 16px 16px 0px, rgb(0, 247, 148) 17px 17px 0px, rgb(0, 251, 151) 18px 18px 0px; 
-  font-size: 119px; 
-  color: rgb(79, 79, 79); 
-  height: 201px; 
-  width: 201px; 
-  line-height: 201px; 
-  border-radius: 50%; 
-  text-align: center; 
-  background-color: rgb(0, 255, 153);
-  border: 1px solid rgb(79, 79, 79);
+
+// #recipy-logo {
+//   text-shadow: rgb(0, 179, 107) 0px 0px 0px, rgb(0, 183, 110) 1px 1px 0px, rgb(0, 187, 112) 2px 2px 0px, rgb(0, 191, 114) 3px 3px 0px, rgb(0, 195, 117) 4px 4px 0px, rgb(0, 199, 119) 5px 5px 0px, rgb(0, 203, 122) 6px 6px 0px, rgb(0, 207, 124) 7px 7px 0px, rgb(0, 211, 126) 8px 8px 0px, rgb(0, 215, 129) 9px 9px 0px, rgb(0, 219, 131) 10px 10px 0px, rgb(0, 223, 134) 11px 11px 0px; 
+//   font-size: 119px; 
+//   color: rgb(79, 79, 79); 
+//   height: 201px; 
+//   width: 201px; 
+//   line-height: 201px; 
+//   border-radius: 50%; 
+//   text-align: center; 
+//   background-color: rgb(0, 255, 153);
+//   border: 5px solid rgb(79, 79, 79);
+//   margin: 20px;
+// }
+
+// #recipy-logo-navbar {
+//   text-shadow: darken($green-primary, 10%) 1px 1px 2px, darken($green-primary, 20%) 2px 2px 2px; 
+//   font-size: 27px; 
+//   color: rgb(79, 79, 79); 
+//   height: 42px; 
+//   width: 42px; 
+//   line-height: 40px; 
+//   border-radius: 50%; 
+//   text-align: center; 
+//   background-color: $green-primary; 
+//   border: 1px solid rgb(79, 79, 79);
+// }
+
+
+a.navbar-brand {
+  padding: 5px 10px;
+
+  img {
+    height: 100%;
+  }
+  span {
+    line-height: 40px;
+  }
 }
 
-#recipy-logo-navbar {
-  text-shadow: darken($green-primary, 10%) 1px 1px 2px, darken($green-primary, 20%) 2px 2px 2px; 
-  font-size: 27px; 
-  color: rgb(79, 79, 79); 
-  height: 42px; 
-  width: 42px; 
-  line-height: 40px; 
-  border-radius: 50%; 
-  text-align: center; 
-  background-color: $green-primary; 
-  border: 1px solid rgb(79, 79, 79);
+
+
+.container div.jumbotron {
+  background-color: $green-background;
+  border-radius: 5px;
+  border: 1px solid $green-dark;
 }
 
-.navbar-nav li a {
-  line-height: 40px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

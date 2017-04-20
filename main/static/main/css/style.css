@@ -28,6 +28,11 @@ div.recipe-card.panel {
     height: 100%;
     width: 100%;
     margin-bottom: 5px; }
+  div.recipe-card.panel.small {
+    height: auto; }
+
+img.img-wide {
+  width: 100%; }
 
 .about-cards .panel {
   min-height: 200px; }
@@ -67,5 +72,18 @@ a.navbar-brand {
   background-color: #D8FFEF;
   border-radius: 5px;
   border: 1px solid #00B26B; }
+
+.recipe-detail-card .left-column div a, .recipe-detail-card .left-column div button {
+  width: 100%; }
+
+.flavor-percents li {
+  height: 3em; }
+.flavor-percents .progress-label {
+  float: left;
+  margin-right: 1em; }
+.flavor-percents .progress-bar-wrapper {
+  float: right;
+  padding-top: .5em;
+  width: 70%; }
 
 /*# sourceMappingURL=style.css.map */

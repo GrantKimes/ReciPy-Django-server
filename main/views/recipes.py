@@ -82,6 +82,23 @@ class RecipeDetail(DetailView):
 	template_name = 'main/recipe_detail.html'
 	context_object_name = 'recipe'
 
+	def get_context_data(self, **kwargs):
+		context = super(RecipeDetail, self).get_context_data(**kwargs)
+		recipe = self.get_object()
+		context['flavor_percent'] = {
+			'bitter': int(recipe.bitter * 100),
+			'meaty': int(recipe.meaty * 100),
+			'salty': int(recipe.salty * 100),
+			'sour': int(recipe.sour * 100),
+			'sweet': int(recipe.sweet * 100),
+			'piquant': int(recipe.piquant * 100),
+		}
+		context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
+		context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
+		context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
+		return context
+
+
 
 @login_required
 def create_recipe(request):

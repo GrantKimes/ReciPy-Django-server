@@ -1,0 +1,15 @@
+{% load myfilters %}
+
+<div class="panel panel-success recipe-card small">
+
+  <a href="{% url 'recipe_detail' recipe.id %}"><span class="div-link"></span></a>
+
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ recipe.name }}</h3>
+  </div>
+
+  <div class="panel-body">
+    <img src="{{ recipe.yummly_image_url }}" class="img-responsive img-thumbnail center-block">
+  </div>
+
+</div>

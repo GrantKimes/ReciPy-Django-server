@@ -59,6 +59,14 @@ div.recipe-card.panel {
   //   z-index: 9;
   // }
 
+  &.small {
+    height: auto;
+  }
+
+}
+
+img.img-wide {
+  width: 100%;
 }
 
 .about-cards .panel {
@@ -151,10 +159,44 @@ a.navbar-brand {
 
 
 
+.recipe-detail-card {
+  .left-column div {
+    a, button {
+      width: 100%;
+    }
+  }
+}
 
 
+.flavor-percents {
+  li {
+    // padding: 0px;
+    height: 3em;
+  }
 
+  // padding-top: 5px;
 
+  div.progress {
+    // height: 1em;
+    // padding-top: 5px;
+
+    // div.progress-bar {
+    //   padding-top: 5px;
+    // }
+  }
+
+  .progress-label {
+    float: left;
+    margin-right: 1em;
+  }
+
+  .progress-bar-wrapper {
+    float: right;
+    padding-top: .5em;
+    width: 70%;
+  }
+
+}
 
 
 

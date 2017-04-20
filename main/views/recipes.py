@@ -62,7 +62,6 @@ class RecipeList(ListView):
 
 	# Recipe models to pass to template
 	def get_queryset(self):
-		return Recipe.objects.filter(name__startswith="Chewy Gooey")
 		return Recipe.objects.order_by('name')[:20]
 
 

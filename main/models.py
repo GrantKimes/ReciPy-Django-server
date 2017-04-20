@@ -23,7 +23,7 @@ class Ingredient(models.Model):
 
 # Encompasses recipes from external API source, as well as user uploaded
 class Recipe(models.Model):
-	name	 		= models.CharField(max_length=200) 
+	name	 		= models.CharField(max_length=300) 
 
 	creator 		= models.ForeignKey(User, null=True, blank=True)
 
@@ -37,11 +37,11 @@ class Recipe(models.Model):
 	ingredients 	= models.ManyToManyField(Ingredient) # Foreign key model representation
 
 	# Data included in Yummly API
-	yummly_url	 	= models.CharField(max_length=200, blank=True) 
-	yummly_source 	= models.CharField(max_length=200, blank=True) 
-	yummly_rating	= models.IntegerField(default=0)
-	yummly_time_in_seconds	= models.IntegerField(default=0) 
-	yummly_image_url = models.CharField(max_length=200, blank=True)
+	yummly_url	 	= models.CharField(max_length=300, blank=True) 
+	yummly_source 	= models.CharField(max_length=300, blank=True) 
+	yummly_rating	= models.IntegerField(default=0, blank=True)
+	yummly_time_in_seconds	= models.IntegerField(default=0, blank=True) 
+	yummly_image_url = models.CharField(max_length=300, blank=True)
 
 	# Taste profile from Yummly
 	bitter			= models.FloatField(blank=True, default=0)

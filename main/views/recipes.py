@@ -116,7 +116,7 @@ class IngredientList(ListView):
 	template_name = 'main/ingredient_list.html'
 
 	def get_queryset(self):
-		return Ingredient.objects.order_by('name')
+		return Ingredient.objects.order_by('name')[:100]
 
 @method_decorator(login_required, name='dispatch')
 class IngredientDetail(DetailView):

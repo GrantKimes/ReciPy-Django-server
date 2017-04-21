@@ -37,8 +37,10 @@ img.img-wide {
 .about-cards .panel {
   min-height: 200px; }
 
-li.ingredient {
+.ingredient {
   cursor: pointer; }
+  .ingredient:hover i {
+    color: red; }
 
 .navbar .navbar-header .navbar-brand {
   color: #00FF99;
@@ -85,5 +87,12 @@ a.navbar-brand {
   float: right;
   padding-top: .5em;
   width: 70%; }
+
+.panel-dark {
+  border-color: #222222;
+  background-color: #E6E6E6; }
+  .panel-dark .panel-heading {
+    background-color: #222222;
+    color: #FFFFFF; }
 
 /*# sourceMappingURL=style.css.map */

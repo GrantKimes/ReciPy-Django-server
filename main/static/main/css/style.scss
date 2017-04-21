@@ -4,6 +4,10 @@ $green-dark: #00B26B;
 $green-light: #7FFFCC;
 $green-background: #D8FFEF;
 
+$black: #222222;
+$white : #FFFFFF;
+$gray-background: #E6E6E6;
+
 
 div.recipe-card.panel {
   border-radius: 5px;
@@ -73,9 +77,18 @@ img.img-wide {
   min-height: 200px;
 }
 
-li.ingredient {
+
+
+
+.ingredient {
   cursor: pointer;
+  &:hover i {
+    color: red;
+  }
+
 }
+
+
 
 
 .navbar .navbar-header .navbar-brand {
@@ -204,7 +217,14 @@ a.navbar-brand {
 
 
 
-
+.panel-dark {
+  .panel-heading {
+    background-color: $black;
+    color: $white;
+  }
+  border-color: $black;
+  background-color: $gray-background;
+}
 
 
 

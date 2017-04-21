@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h1 class="panel-title">Create New Recipe</h1>
         </div>
@@ -18,34 +18,42 @@
             
             <!-- Recipe Name -->
             <div class="form-group">
-              <label class="control-label col-sm-2" for="name">Recipe Name</label>
-              <div class="col-sm-4">
+              <label class="control-label col-md-2" for="name">Recipe Name</label>
+              <div class="col-md-4">
                 <input name="name" type="text" class="form-control">
               </div> 
             </div>
 
             <!-- Ingredients -->
             <div class="form-group">
-              <label class="control-label col-sm-2" for="currentIngredient">Ingredients</label>
-              <div class="col-sm-4">
-                <input id="currentIngredient" name="currentIngredient" type="text" class="form-control">
+              <label class="control-label col-md-2" for="currentIngredient">Ingredients</label>
+              <div class="col-md-3 col-xs-9">
+                <input type="text" id="currentIngredient" name="currentIngredient" class="form-control">
+                {# <input type="hidden" id="ingredientList" name="ingredientList" value=""> #}
               </div> 
-              <div class="col-sm-2">
+              <div class="col-md-1 col-xs-3">
                 <button id="addIngredientsButton" type="button" class="btn btn-info">Add</button>
               </div>
             </div>
             <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-4">
-                <p>Added (click to remove): </p>
-                <div id="ingredientList"></div>
+              <div class="col-md-offset-2 col-md-3 col-xs-9">
+                <ul id="ingredientList" class="list-group"></ul>
               </div>
             </div>
 
             <!-- Instructions -->
             <div class="form-group">
-              <label class="control-label col-sm-2" for="name">Instructions</label>
-              <div class="col-sm-4">
-                <textarea name="instructions" type="textarea" class="form-control" rows="4" placeholder="Explain how to make your recipe." form="create-recipe-form"></textarea>
+              <label class="control-label col-md-2" for="instructions">Instructions</label>
+              <div class="col-md-8">
+                <textarea name="instructions" type="textarea" class="form-control" rows="6" placeholder="Explain how to make your recipe." form="create-recipe-form"></textarea>
+              </div> 
+            </div>
+
+            <!-- Picture -->
+            <div class="form-group">
+              <label class="control-label col-md-2" for="name">Photo</label>
+              <div class="col-md-4">
+                {# <textarea name="picture" type="textarea" class="form-control" rows="6" placeholder="Explain how to make your recipe." form="create-recipe-form"></textarea> #}
               </div> 
             </div>
 
@@ -53,8 +61,8 @@
 
             <!-- Submit button -->
             <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Create</button>
+              <div class="col-md-offset-2 col-md-4">
+                <button type="button" class="btn btn-primary btn-block">Create</button>
               </div>
             </div>
 

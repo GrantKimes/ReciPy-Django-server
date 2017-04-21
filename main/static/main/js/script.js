@@ -129,60 +129,45 @@ function starRecipes() {
 	});
 }
 
+
+
 // For create recipe page
 function addIngredients() {
 	var ingredientSet = new Set();
 	var ingredients = [];
+	let slideTime = 300;
 
 	// Add typed ingredient to list of ingredients
 	$('#addIngredientsButton').on('click', function() {
 		// If empty ingredient, don't do anything
-		var currIngredient = $('#currentIngredient').val().trim();
-		if (currIngredient == '') 
-			return;
-
-		// Add ingredient to ingredient set if ingredient is not already there
-		if (! ingredientSet.has(currIngredient))
-			ingredientSet.add(currIngredient);
-
-		// Update html displaying ingredients
-		var listHtml = '<ul class="fa-ul">';
-		for (let ingredient of ingredientSet) {
-			listHtml += '<li class="ingredient">'
-				+ '<i class="fa fa-li fa-minus-circle"></i>'
-				+ '<span>' + ingredient + '</span>'
-				+ '</li>';
-		}
-		listHtml += '</ul>';
-
-		$('#ingredientList').html(listHtml);
-
-
-		// Clear text box and focus on it
+		var currIngredient = $('#currentIngredient').val().trim().toLowerCase().split(' ').join('-');
+		if (currIngredient == '') return;
 		$('#currentIngredient').val('').focus();
 
+		// If ingredient not yet added, add it
+		for (let ingredient of ingredients) {
+			if (currIngredient == ingredient) return;
+		}
+		ingredients.unshift(currIngredient);
 
-		// Remove ingredient on click
-		$('#ingredientList').on('click', 'li.ingredient', function() {
-			var ingredient = $(this).find('span').text();
-			ingredientSet.delete(ingredient);
-			$(this).slideUp('fast');
-
-			$('#currentIngredient').focus(); // Refocus on input box
-		});
-
-		// Color li on hover
-		$('#ingredientList').on('mouseenter', 'li.ingredient', function() {
-			$(this).find('i.fa-li').css('color', 'red');
-		});
-		$('#ingredientList').on('mouseleave', 'li.ingredient', function() {
-			$(this).find('i.fa-li').css('color', 'black');
-		});
+		// Animate new element being added, slide down
+		var newlyAdded = $('#ingredientList').prepend('<li class="ingredient list-group-item" data-raw-name="'+currIngredient+'">'
+			+ currIngredient.capitalize()
+			+ '<i class="fa fa-minus-circle pull-right"></i></li>')
+			.find('li').first();
+		newlyAdded.hide().slideDown(slideTime).addClass('list-group-item-success')
+			.queue(function() { $(this).removeClass('list-group-item-success').dequeue(); });
 	});
 
+	// Remove ingredient on click, slide up
+	$('#ingredientList').on('click', 'li.ingredient', function() {
+		var ingredient = $(this).data('raw-name');
+		ingredients.splice(ingredients.indexOf(ingredient), 1);
+		$(this).addClass('list-group-item-danger').slideUp(slideTime);
+		$('#currentIngredient').focus(); 
+	});
 
-
-	// Allow enter to click add button
+	// Allow enter in ingredients to click add button
 	$('#currentIngredient').keypress(function(event) {
 		if (event.keyCode == 13) {
 			event.preventDefault();
@@ -199,7 +184,13 @@ function addIngredients() {
 
 
 
-
+String.prototype.capitalize = function() {
+	var splitStr = this.toLowerCase().split('-');
+	for (var i = 0; i < splitStr.length; i++) {
+		splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+	}
+	return splitStr.join(' ');
+}
 
 
 

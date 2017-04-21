@@ -76,8 +76,8 @@ class Command(BaseCommand):
 					print('.', end='', flush=True)
 
 		print("")
-		self.stdout.write(self.style.SUCCESS('Finished importing {} into db: {} recipes, {} ingredients (took {} seconds).'\
-			.format(self.recipe_file, Recipe.objects.count(), Ingredient.objects.count(), int(time.time()-start_time)) ))
+		self.stdout.write(self.style.SUCCESS('Finished importing {} into db: {} recipes, {} ingredients (took {} minutes).'\
+			.format(self.recipe_file, Recipe.objects.count(), Ingredient.objects.count(), int((time.time()-start_time)/60)) ))
 
 
 	# Delete existing values in DB, should change to prompt to confirm deletion
@@ -125,7 +125,7 @@ class Command(BaseCommand):
 					print('.', end='', flush=True)
 
 			print("")
-			self.stdout.write(self.style.SUCCESS('Finished linking recommended recipes (took {} seconds).'.format(int(time.time()-start_time)) ))
+			self.stdout.write(self.style.SUCCESS('Finished linking recommended recipes (took {} minutes).'.format(int((time.time()-start_time)/60)) ))
 
 
 

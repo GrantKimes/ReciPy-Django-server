@@ -20,6 +20,26 @@ $user-recipe-light: #98BBE3;
   display: none;
 }
 
+.navbar-form {
+  position: relative;
+
+  @media screen and (max-width: 767px) {
+    .btn-search {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+    }
+    input {
+      padding-right: 40px;
+    }
+  }
+
+  .fa-search {
+    color: $green-primary;
+  }
+}
+
+
 .user-recipe-card {
   .panel-heading a {
     color: $white;

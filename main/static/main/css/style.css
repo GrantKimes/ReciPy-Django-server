@@ -1,6 +1,18 @@
 .hidden {
   display: none; }
 
+.navbar-form {
+  position: relative; }
+  @media screen and (max-width: 767px) {
+    .navbar-form .btn-search {
+      position: absolute;
+      right: 15px;
+      top: 10px; }
+    .navbar-form input {
+      padding-right: 40px; } }
+  .navbar-form .fa-search {
+    color: #00FF99; }
+
 .user-recipe-card .panel-heading a {
   color: #FFFFFF; }
   .user-recipe-card .panel-heading a:hover {

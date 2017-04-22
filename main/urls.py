@@ -14,6 +14,8 @@ urlpatterns = [
 	url(r'^create/$', recipes.RecipeCreate.as_view(), name='create_recipe'),
 	# url(r'^create/$', recipes.create_recipe, name='create_recipe'),
 
+	url(r'^search/$', recipes.Search.as_view(), name='search'),
+
 
 	# Users
 	url(r'^users/$', users.UserList.as_view(), name='user_list'),

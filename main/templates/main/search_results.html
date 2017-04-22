@@ -1,0 +1,44 @@
+{% extends "main/base.html" %}
+{% load myfilters %}
+
+
+{% block content %}
+
+<div class="container">
+
+  {% if searched_users %}
+    <div class="row">
+      <h1>User results for '{{ query_string }}'</h1>
+      <ul class="list-group">
+        {% for user in searched_users %}
+          <a href="{% url 'user_detail' user.username %}" class="list-group-item">{{ user.username }}</a>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <h1>No users</h1>
+  {% endif %}
+  <hr>
+
+  {% if searched_recipes %}
+    <div class="row">
+      <h1>Recipe results for '{{ query_string }}'</h1>
+      <ul class="list-group">
+        {% for recipe in searched_recipes %}
+          <a href="{% url 'recipe_detail' recipe.id %}" class="list-group-item">{{ recipe.name }}, similarity {{ recipe.similarity }}</a>
+        {% endfor %}
+      </ul>
+      <!--{% for recipe in searched_recipes %}
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          {% include "main/recipe_card_template.html" %}
+        </div>
+      {% endfor %}-->
+    </div>
+  {% else %}
+    <h1>No recipes</h1>
+  {% endif %}
+  <hr>
+
+</div>
+
+{% endblock %}

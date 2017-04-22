@@ -17,6 +17,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.utils.decorators import method_decorator
+from django.db.models import Count
 
 # Django extensions
 from social_django.models import UserSocialAuth
@@ -56,24 +57,39 @@ def about(request):
 ############################################################
 
 @method_decorator(login_required, name='dispatch')
-class RecipeList(ListView):
-	model = Recipe
+class RecipeList(View):
 	template_name = 'main/recipe_list.html'
 
-	# Recipe models to pass to template
-	def get_queryset(self):
-		return Recipe.objects.order_by('name')[:20]
+	def get(self, request):
+		context = {
+			'total_recipe_count': Recipe.objects.count(),
+			'recent_user_recipes': Recipe.objects.filter(is_user_recipe=True).order_by('-date_created')[:8],
+			'most_liked_yummly_recipes': Recipe.objects.filter(is_yummly_recipe=True).annotate(num_likes=Count('profiles_liked')).order_by('-num_likes')[:8]
+		}
+		if request.user.is_authenticated:
+			context['saved_recipes'] = request.user.profile.saved_recipes.all()
+			context['liked_recipes'] = request.user.profile.liked_recipes.all()
+			context['disliked_recipes'] = request.user.profile.disliked_recipes.all()
+		return render(request, self.template_name, context)
+
+# class RecipeList(ListView):
+# 	model = Recipe
+# 	template_name = 'main/recipe_list.html'
+
+# 	# Recipe models to pass to template
+# 	def get_queryset(self):
+# 		return Recipe.objects.order_by('name')[:20]
 
 
-	# Other values to pass to template
-	def get_context_data(self, **kwargs):
-		context = super(RecipeList, self).get_context_data(**kwargs)
-		if self.request.user.is_authenticated:
-			context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
-			context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
-			context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
-		context['total_recipe_count'] = Recipe.objects.count()
-		return context
+# 	# Other values to pass to template
+# 	def get_context_data(self, **kwargs):
+# 		context = super(RecipeList, self).get_context_data(**kwargs)
+# 		if self.request.user.is_authenticated:
+# 			context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
+# 			context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
+# 			context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
+# 		context['total_recipe_count'] = Recipe.objects.count()
+# 		return context
 
 
 @method_decorator(login_required, name='dispatch')

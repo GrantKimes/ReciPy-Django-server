@@ -184,7 +184,17 @@ function addIngredients() {
 
 
 
-
+// Hide popovers on click off
+$('body').on('click', function(e) {
+	// if ($(e.target).data('toggle') !== 'popover' && $(e.target).parents('.popover.in').length == 0) {
+	// 	$('[data-toggle="popover]').popover('hide');
+	// }
+    if ($(e.target).data('toggle') !== 'popover'
+        && $(e.target).parents('[data-toggle="popover"]').length === 0
+        && $(e.target).parents('.popover.in').length === 0) { 
+        $('[data-toggle="popover"]').popover('hide');
+    }
+});
 
 
 

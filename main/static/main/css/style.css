@@ -1,37 +1,56 @@
 .hidden {
   display: none; }
 
-div.recipe-card.panel {
+.user-recipe-card .panel-heading a {
+  color: #FFFFFF; }
+  .user-recipe-card .panel-heading a:hover {
+    text-decoration: none; }
+.user-recipe-card .panel-body {
+  text-align: center; }
+  .user-recipe-card .panel-body .img-wrapper {
+    height: 200px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center; }
+    .user-recipe-card .panel-body .img-wrapper a {
+      align-self: center; }
+    .user-recipe-card .panel-body .img-wrapper img {
+      max-height: 200px; }
+.user-recipe-card button {
+  z-index: 10;
+  position: relative; }
+
+.recipe-card {
   border-radius: 5px;
   border-color: #00B26B;
   box-shadow: 0px 0px 3px 3px #DDDDDD;
   height: 410px;
   position: relative; }
-  div.recipe-card.panel:hover {
+  .recipe-card:hover {
     box-shadow: 0px 0px 6px 4px #BBBBBB;
     background-color: #D8FFEF; }
-  div.recipe-card.panel button {
+  .recipe-card button {
     z-index: 10;
     position: relative; }
-  div.recipe-card.panel div.panel-heading {
+  .recipe-card .panel-heading {
     background-color: #00FF99;
     color: black;
     border-radius: 5px 5px 0px 0px; }
-    div.recipe-card.panel div.panel-heading .panel-title {
+    .recipe-card .panel-heading .panel-title {
       overflow: hidden;
       line-height: 1.1em;
       height: 2.2em; }
-  div.recipe-card.panel div.panel-footer {
+  .recipe-card .panel-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     border-radius: 0px 0px 5px 5px; }
-  div.recipe-card.panel img {
-    height: 100%;
+  .recipe-card img {
+    height: 100px;
     width: 100%;
     margin-bottom: 5px; }
-  div.recipe-card.panel.small {
+  .recipe-card.small {
     height: auto; }
 
 img.img-wide {

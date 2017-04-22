@@ -9,10 +9,23 @@
 
 <div class="container">
 
-	<h1>Recipes <span class="text-muted">({{ recipe_list.count }} out of {{ total_recipe_count }} total)</span></h1>
+	{# <h1>Recipes <span class="text-muted">({{ recipe_list.count }} out of {{ total_recipe_count }} total)</span></h1> #}
 
+  <h1>Recent Created Recipes</h1>
   <div class="row">
-    {% for recipe in recipe_list %}
+    {% for recipe in recent_user_recipes %}
+      <div class="col-md-3 col-sm-4 col-xs-6">
+        {% include "main/user_recipe_card_template.html" %}
+        
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr>
+
+  <h1>Yummly Recipes</h1>
+  <div class="row">
+    {% for recipe in most_liked_yummly_recipes %}
       <div class="col-md-3 col-sm-4 col-xs-6">
         {% include "main/recipe_card_template.html" %}
         

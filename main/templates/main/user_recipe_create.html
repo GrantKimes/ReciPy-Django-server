@@ -15,46 +15,78 @@
 
           <form id="create-recipe-form" class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            
+            {{ form.non_field_errors }}
+
             <!-- Recipe Name -->
             <div class="form-group">
-              <label class="control-label col-md-2" for="name">Recipe Name</label>
+              <label class="control-label col-md-2" for="id_name">Recipe Name</label>
               <div class="col-md-4">
-                <input name="name" type="text" class="form-control">
+                <input name="name" id="id_name" type="text" class="form-control" required autofocus>
               </div> 
+              {% if form.name.errors %}
+                <div class="col-md-4 errors">
+                  <p class="text-danger">{% for error in form.name.errors %}{{ error }} {% endfor %}</p>
+                </div>
+              {% endif %}
             </div>
 
             <!-- Ingredients -->
             <div class="form-group">
-              <label class="control-label col-md-2" for="currentIngredient">Ingredients</label>
+              <label class="control-label col-md-2" for="id_currentIngredient">Ingredients</label>
               <div class="col-md-3 col-xs-9">
-                <input type="text" id="currentIngredient" name="currentIngredient" class="form-control">
-                {# <input type="hidden" id="ingredientList" name="ingredientList" value=""> #}
+                <input name="currentIngredient" type="text" id="id_currentIngredient" class="form-control">
+                <input name="ingredient_list" type="text" id="id_ingredient_list" class="form-control hidden">
               </div> 
               <div class="col-md-1 col-xs-3">
-                <button id="addIngredientsButton" type="button" class="btn btn-info">Add</button>
+                <button id="addIngredientsButton" type="button" class="btn btn-info" tabindex="-1">Add</button>
               </div>
+              {% if form.ingredient_list.errors %}
+                <div class="col-md-4 errors">
+                  <p class="text-danger">{% for error in form.ingredient_list.errors %}{{ error }} {% endfor %}</p>
+                </div>
+              {% endif %}
             </div>
             <div class="form-group">
               <div class="col-md-offset-2 col-md-3 col-xs-9">
-                <ul id="ingredientList" class="list-group"></ul>
+                <ul id="ingredient-list-group" class="list-group"></ul>
               </div>
             </div>
 
             <!-- Instructions -->
             <div class="form-group">
-              <label class="control-label col-md-2" for="instructions">Instructions</label>
+              <label class="control-label col-md-2" for="id_instructions">Instructions</label>
               <div class="col-md-8">
-                <textarea name="instructions" type="textarea" class="form-control" rows="6" placeholder="Explain how to make your recipe." form="create-recipe-form"></textarea>
+                <textarea name="instructions" id="id_instructions" type="textarea" class="form-control" rows="6" placeholder="Explain how to make your recipe." form="create-recipe-form" required></textarea>
               </div> 
+              {% if form.instructions.errors %}
+                <div class="col-md-4 errors">
+                  <p class="text-danger">{% for error in form.instructions.errors %}{{ error }} {% endfor %}</p>
+                </div>
+              {% endif %}
             </div>
 
             <!-- Picture -->
             <div class="form-group">
-              <label class="control-label col-md-2" for="name">Photo</label>
+              <label class="control-label col-md-2">Photo</label>
               <div class="col-md-4">
-                {# <textarea name="picture" type="textarea" class="form-control" rows="6" placeholder="Explain how to make your recipe." form="create-recipe-form"></textarea> #}
+                <!--<label class="btn btn-info btn-file" for="id_photo">
+                  Upload Photo <input name="photo" type="file" id="id_photo" style="display: none;" required>
+                </label>-->
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                  <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                  <div>
+                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                      <input name="photo" type="file" id="id_photo" required>
+                    </span>
+                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                  </div>
+                </div>                
               </div> 
+              {% if form.photo.errors %}
+                <div class="col-md-4 errors">
+                  <p class="text-danger">{% for error in form.photo.errors %}{{ error }} {% endfor %}</p>
+                </div>
+              {% endif %}
             </div>
 
 
@@ -62,11 +94,13 @@
             <!-- Submit button -->
             <div class="form-group">
               <div class="col-md-offset-2 col-md-4">
-                <button type="button" class="btn btn-primary btn-block">Create</button>
+                <button type="submit" class="btn btn-primary btn-block">Create</button>
               </div>
             </div>
 
           </form>
+
+          {# {{ form.as_p }} #}
 
 
       </div>

@@ -30,7 +30,7 @@ from rest_framework.reverse import reverse as api_reverse
 
 # Local
 from main.models import Recipe, Ingredient
-from main.forms import UserForm, UserRegistrationForm, UserInfoForm, ProfileInfoForm
+from main.forms import RecipeCreateForm
 from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSerializer, UserDetailSerializer, RecipeCreateSerializer
 
 
@@ -104,6 +104,30 @@ class RecipeDetail(DetailView):
 def create_recipe(request):
 	context = {}
 	return render(request, 'main/user_recipe_create.html', context)
+
+@method_decorator(login_required, name='dispatch')
+class RecipeCreate(View):
+	def get(self, request):
+		form = RecipeCreateForm()
+		return render(request, 'main/user_recipe_create.html', {'form': form})
+
+	def post(self, request):
+		form = RecipeCreateForm(request.POST, request.FILES)
+		if form.is_valid():
+			r = Recipe()
+			r.name = form.cleaned_data['name']
+			r.ingredient_list = form.cleaned_data['ingredient_list']
+			r.instructions = form.cleaned_data['instructions']
+			r.photo = request.FILES['photo']
+			r.is_user_recipe = True
+			r.creator = request.user 
+			r.save()
+
+			messages.success(request, "Recipe created.")
+			return redirect('recipe_detail', pk=r.id)
+		else:
+			messages.error(request, "Invalid input, correct errors below.")
+			return render(request, 'main/user_recipe_create.html', {'form': form})
 
 
 ############################################################

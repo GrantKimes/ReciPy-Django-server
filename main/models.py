@@ -24,17 +24,16 @@ class Ingredient(models.Model):
 # Encompasses recipes from external API source, as well as user uploaded
 class Recipe(models.Model):
 	name	 		= models.CharField(max_length=300) 
-
 	creator 		= models.ForeignKey(User, null=True, blank=True)
-
-	# Machine learning algorithm to determine similar recipes
-	related_recipes	= models.ManyToManyField('self')
-
 	is_yummly_recipe = models.BooleanField(default=False)
 	is_user_recipe	= models.BooleanField(default=False)
-
 	ingredient_list	= models.TextField() # String representation
 	ingredients 	= models.ManyToManyField(Ingredient) # Foreign key model representation
+	instructions	= models.TextField()
+	photo			= models.ImageField(upload_to='recipe_photos/', null=True, blank=True)
+
+	# Machine learning algorithm to determine similar recipes
+	related_recipes	= models.ManyToManyField('self', blank=True)
 
 	# Data included in Yummly API
 	yummly_url	 	= models.CharField(max_length=300, blank=True) 

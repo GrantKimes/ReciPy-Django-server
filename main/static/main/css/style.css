@@ -1,3 +1,6 @@
+.hidden {
+  display: none; }
+
 div.recipe-card.panel {
   border-radius: 5px;
   border-color: #00B26B;
@@ -32,6 +35,9 @@ div.recipe-card.panel {
     height: auto; }
 
 img.img-wide {
+  width: 100%; }
+
+.wide {
   width: 100%; }
 
 .about-cards .panel {
@@ -75,8 +81,17 @@ a.navbar-brand {
   border-radius: 5px;
   border: 1px solid #00B26B; }
 
-.recipe-detail-card .left-column div a, .recipe-detail-card .left-column div button {
-  width: 100%; }
+.user-recipe-detail-card {
+  border-color: #2780e3; }
+  .user-recipe-detail-card .panel-heading {
+    background-color: #2780e3;
+    color: #FFFFFF; }
+  .user-recipe-detail-card .list-group .list-group-item:nth-child(1) {
+    background-color: #98BBE3;
+    color: #222222; }
+
+.formatted {
+  white-space: pre-wrap; }
 
 .flavor-percents li {
   height: 3em; }

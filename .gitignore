@@ -1,6 +1,7 @@
 # Project ignores
 logfile
 db.sqlite3
+data/media
 
 
 # Django ignores

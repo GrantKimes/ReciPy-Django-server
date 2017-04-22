@@ -29,7 +29,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = os.environ['RECIPY_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['RECIPY_DEBUG']
 
 ALLOWED_HOSTS = [
     '*',
@@ -154,13 +154,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'data/media')
+
 
 ###################################################
 # Logging
 # debug, info, warning, error, critical
 ###################################################
-
-# DJANGO_LOG_LEVEL = 'INFO'
 
 LOGGING = {
     'version': 1,
@@ -194,11 +195,9 @@ LOGGING = {
 
     'formatters': {
         'verbose': {
-            # '()': 'djangocolors_formatter.DjangoColorsFormatter', # colored output
             'format': '%(levelname)s %(name)s %(asctime)s %(module)s %(process)d %(thread)d %(pathname)s@%(lineno)s: %(message)s'
         },
         'simple': {
-            # '()': 'djangocolors_formatter.DjangoColorsFormatter', # colored output
             'format': '%(levelname)s: %(message)s'
         },
     }
@@ -220,12 +219,9 @@ LOGIN_REDIRECT_URL = '/' # After login when no next is specified
 
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/profile/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile/'
-# SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_KEY'] # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['RECIPY_SOCIAL_AUTH_FACEBOOK_SECRET'] # App Secret
-# FACEBOOK_USER_TOKEN = 'EAAY79jQZCgaIBAAGhjiVSZASe2YI841eoEWMleIcZBb32ZBf00LwgeY7ZCQpLZChsXKFLZAZBf5YH38DMEJcTUNdivyJm6OZA4Y7kUp0GfX9s13zMij8bvzredKfgSrpjjUw4SWSa7FzFtvxTEmSWKo9P4IQgn00gVuGorg5HZBgA6IaxUi5gZA2rHx'
-# FACEBOOK_APP_TOKEN = '1754778484834722|P_GiMG801m2HrBfriJ2OIXWBsiU'
 
 
 

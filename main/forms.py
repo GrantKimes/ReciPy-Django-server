@@ -2,7 +2,20 @@ from django.contrib.auth.models import User
 from django import forms 
 from django.contrib.auth.forms import UserCreationForm 
 
-from .models import Profile
+from .models import Profile, Recipe 
+
+
+class RecipeCreateForm(forms.ModelForm):
+	# ingredient_list	= forms.CharField(widget=forms.HiddenInput)
+	instructions 	= forms.CharField(widget=forms.Textarea)
+	photo 			= forms.ImageField(label="Select a photo", help_text="Help text")
+
+	class Meta:
+		model = Recipe 
+		fields = ['name', 'ingredient_list', 'instructions', 'photo']
+
+
+
 
 class UserForm(forms.ModelForm):
  	password = forms.CharField(widget=forms.PasswordInput)
@@ -28,18 +41,6 @@ class UserRegistrationForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user 
-
-
-# class UserRegistrationForm(forms.ModelForm):
-# 	password = forms.CharField(widget=forms.PasswordInput)
-
-# 	class Meta:
-# 		model = User
-# 		fields = ['username', 'password'] 
-
-# 		# widgets = {
-# 		# 	'username': forms.TextInput(attrs={'class': 'form-control'}),
-# 		# }
 
 
 class UserInfoForm(forms.ModelForm):

@@ -6,8 +6,19 @@ $green-background: #D8FFEF;
 
 $black: #222222;
 $white : #FFFFFF;
+$gray-primary: #999999;
+$gray-light: #BBBBBB;
+$gray-dark: #777777;
 $gray-background: #E6E6E6;
 
+$user-recipe-primary: #2780e3;
+$user-recipe-light: #98BBE3;
+
+
+
+.hidden {
+  display: none;
+}
 
 div.recipe-card.panel {
   border-radius: 5px;
@@ -70,6 +81,10 @@ div.recipe-card.panel {
 }
 
 img.img-wide {
+  width: 100%;
+}
+
+.wide {
   width: 100%;
 }
 
@@ -171,14 +186,35 @@ a.navbar-brand {
 }
 
 
+.user-recipe-detail-card {
+  border-color: $user-recipe-primary;
 
-.recipe-detail-card {
-  .left-column div {
-    a, button {
-      width: 100%;
+  .panel-heading {
+    background-color: $user-recipe-primary;
+    color: $white;
+  }
+
+  .list-group {
+
+    .list-group-item:nth-child(1) {
+      background-color: $user-recipe-light;
+      color: $black;
+      // border-color: $user-recipe-primary;
+      // color: $user-recipe-primary;
+    }
+
+    .list-group-item:nth-child(2) {
+      // border-top-color: $user-recipe-primary;
     }
   }
+
+
 }
+
+.formatted {
+  white-space: pre-wrap;
+}
+
 
 
 .flavor-percents {

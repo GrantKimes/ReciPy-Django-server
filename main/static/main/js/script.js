@@ -12,10 +12,6 @@ function recipeListPage() {
 	var dislikeClass = 'btn-danger';
 
 	$('div.likeDislikeSaveButtons button').on('click', function() {
-		// if (! userIsLoggedIn) {
-		// 	window.location = "/login";
-		// 	return;
-		// }
 		var url = '';
 
 		if ($(this).hasClass('save')) {
@@ -140,18 +136,19 @@ function addIngredients() {
 	// Add typed ingredient to list of ingredients
 	$('#addIngredientsButton').on('click', function() {
 		// If empty ingredient, don't do anything
-		var currIngredient = $('#currentIngredient').val().trim().toLowerCase().split(' ').join('-');
+		var currIngredient = $('#id_currentIngredient').val().trim().toLowerCase().split(' ').join('-');
 		if (currIngredient == '') return;
-		$('#currentIngredient').val('').focus();
+		$('#id_currentIngredient').val('').focus();
 
 		// If ingredient not yet added, add it
 		for (let ingredient of ingredients) {
 			if (currIngredient == ingredient) return;
 		}
 		ingredients.unshift(currIngredient);
+		$('#id_ingredient_list').val(ingredients.join(' '));
 
 		// Animate new element being added, slide down
-		var newlyAdded = $('#ingredientList').prepend('<li class="ingredient list-group-item" data-raw-name="'+currIngredient+'">'
+		var newlyAdded = $('#ingredient-list-group').prepend('<li class="ingredient list-group-item" data-raw-name="'+currIngredient+'">'
 			+ currIngredient.capitalize()
 			+ '<i class="fa fa-minus-circle pull-right"></i></li>')
 			.find('li').first();
@@ -160,18 +157,27 @@ function addIngredients() {
 	});
 
 	// Remove ingredient on click, slide up
-	$('#ingredientList').on('click', 'li.ingredient', function() {
+	$('#ingredient-list-group').on('click', 'li.ingredient', function() {
 		var ingredient = $(this).data('raw-name');
 		ingredients.splice(ingredients.indexOf(ingredient), 1);
 		$(this).addClass('list-group-item-danger').slideUp(slideTime);
-		$('#currentIngredient').focus(); 
+		$('#id_currentIngredient').focus(); 
 	});
 
 	// Allow enter in ingredients to click add button
-	$('#currentIngredient').keypress(function(event) {
+	$('#id_currentIngredient').keypress(function(event) {
 		if (event.keyCode == 13) {
-			event.preventDefault();
+			// event.preventDefault();
 			$('#addIngredientsButton').click();
+			return false;
+			// return false;
+		}
+	});
+	$('#id_name').keypress(function(event) {
+		if (event.keyCode == 13) {
+			console.log("Preventing form submission on enter");
+			// event.preventDefault();
+			return false;
 		}
 	});
 }

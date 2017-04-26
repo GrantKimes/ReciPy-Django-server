@@ -1,0 +1,14 @@
+{# Star icon for saving recipe #}
+{% if recipe in saved_recipes %}
+  <button type="button" class="btn btn-info save" data-recipe-id="{{ recipe.id }}" data-num-saves="{{ recipe.num_saves}}">
+    <i class="fa fa-star"></i> <span>{{ recipe.num_saves }}</span>
+  </button>
+{% elif user.is_authenticated %}
+  <button type="button" class="btn btn-default save" data-recipe-id="{{ recipe.id }}" data-num-saves="{{ recipe.num_saves }}">
+    <i class="fa fa-star"></i> <span>{{ recipe.num_saves }}</span>
+  </button>
+{% else %}
+  <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default save" data-recipe-id="{{ recipe.id }}" data-num-saves="{{ recipe.num_saves }}">
+    <i class="fa fa-star"></i> <span>{{ recipe.num_saves }}</span>
+  </a>
+{% endif %}

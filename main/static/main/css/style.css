@@ -23,7 +23,8 @@
     height: 200px;
     margin-bottom: 5px;
     display: flex;
-    justify-content: center; }
+    justify-content: center;
+    max-width: 300px; }
     .user-recipe-card .panel-body .img-wrapper a {
       align-self: center; }
     .user-recipe-card .panel-body .img-wrapper img {
@@ -33,36 +34,62 @@
   position: relative; }
 
 .recipe-card {
+  transition: all 0.1s ease-in-out; }
+  .recipe-card .panel-heading a {
+    text-decoration: none;
+    color: white; }
+  .recipe-card .panel-heading .panel-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 1.1em; }
+  .recipe-card .panel-body {
+    text-align: center; }
+    .recipe-card .panel-body .img-wrapper {
+      height: 170px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: center;
+      overflow: hidden; }
+      .recipe-card .panel-body .img-wrapper a {
+        align-self: center;
+        width: 100%; }
+      .recipe-card .panel-body .img-wrapper img {
+        width: 100%; }
+  .recipe-card:hover {
+    transform: scale(1.02); }
+
+.recipe-card-yummly {
   border-radius: 5px;
   border-color: #00B26B;
   box-shadow: 0px 0px 3px 3px #DDDDDD;
   height: 410px;
   position: relative; }
-  .recipe-card:hover {
+  .recipe-card-yummly:hover {
     box-shadow: 0px 0px 6px 4px #BBBBBB;
     background-color: #D8FFEF; }
-  .recipe-card button {
+  .recipe-card-yummly button {
     z-index: 10;
     position: relative; }
-  .recipe-card .panel-heading {
+  .recipe-card-yummly .panel-heading {
     background-color: #00FF99;
     color: black;
     border-radius: 5px 5px 0px 0px; }
-    .recipe-card .panel-heading .panel-title {
+    .recipe-card-yummly .panel-heading .panel-title {
       overflow: hidden;
       line-height: 1.1em;
       height: 2.2em; }
-  .recipe-card .panel-footer {
+  .recipe-card-yummly .panel-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     border-radius: 0px 0px 5px 5px; }
-  .recipe-card img {
+  .recipe-card-yummly img {
     height: 100px;
     width: 100%;
     margin-bottom: 5px; }
-  .recipe-card.small {
+  .recipe-card-yummly.small {
     height: auto; }
 
 img.img-wide {
@@ -100,11 +127,11 @@ div a span.div-link {
   left: 0;
   z-index: 1; }
 
-a.navbar-brand {
+.navbar-brand {
   padding: 5px 10px; }
-  a.navbar-brand img {
+  .navbar-brand img {
     height: 100%; }
-  a.navbar-brand span {
+  .navbar-brand span {
     line-height: 40px; }
 
 .container div.jumbotron {
@@ -133,12 +160,5 @@ a.navbar-brand {
   float: right;
   padding-top: .5em;
   width: 70%; }
-
-.panel-dark {
-  border-color: #222222;
-  background-color: #E6E6E6; }
-  .panel-dark .panel-heading {
-    background-color: #222222;
-    color: #FFFFFF; }
 
 /*# sourceMappingURL=style.css.map */

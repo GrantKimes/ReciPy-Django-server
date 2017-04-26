@@ -57,7 +57,6 @@ function recipeListPage() {
 
 	function updateSaveCount(button) {
 		var numSaves = Number(button.getAttribute('data-num-saves'));
-		console.log("numSaves: " + numSaves);
 		if ($(button).hasClass(saveClass)) { // Was saved, now clicked to toggle not saved
 			numSaves--;
 		}
@@ -72,7 +71,7 @@ function recipeListPage() {
 		container: 'body',
 		placement: 'bottom',
 		html: true,
-		trigger: 'click'
+		trigger: 'hover'
 	});
 }
 

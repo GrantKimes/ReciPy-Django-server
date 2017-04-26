@@ -58,6 +58,7 @@ $user-recipe-light: #98BBE3;
       margin-bottom: 5px;
       display: flex;
       justify-content: center;
+      max-width: 300px;
       a {
         align-self: center;
       }
@@ -73,24 +74,68 @@ $user-recipe-light: #98BBE3;
   }
 }
 
+
 .recipe-card {
+  .panel-heading {
+    a {
+      text-decoration: none;
+      color: white;
+    }
+    .panel-title {
+      overflow: hidden;
+      white-space: nowrap;
+      // width: 100%;
+      text-overflow: ellipsis;
+      height: 1.1em;
+    }
+  }
+  .panel-body {
+    text-align: center;
+    .img-wrapper {
+      height: 170px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      // padding: 3px;
+      // border: 1px solid $gray-background;
+      a {
+        align-self: center;
+        width: 100%;
+        // max-height: 150px;
+        // overflow: auto;
+        // max-height: 100%;
+        // max-width: 100%;
+        // width: 100%;
+      }
+      img {
+        // max-height: 150px;
+        width: 100%;
+      }
+    }
+  }
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+
+.recipe-card-yummly {
   border-radius: 5px;
   border-color: $green-dark;
   box-shadow: 0px 0px 3px 3px #DDDDDD;
   height: 410px;
   position: relative;
 
-
   &:hover {
     box-shadow: 0px 0px 6px 4px #BBBBBB;
     background-color: $green-background;
   }
-
   button {
     z-index: 10;
     position: relative;
   }
-
   .panel-heading {
     // overflow: hidden;
     // text-overflow: ellipsis;
@@ -105,7 +150,6 @@ $user-recipe-light: #98BBE3;
       height: 2.2em;
     }
   }
-
   .panel-footer {
     position: absolute;
     bottom: 0;
@@ -113,25 +157,22 @@ $user-recipe-light: #98BBE3;
     right: 0;
     border-radius: 0px 0px 5px 5px;
   }
-
   img {
     height: 100px;
     width: 100%;
     margin-bottom: 5px;
   }
-
   // .ingredients {
   //   height: 100px;
   //   overflow: scroll;
   //   border: 1px solid black;
   //   z-index: 9;
   // }
-
   &.small {
     height: auto;
   }
-
 }
+
 
 img.img-wide {
   width: 100%;
@@ -189,37 +230,23 @@ div a span.div-link {
 }
 
 
-// Logo styling
-
-// #recipy-logo {
+// .recipy-logo {
 //   text-shadow: rgb(0, 179, 107) 0px 0px 0px, rgb(0, 183, 110) 1px 1px 0px, rgb(0, 187, 112) 2px 2px 0px, rgb(0, 191, 114) 3px 3px 0px, rgb(0, 195, 117) 4px 4px 0px, rgb(0, 199, 119) 5px 5px 0px, rgb(0, 203, 122) 6px 6px 0px, rgb(0, 207, 124) 7px 7px 0px, rgb(0, 211, 126) 8px 8px 0px, rgb(0, 215, 129) 9px 9px 0px, rgb(0, 219, 131) 10px 10px 0px, rgb(0, 223, 134) 11px 11px 0px; 
 //   font-size: 119px; 
-//   color: rgb(79, 79, 79); 
+//   color: $gray-light; 
 //   height: 201px; 
 //   width: 201px; 
 //   line-height: 201px; 
-//   border-radius: 50%; 
+//   // border-radius: 50%; 
 //   text-align: center; 
-//   background-color: rgb(0, 255, 153);
-//   border: 5px solid rgb(79, 79, 79);
+//   // background-color: rgb(0, 255, 153);
+//   background-color: $gray-background;
+//   // border: 5px solid rgb(79, 79, 79);
 //   margin: 20px;
 // }
 
-// #recipy-logo-navbar {
-//   text-shadow: darken($green-primary, 10%) 1px 1px 2px, darken($green-primary, 20%) 2px 2px 2px; 
-//   font-size: 27px; 
-//   color: rgb(79, 79, 79); 
-//   height: 42px; 
-//   width: 42px; 
-//   line-height: 40px; 
-//   border-radius: 50%; 
-//   text-align: center; 
-//   background-color: $green-primary; 
-//   border: 1px solid rgb(79, 79, 79);
-// }
 
-
-a.navbar-brand {
+.navbar-brand {
   padding: 5px 10px;
 
   img {
@@ -306,14 +333,14 @@ a.navbar-brand {
 
 
 
-.panel-dark {
-  .panel-heading {
-    background-color: $black;
-    color: $white;
-  }
-  border-color: $black;
-  background-color: $gray-background;
-}
+// .panel-dark {
+//   .panel-heading {
+//     background-color: $black;
+//     color: $white;
+//   }
+//   border-color: $black;
+//   background-color: $gray-background;
+// }
 
 
 

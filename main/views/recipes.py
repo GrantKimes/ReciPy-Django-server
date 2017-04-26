@@ -79,7 +79,7 @@ class Search(View):
 ############################################################
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class RecipeList(View):
 	template_name = 'main/recipe_list.html'
 

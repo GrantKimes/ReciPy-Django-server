@@ -1,4 +1,5 @@
 {% extends "main/base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -115,6 +116,7 @@
             <div class="col-md-6 col-md-push-3">
               <div class="col-md-8 col-md-offset-2">
                 <a href="/media/{{ recipe.photo }}"><img src="/media/{{ recipe.photo }}" class="img-responsive img-wide img-thumbnail"></a>
+                {# <a href="{% static 'main/images/ReciPy Logo Gray.png' %}"><img src="{% static 'main/images/ReciPy Logo Gray.png' %}" class="img-responsive img-wide img-thumbnail"></a> #}
               </div>
               <div class="col-md-12 text-center">
                 <h2>{{ recipe.name }}</h2>

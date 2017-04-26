@@ -1,4 +1,6 @@
+//////////////////////////////////////////////////////
 // Global colors
+//////////////////////////////////////////////////////
 $green-primary: #00FF99; 
 $green-dark: #00B26B;
 $green-light: #7FFFCC;
@@ -15,14 +17,33 @@ $user-recipe-primary: #2780e3;
 $user-recipe-light: #98BBE3;
 
 
-
+//////////////////////////////////////////////////////
+// Global styles
+//////////////////////////////////////////////////////
 .hidden {
   display: none;
 }
+.wide {
+  width: 100%;
+}
+form div div.errors {
+  p.text-danger {
+    line-height: 24px;
+  }
+}
+.formatted {
+  white-space: pre-wrap;
+}
 
+//////////////////////////////////////////////////////
+// Navbar 
+//////////////////////////////////////////////////////
+.navbar .navbar-header .navbar-brand {
+  color: $green-primary;
+  font-weight: bold;
+}
 .navbar-form {
   position: relative;
-
   @media screen and (max-width: 767px) {
     .btn-search {
       position: absolute;
@@ -33,48 +54,24 @@ $user-recipe-light: #98BBE3;
       padding-right: 40px;
     }
   }
-
   .fa-search {
     color: $green-primary;
   }
 }
-
-
-.user-recipe-card {
-  .panel-heading a {
-    color: $white;
-
-    &:hover {
-      text-decoration: none;
-    }
+.navbar-brand {
+  padding: 5px 10px;
+  img {
+    height: 100%;
   }
-
-  .panel-body {
-    // height: 300px;
-    text-align: center;
-
-    .img-wrapper {
-      height: 200px;
-      margin-bottom: 5px;
-      display: flex;
-      justify-content: center;
-      max-width: 300px;
-      a {
-        align-self: center;
-      }
-      img {
-        max-height: 200px;
-      }
-    }
-  }
-
-  button {
-    z-index: 10;
-    position: relative;
+  span {
+    line-height: 40px;
   }
 }
 
 
+//////////////////////////////////////////////////////
+// Recipe cards
+//////////////////////////////////////////////////////
 .recipe-card {
   .panel-heading {
     a {
@@ -84,7 +81,6 @@ $user-recipe-light: #98BBE3;
     .panel-title {
       overflow: hidden;
       white-space: nowrap;
-      // width: 100%;
       text-overflow: ellipsis;
       height: 1.1em;
     }
@@ -97,91 +93,71 @@ $user-recipe-light: #98BBE3;
       display: flex;
       justify-content: center;
       overflow: hidden;
-      // padding: 3px;
-      // border: 1px solid $gray-background;
       a {
         align-self: center;
         width: 100%;
-        // max-height: 150px;
-        // overflow: auto;
-        // max-height: 100%;
-        // max-width: 100%;
-        // width: 100%;
       }
       img {
-        // max-height: 150px;
         width: 100%;
       }
     }
   }
   transition: all 0.1s ease-in-out;
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
 }
 
-
-.recipe-card-yummly {
-  border-radius: 5px;
-  border-color: $green-dark;
-  box-shadow: 0px 0px 3px 3px #DDDDDD;
-  height: 410px;
-  position: relative;
-
-  &:hover {
-    box-shadow: 0px 0px 6px 4px #BBBBBB;
-    background-color: $green-background;
-  }
-  button {
-    z-index: 10;
-    position: relative;
-  }
+//////////////////////////////////////////////////////
+// Recipe detail page
+//////////////////////////////////////////////////////
+.user-recipe-detail-card {
+  border-color: $user-recipe-primary;
   .panel-heading {
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    // white-space: nowrap;
-    background-color: $green-primary;
-    color: black;
-    border-radius: 5px 5px 0px 0px;
-
-    .panel-title {
-      overflow: hidden;
-      line-height: 1.1em;
-      height: 2.2em;
+    background-color: $user-recipe-primary;
+    color: $white;
+  }
+  .list-group {
+    .list-group-item:nth-child(1) {
+      background-color: $user-recipe-light;
+      color: $black;
+      // border-color: $user-recipe-primary;
+      // color: $user-recipe-primary;
+    }
+    .list-group-item:nth-child(2) {
+      // border-top-color: $user-recipe-primary;
     }
   }
-  .panel-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 0px 0px 5px 5px;
+}
+.flavor-percents {
+  li {
+    height: 3em;
   }
-  img {
-    height: 100px;
-    width: 100%;
-    margin-bottom: 5px;
+  .progress-label {
+    float: left;
+    margin-right: 1em;
   }
-  // .ingredients {
-  //   height: 100px;
-  //   overflow: scroll;
-  //   border: 1px solid black;
-  //   z-index: 9;
-  // }
-  &.small {
-    height: auto;
+  .progress-bar-wrapper {
+    float: right;
+    padding-top: .5em;
+    width: 70%;
   }
 }
 
 
-img.img-wide {
-  width: 100%;
+
+//////////////////////////////////////////////////////
+// Home page
+//////////////////////////////////////////////////////
+.container div.jumbotron {
+  background-color: $green-background;
+  border-radius: 5px;
+  border: 1px solid $green-dark;
 }
 
-.wide {
-  width: 100%;
-}
-
+//////////////////////////////////////////////////////
+// About page
+//////////////////////////////////////////////////////
 .about-cards .panel {
   min-height: 200px;
 }
@@ -189,158 +165,7 @@ img.img-wide {
 
 
 
-.ingredient {
-  cursor: pointer;
-  &:hover i {
-    color: red;
-  }
 
-}
-
-
-
-
-.navbar .navbar-header .navbar-brand {
-	color: $green-primary;
-  font-weight: bold;
-}
-
-ul.favorites-list li i.fa {
-  cursor: pointer;
-}
-
-a.nostyle {
-  color: inherit;
-}
-
-form div div.errors {
-  p.text-danger {
-    line-height: 24px;
-  }
-}
-
-
-div a span.div-link {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-
-// .recipy-logo {
-//   text-shadow: rgb(0, 179, 107) 0px 0px 0px, rgb(0, 183, 110) 1px 1px 0px, rgb(0, 187, 112) 2px 2px 0px, rgb(0, 191, 114) 3px 3px 0px, rgb(0, 195, 117) 4px 4px 0px, rgb(0, 199, 119) 5px 5px 0px, rgb(0, 203, 122) 6px 6px 0px, rgb(0, 207, 124) 7px 7px 0px, rgb(0, 211, 126) 8px 8px 0px, rgb(0, 215, 129) 9px 9px 0px, rgb(0, 219, 131) 10px 10px 0px, rgb(0, 223, 134) 11px 11px 0px; 
-//   font-size: 119px; 
-//   color: $gray-light; 
-//   height: 201px; 
-//   width: 201px; 
-//   line-height: 201px; 
-//   // border-radius: 50%; 
-//   text-align: center; 
-//   // background-color: rgb(0, 255, 153);
-//   background-color: $gray-background;
-//   // border: 5px solid rgb(79, 79, 79);
-//   margin: 20px;
-// }
-
-
-.navbar-brand {
-  padding: 5px 10px;
-
-  img {
-    height: 100%;
-  }
-  span {
-    line-height: 40px;
-  }
-}
-
-
-
-.container div.jumbotron {
-  background-color: $green-background;
-  border-radius: 5px;
-  border: 1px solid $green-dark;
-}
-
-
-.user-recipe-detail-card {
-  border-color: $user-recipe-primary;
-
-  .panel-heading {
-    background-color: $user-recipe-primary;
-    color: $white;
-  }
-
-  .list-group {
-
-    .list-group-item:nth-child(1) {
-      background-color: $user-recipe-light;
-      color: $black;
-      // border-color: $user-recipe-primary;
-      // color: $user-recipe-primary;
-    }
-
-    .list-group-item:nth-child(2) {
-      // border-top-color: $user-recipe-primary;
-    }
-  }
-
-
-}
-
-.formatted {
-  white-space: pre-wrap;
-}
-
-
-
-.flavor-percents {
-  li {
-    // padding: 0px;
-    height: 3em;
-  }
-
-  // padding-top: 5px;
-
-  div.progress {
-    // height: 1em;
-    // padding-top: 5px;
-
-    // div.progress-bar {
-    //   padding-top: 5px;
-    // }
-  }
-
-  .progress-label {
-    float: left;
-    margin-right: 1em;
-  }
-
-  .progress-bar-wrapper {
-    float: right;
-    padding-top: .5em;
-    width: 70%;
-  }
-
-}
-
-
-
-
-
-
-
-// .panel-dark {
-//   .panel-heading {
-//     background-color: $black;
-//     color: $white;
-//   }
-//   border-color: $black;
-//   background-color: $gray-background;
-// }
 
 
 

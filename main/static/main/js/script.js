@@ -1,11 +1,11 @@
 
 
 $(document).ready(function() {
-	recipeListPage();
-	createRecipePage();
+	recipeCardListeners();
+	addIngredients();
 });
 
-function recipeListPage() {
+function recipeCardListeners() {
 	var defaultClass = 'btn-default';
 	var saveClass = 'btn-info';
 	var likeClass = 'btn-primary';
@@ -43,11 +43,9 @@ function recipeListPage() {
 				recipe_id: recipeId,
 				csrfmiddlewaretoken: window.CSRF_TOKEN,
 			},
-
 			success: function(response) {
 				console.log(response);
 			},
-
 			error: function(xhr, textStatus, error) {
 				console.log(xhr.status + ': ' + textStatus + ' - ' + xhr.responseText);
 			},
@@ -74,56 +72,6 @@ function recipeListPage() {
 		trigger: 'hover'
 	});
 }
-
-function createRecipePage() {
-	addIngredients();
-}
-
-
-
-
-// For recipe list page
-function starRecipes() {
-	var starredIcon = 'fa-star';
-	var unstarredIcon = 'fa-star-o';
-	$('ul.favorites-list li i.fa').on('click', function(event) {
-
-		var recipeId = this.getAttribute('data-recipe-id');
-
-		// Update favorite count 
-		var countSpan = $(this).siblings().find('span.favorite_count');
-		if ($(this).hasClass(unstarredIcon)) {
-			var count = Number(countSpan.text());
-			countSpan.text(count + 1);
-		}
-		else {
-			var count = Number(countSpan.text());
-			countSpan.text(count - 1);
-		}
-
-		// Toggle filled and unfilled star icon
-		$(this).toggleClass(starredIcon).toggleClass(unstarredIcon);
-
-		$.ajax({
-			url: '/save_recipe/',
-			datatype: 'json',
-			type: 'POST',
-			data: {
-				recipe_id: recipeId,
-				csrfmiddlewaretoken: window.CSRF_TOKEN,
-			},
-
-			success: function(response) {
-				console.log(response);
-			},
-
-			error: function(xhr, textStatus, error) {
-				console.log(xhr.status + ': ' + textStatus + ' - ' + xhr.responseText);
-			},
-		});
-	});
-}
-
 
 
 // For create recipe page
@@ -166,34 +114,16 @@ function addIngredients() {
 	// Allow enter in ingredients to click add button
 	$('#id_currentIngredient').keypress(function(event) {
 		if (event.keyCode == 13) {
-			// event.preventDefault();
 			$('#addIngredientsButton').click();
 			return false;
-			// return false;
 		}
 	});
 	$('#id_name').keypress(function(event) {
 		if (event.keyCode == 13) {
-			console.log("Preventing form submission on enter");
-			// event.preventDefault();
 			return false;
 		}
 	});
 }
-
-
-
-// Hide popovers on click off
-$('body').on('click', function(e) {
-	// if ($(e.target).data('toggle') !== 'popover' && $(e.target).parents('.popover.in').length == 0) {
-	// 	$('[data-toggle="popover]').popover('hide');
-	// }
-    if ($(e.target).data('toggle') !== 'popover'
-        && $(e.target).parents('[data-toggle="popover"]').length === 0
-        && $(e.target).parents('.popover.in').length === 0) { 
-        $('[data-toggle="popover"]').popover('hide');
-    }
-});
 
 
 

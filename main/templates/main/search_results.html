@@ -28,11 +28,6 @@
           <a href="{% url 'recipe_detail' recipe.id %}" class="list-group-item">{{ recipe.name }}, similarity {{ recipe.similarity }}</a>
         {% endfor %}
       </ul>
-      <!--{% for recipe in searched_recipes %}
-        <div class="col-md-3 col-sm-4 col-xs-6">
-          {% include "main/recipe_card_template.html" %}
-        </div>
-      {% endfor %}-->
     </div>
   {% else %}
     <h1>No recipes</h1>

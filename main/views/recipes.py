@@ -44,7 +44,7 @@ def home(request):
 		liked_recipes = profile.liked_recipes.all()
 		disliked_recipes = profile.disliked_recipes.all()
 
-		recommended_recipes = Recipe.objects.filter(related_recipes__in=liked_recipes).exclude(id__in=liked_recipes).exclude(id__in=disliked_recipes)[:4]
+		recommended_recipes = Recipe.objects.filter(related_recipes__in=liked_recipes).distinct().exclude(id__in=liked_recipes).exclude(id__in=disliked_recipes)
 		context['recommended_recipes'] = recommended_recipes
 	return render(request, 'main/home.html', context)
 
@@ -74,62 +74,29 @@ class Search(View):
 			context['disliked_recipes'] = request.user.profile.disliked_recipes.all()
 		return render(request, self.template_name, context)
 
+
 ############################################################
 # Recipes
 ############################################################
 
-
-# @method_decorator(login_required, name='dispatch')
 class RecipeList(View):
 	template_name = 'main/recipe_list.html'
 
 	def get(self, request):
-		query = str(request.GET.get('q', ''))
-		if query == '':
-			context = {
-				'total_recipe_count': Recipe.objects.count(),
-				'recent_user_recipes': Recipe.objects.filter(is_user_recipe=True).order_by('-date_created')[:8],
-				'most_saved_yummly_recipes': Recipe.objects.filter(is_yummly_recipe=True).annotate(num_saves=Count('profiles_saved')).order_by('-num_saves')[:8],
-			}
-		else:
-			context = {
-				# 'searched_recipes': Recipe.objects.filter(name__search=query)[:8],
-				# 'searched_recipes_count': Recipe.objects.filter(name__search=query).count(),
-				'searched_recipes': Recipe.objects.annotate(similarity=TrigramSimilarity('name', query)).filter(similarity__gt=0.3).order_by('-similarity')[:16],
-				# 'searched_users': User.objects.annotate(search=SearchVector('username', 'email')).filter(search=query),
-				'searched_users': User.objects.annotate(similarity=TrigramSimilarity('username', query)).filter(similarity__gt=0.3).order_by('-similarity')[:16],
-				'query_string': query,
-			}
-			# logger.debug(context['searched_users'])
-
-
+		context = {
+			'total_recipe_count': Recipe.objects.count(),
+			'recent_user_recipes': Recipe.objects.filter(is_user_recipe=True).order_by('-date_created')[:8],
+			'most_saved_yummly_recipes': Recipe.objects.filter(is_yummly_recipe=True).annotate(num_saves=Count('profiles_saved')).order_by('-num_saves')[:8],
+		}
 		if request.user.is_authenticated:
 			context['saved_recipes'] = request.user.profile.saved_recipes.all()
 			context['liked_recipes'] = request.user.profile.liked_recipes.all()
 			context['disliked_recipes'] = request.user.profile.disliked_recipes.all()
 		return render(request, self.template_name, context)
 
-# class RecipeList(ListView):
-# 	model = Recipe
-# 	template_name = 'main/recipe_list.html'
-
-# 	# Recipe models to pass to template
-# 	def get_queryset(self):
-# 		return Recipe.objects.order_by('name')[:20]
 
 
-# 	# Other values to pass to template
-# 	def get_context_data(self, **kwargs):
-# 		context = super(RecipeList, self).get_context_data(**kwargs)
-# 		if self.request.user.is_authenticated:
-# 			context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
-# 			context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
-# 			context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
-# 		context['total_recipe_count'] = Recipe.objects.count()
-# 		return context
-
-
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class RecipeDetail(DetailView):
 	model = Recipe
 	template_name = 'main/recipe_detail.html'
@@ -138,17 +105,18 @@ class RecipeDetail(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(RecipeDetail, self).get_context_data(**kwargs)
 		recipe = self.get_object()
-		context['flavor_percent'] = {
-			'bitter': int(recipe.bitter * 100),
-			'meaty': int(recipe.meaty * 100),
-			'salty': int(recipe.salty * 100),
-			'sour': int(recipe.sour * 100),
-			'sweet': int(recipe.sweet * 100),
-			'piquant': int(recipe.piquant * 100),
-		}
-		context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
-		context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
-		context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
+		context['flavors'] = [
+			{ 'name': 'salty', 'value': int(recipe.salty * 100) },
+			{ 'name': 'bitter', 'value': int(recipe.bitter * 100) },
+			{ 'name': 'sour', 'value': int(recipe.sour * 100) },
+			{ 'name': 'sweet', 'value': int(recipe.sweet * 100) },
+			{ 'name': 'meaty', 'value': int(recipe.meaty * 100) },
+			{ 'name': 'piquant', 'value': int(recipe.piquant * 100) },
+		]
+		if self.request.user.is_authenticated:
+			context['saved_recipes'] = self.request.user.profile.saved_recipes.all()
+			context['liked_recipes'] = self.request.user.profile.liked_recipes.all()
+			context['disliked_recipes'] = self.request.user.profile.disliked_recipes.all()
 		return context
 
 

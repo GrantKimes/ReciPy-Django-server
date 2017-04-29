@@ -32,9 +32,16 @@ SECRET_KEY = os.environ['RECIPY_SECRET_KEY']
 DEBUG = os.environ['RECIPY_DEBUG']
 
 ALLOWED_HOSTS = [
-    '*',
-    'recipy.local',
+    'localhost',
+    'recipyum.com',
 ]
+
+IS_LOCALHOST = os.environ['RECIPY_IS_LOCALHOST']
+
+if not IS_LOCALHOST:
+    SECURE_SSL_REDIRECT = True 
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # SECURE_REDIRECT_EXEMPT = [r'^localhost*']
 
 
 ###################################################

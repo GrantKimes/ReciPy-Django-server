@@ -33,7 +33,7 @@ DEBUG = os.environ['RECIPY_DEBUG']
 
 ALLOWED_HOSTS = [
     'localhost',
-    'recipyum.com',
+    '*.recipyum.com',
 ]
 
 IS_LOCALHOST = os.environ['RECIPY_IS_LOCALHOST']

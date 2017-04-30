@@ -107,8 +107,33 @@ form div div.errors {
   transition: all 0.1s ease-in-out;
   &:hover {
     transform: scale(1.03);
+    z-index: 10;
+    box-shadow: 0px 0px 6px 1px $gray-light;
   }
 }
+
+//////////////////////////////////////////////////////
+// Recipe list items
+//////////////////////////////////////////////////////
+.recipe-list-item {
+  img.media-object {
+    max-height: 50px;
+  }
+  .media-right {
+    width: 15%;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    transform: scale(1.02);
+    z-index: 10;
+    box-shadow: 0px 0px 3px 1px $gray-background;
+  }
+}
+
 
 //////////////////////////////////////////////////////
 // Recipe detail page
@@ -180,13 +205,34 @@ form div div.errors {
 }
 
 
-
-
-
-
-
-
-
+//////////////////////////////////////////////////////
+// User detail page
+//////////////////////////////////////////////////////
+.panel-dark {
+  &>.panel-heading {
+    background-color: $black;
+    color: $white;
+  }
+  border-color: $black;
+}
+.favorited-recipes .panel-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.created-recipes .panel-body {
+  max-height: 500px;
+  overflow-y: auto;
+  .recipe-card {
+    border-color: $gray-light;
+    .panel-heading {
+      background-color: $gray-background;
+      border-bottom-color: $gray-light;
+      .panel-title { 
+        color: black;
+      }
+    }
+  }
+}
 
 
 

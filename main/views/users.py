@@ -38,7 +38,6 @@ from main.serializers import RecipeSerializer, RecipeDetailSerializer, UserSeria
 # Users
 ############################################################
 
-@method_decorator(login_required, name='dispatch')
 class UserList(ListView):
 	model = User
 	template_name = 'main/user_list.html'
@@ -46,23 +45,26 @@ class UserList(ListView):
 	def get_queryset(self):
 		return User.objects.all()
 
-@method_decorator(login_required, name='dispatch')
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get context
+		context = super(UserList, self).get_context_data(**kwargs)
+		context = add_user_recipes_to_context(self.request.user, context)
+		return context
+
+
 class UserDetail(DetailView):
 	model = User
 	template_name = 'main/user_detail.html'
 	slug_field = 'username' # slug is in url, ex: users/<username>
 	context_object_name = 'viewed_user'
 
-	# def get_queryset(self):
-	# 	return User.objects.filter(username=)
-
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get context
 		context = super(UserDetail, self).get_context_data(**kwargs)
 
-		user = context['viewed_user']
+		viewed_user = context['viewed_user']
 		try: 
-			facebook_login = user.social_auth.get(provider='facebook')
+			facebook_login = viewed_user.social_auth.get(provider='facebook')
 			context['facebook_login'] = facebook_login
 
 			oauth_token = facebook_login.extra_data['access_token']
@@ -72,11 +74,13 @@ class UserDetail(DetailView):
 			picture = graph.get_connections("me", "picture")
 
 			context['profile_picture_url'] = picture['url']
-
-
 		except UserSocialAuth.DoesNotExist:
 			facebook_login = None
-		
+
+		context['viewed_user_created_recipes'] = viewed_user.profile.created_recipes.all()
+		context['viewed_user_saved_recipes'] = viewed_user.profile.saved_recipes.all()
+
+		context = add_user_recipes_to_context(self.request.user, context)
 		return context
 
 
@@ -225,3 +229,22 @@ def change_password(request):
 		form = PasswordForm(request.user)
 
 	return render(request, 'users/change_password.html', {'form': form } )
+
+
+def add_user_recipes_to_context(user, context):
+	if user.is_authenticated:
+		context['saved_recipes'] = user.profile.saved_recipes.all()
+		context['liked_recipes'] = user.profile.liked_recipes.all()
+		context['disliked_recipes'] = user.profile.disliked_recipes.all()
+	return context
+
+
+
+
+
+
+
+
+
+
+

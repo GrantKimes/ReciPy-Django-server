@@ -12,6 +12,12 @@ function recipeCardListeners() {
 	var dislikeClass = 'btn-danger';
 
 	$('div.likeDislikeSaveButtons button').on('click', function() {
+		console.log(window.USER_IS_LOGGED_IN);
+		if (! window.USER_IS_LOGGED_IN) {
+			window.location = "/login?next="+window.CURRENT_PAGE;
+			return false;
+		}
+
 		var url = '';
 
 		if ($(this).hasClass('save')) {

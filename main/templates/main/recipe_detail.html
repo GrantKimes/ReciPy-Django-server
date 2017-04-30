@@ -52,8 +52,8 @@
               </ul>
             {% else %}
               <div>
-                <a class="btn btn-default wide" href="{% url 'user_detail' recipe.creator.username %}">
-                  <span class="text-muted">Creator: </span>{{ recipe.creator.username }}
+                <a class="btn btn-default wide" href="{% url 'user_detail' recipe.creator.user.username %}">
+                  <span class="text-muted">Creator: </span>{{ recipe.creator.user.username }}
                 </a>
               </div>
               <br>

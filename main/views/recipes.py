@@ -96,7 +96,6 @@ class RecipeList(View):
 
 
 
-# @method_decorator(login_required, name='dispatch')
 class RecipeDetail(DetailView):
 	model = Recipe
 	template_name = 'main/recipe_detail.html'
@@ -120,12 +119,6 @@ class RecipeDetail(DetailView):
 		return context
 
 
-
-@login_required
-def create_recipe(request):
-	context = {}
-	return render(request, 'main/user_recipe_create.html', context)
-
 @method_decorator(login_required, name='dispatch')
 class RecipeCreate(View):
 	def get(self, request):
@@ -141,7 +134,7 @@ class RecipeCreate(View):
 			r.instructions = form.cleaned_data['instructions']
 			r.photo = request.FILES['photo']
 			r.is_user_recipe = True
-			r.creator = request.user 
+			r.creator = request.user.profile
 			r.save()
 
 			messages.success(request, "Recipe created.")
@@ -155,7 +148,6 @@ class RecipeCreate(View):
 # Ingredients
 ############################################################
 
-@method_decorator(login_required, name='dispatch')
 class IngredientList(ListView):
 	model = Ingredient
 	template_name = 'main/ingredient_list.html'
@@ -163,7 +155,6 @@ class IngredientList(ListView):
 	def get_queryset(self):
 		return Ingredient.objects.order_by('name')[:100]
 
-@method_decorator(login_required, name='dispatch')
 class IngredientDetail(DetailView):
 	model = Ingredient
 	template_name = 'main/ingredient_detail.html'

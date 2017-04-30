@@ -1,0 +1,67 @@
+{% load myfilters %}
+
+<div href="{% url 'recipe_detail' recipe.id %}" class="list-group-item recipe-list-item">
+  <div class="media">
+    <div class="media-left media-middle">
+      <a href="{% url 'recipe_detail' recipe.id %}">
+        {% if recipe.is_yummly_recipe %}
+          <img src="{{ recipe.yummly_image_url }}" class="media-object">
+        {% else %}
+          <img src="/media/{{ recipe.photo }}" class="media-object">
+        {% endif %}
+      </a>
+    </div>
+    <div class="media-body media-middle">
+      <a href="{% url 'recipe_detail' recipe.id %}"><h4 class="media-heading">{{ recipe.name }}</h4></a>
+    </div>
+    <div class="media-right media-middle hidden-sm hidden-xs">
+      <div class="likeDislikeSaveButtons btn-group btn-group-sm pull-right" role="group">
+        {% include 'components/like_dislike_buttons.html' %}
+        {% include 'components/save_button.html' %}
+      </div>
+    </div>
+  </div>
+  {# <img src="{{ recipe.yummly_image_url }}" class="media-object"> #}
+  {# <h4 class="list-group-item-heading">{{ recipe.name }}</h4> #}
+
+</div>
+
+<!--
+<li class="list-group-item recipe-list-item">
+  <div class="media">
+    <div class="media-left">
+      <a href="{% url 'recipe_detail' recipe.id %}">
+        {% if recipe.is_yummly_recipe %}
+          <img src="{{ recipe.yummly_image_url }}" class="media-object">
+        {% endif %}
+      </a>
+    </div>
+    <div class="media-body">
+      <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group btn-group-sm" role="group">
+        {% include 'components/like_dislike_buttons.html' %}
+        {% include 'components/save_button.html' %}
+      </div>
+    </div>
+  </div>
+</li>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

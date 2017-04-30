@@ -9,6 +9,9 @@
   <button type="button" class="btn btn-default like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></button>
   <button type="button" class="btn btn-default dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></button>
 {% else %}
-  <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></a>
-  <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></a>
+  <button type="button" class="btn btn-default like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></button>
+  <button type="button" class="btn btn-default dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></button>
+  {# <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default like" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-up"></i></a> #}
+  {# <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default dislike" data-recipe-id="{{ recipe.id }}"><i class="fa fa-thumbs-down"></i></a> #}
 {% endif %}
+

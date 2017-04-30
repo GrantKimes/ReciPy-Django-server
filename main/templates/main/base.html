@@ -51,13 +51,16 @@
   <script src="{% static 'main/js/script.js' %}"></script>
 
   <!-- Include CSRF token for all pages -->
-  <script> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+  <script> 
+    window.CSRF_TOKEN = "{{ csrf_token }}"; 
+    window.USER_IS_LOGGED_IN = {% if user.is_authenticated %} true {% else %} false {% endif %};
+    window.CURRENT_PAGE = "{{ request.path }}";
+  </script>
 
 </head>
 <body>
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
-	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#base-navbar-collapse" aria-expanded="false">
 	        <span class="sr-only">Toggle navigation</span>
@@ -93,8 +96,6 @@
 
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_active %}
-            {# <li class="{% if current_page == 'update_profile' %} active {% endif %}"><a href="{% url 'update_profile' %}">Logged in: {{ user.username }}</a></li> #}
-            {# <li class="{% if current_page == 'logout' %} active {% endif %}"><a href="{% url 'logout' %}">Logout</a></li>         #}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
               <ul class="dropdown-menu">

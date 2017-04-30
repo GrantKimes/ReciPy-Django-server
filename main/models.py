@@ -24,7 +24,7 @@ class Ingredient(models.Model):
 # Encompasses recipes from external API source, as well as user uploaded
 class Recipe(models.Model):
 	name	 		= models.CharField(max_length=300) 
-	creator 		= models.ForeignKey(User, null=True, blank=True)
+	creator 		= models.ForeignKey('Profile', related_name='created_recipes', null=True, blank=True)
 	is_yummly_recipe = models.BooleanField(default=False)
 	is_user_recipe	= models.BooleanField(default=False)
 	ingredient_list	= models.TextField() # String representation

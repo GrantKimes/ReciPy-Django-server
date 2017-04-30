@@ -28,7 +28,7 @@
     {# <h4>Recipe stream (friends, popular, featured, recent)</h4> #}
 
     {% if recommended_recipes %}
-      <h1>Recommended Recipes For You <span class="text-muted">(based on your likes)</span></h1>
+      <h2>Recommended Recipes For You <span class="text-muted">(based on your likes)</span></h2>
       <div class="row">
         {% for recipe in recommended_recipes|slice:':4' %}
           <div class="col-md-3 col-sm-4">
@@ -37,7 +37,7 @@
         {% endfor %}
       </div>
     {% elif user.is_authenticated %}
-      <h1>No Recommendations For You</h1>
+      <h2>No Recommendations For You <span class="text-muted">(based on your likes)</span></h2>
       <p>Try liking some <a href="{% url 'recipe_list' %}">recipes</a> to get more results.</p>
     {% else %}
       <h1><a href="{% url 'login' %}">Login</a> to get recommendations</h1>

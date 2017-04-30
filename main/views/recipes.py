@@ -44,7 +44,7 @@ def home(request):
 		liked_recipes = profile.liked_recipes.all()
 		disliked_recipes = profile.disliked_recipes.all()
 
-		recommended_recipes = Recipe.objects.filter(related_recipes__in=liked_recipes).distinct().exclude(id__in=liked_recipes).exclude(id__in=disliked_recipes)
+		recommended_recipes = Recipe.objects.filter(related_recipes__in=liked_recipes).distinct().exclude(id__in=liked_recipes).exclude(id__in=disliked_recipes).order_by('?')
 		context['recommended_recipes'] = recommended_recipes
 	return render(request, 'main/home.html', context)
 
